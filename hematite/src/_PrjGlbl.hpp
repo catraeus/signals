@@ -5,7 +5,7 @@
 // Original File Name : _PrjGlbl.hpp
 // Original Author    : duncang
 // Creation Date      : 2012-10-14
-// Copyright          : Copyright © 2012 by Catraeus and Duncan Gray
+// Copyright          : Copyright © 2012 - 2023 by Catraeus and Duncan Gray
 //
 // Description        :
 //    A pretty damned global kind of thing

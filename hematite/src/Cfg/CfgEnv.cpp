@@ -1,11 +1,10 @@
 
-// $Id: CfgEnv.cpp 710 2023-02-12 21:29:53Z duncang $
 
 //=================================================================================================
 // Original File Name : Env.cpp
 // Original Author    : duncang
 // Creation Date      : May 31, 2012
-// Copyright          : Copyright © 2012 by Catraeus and Duncan Gray
+// Copyright          : Copyright © 2012 - 2023 by Catraeus and Duncan Gray
 //
 // Description        :
 //    Very widely used information.

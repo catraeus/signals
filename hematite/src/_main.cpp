@@ -1,11 +1,9 @@
 
-// $Id: _main.cpp 757 2023-03-25 01:15:02Z duncang $
-
 //============================================================================
 // Original Name      : _main.cpp
 // Original Author    : duncang
 // Creation Date      : 2012-03-18
-// Copyright          : Copyright © 2012 by Catraeus and Duncan Gray
+// Copyright          : Copyright © 2012 - 2023 by Catraeus and Duncan Gray
 //
 // Description        :
 //    The one and only

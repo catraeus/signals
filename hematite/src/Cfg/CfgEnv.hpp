@@ -3,7 +3,7 @@
 // Original File Name : Env.h
 // Original Author    : duncang
 // Creation Date      : May 31, 2012
-// Copyright          : Copyright © 2011 by Catraeus and Duncan Gray
+// Copyright          : Copyright © 2012 - 2023 by Catraeus and Duncan Gray
 //
 // Description        :
 //
