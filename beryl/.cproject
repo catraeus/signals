@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.559970120">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.559970120" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser" id="cdt.managedbuild.config.gnu.exe.debug.559970120" name="Debug" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.enablement=null,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.image=null,org.eclipse.cdt.docker.launcher.containerbuild.property.connection=null" parent="cdt.managedbuild.config.gnu.exe.debug" prebuildStep="svnmark ../src/Cfg/CfgVersion.hpp">
+					<folderInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.489114684" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
+							<targetPlatform binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.exe.debug.76749865" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.debug"/>
+							<builder buildPath="${workspace_loc:/beryl}/Debug" id="cdt.managedbuild.target.gnu.builder.exe.debug.1253872177" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.2024470513" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.182032513" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
+								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.535809293" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1162590739" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.710104705" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/lib/arch/gtkmm-3.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/gdkmm-3.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/glib-2.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/glibmm-2.4/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/giomm-2.4/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/pangomm-1.4/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/cairomm-1.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/sigc++-2.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/include/gtk-3.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/glib-2.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/atk-1.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/pango-1.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/cairo"/>
+									<listOptionValue builtIn="false" value="/usr/include/libpng"/>
+									<listOptionValue builtIn="false" value="/usr/include/gtkmm-3.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/gdkmm-3.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/glibmm-2.4"/>
+									<listOptionValue builtIn="false" value="/usr/include/giomm-2.4"/>
+									<listOptionValue builtIn="false" value="/usr/include/atkmm-1.6"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/atkmm-1.6/include"/>
+									<listOptionValue builtIn="false" value="/usr/include/pangomm-1.4"/>
+									<listOptionValue builtIn="false" value="/usr/include/harfbuzz"/>
+									<listOptionValue builtIn="false" value="/usr/include/cairomm-1.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/pixman-1"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/gdk-pixbuf-2.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/gio-unix-2.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/sigc++-2.0"/>
+									<listOptionValue builtIn="false" value="/way/dev/SW/caeslib"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.other.other.205285779" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c++11 -Wno-misleading-indentation -Wno-unused-result" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.1960515675" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++17" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1585348217" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.287060065" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.exe.debug.option.optimization.level.238649387" name="Optimization Level" superClass="gnu.c.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option id="gnu.c.compiler.exe.debug.option.debugging.level.1618187945" name="Debug Level" superClass="gnu.c.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.dialect.std.1729229139" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.c11" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.888292030" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.49732326" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.381823442" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.libs.1048483326" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="gtkmm-3.0"/>
+									<listOptionValue builtIn="false" value="gtk-3"/>
+									<listOptionValue builtIn="false" value="gdkmm-3.0"/>
+									<listOptionValue builtIn="false" value="atkmm-1.6"/>
+									<listOptionValue builtIn="false" value="glibmm-2.4"/>
+									<listOptionValue builtIn="false" value="cairomm-1.0"/>
+									<listOptionValue builtIn="false" value="pangomm-1.4"/>
+									<listOptionValue builtIn="false" value="sigc-2.0"/>
+									<listOptionValue builtIn="false" value="gsl"/>
+									<listOptionValue builtIn="false" value="gslcblas"/>
+								</option>
+								<option id="gnu.cpp.link.option.flags.888631176" name="Linker flags" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="-no-pie" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1537411649" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1788095480" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.34613532" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.396954858" name="CaesDLL.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesDLL.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.167631066" name="CaesHeiTree.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesHeiTree.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1953940860" name="CaesPThread.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesPThread.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1784125676" name="CaesIpps.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesIpps.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1528687794" name="CaesSpectrum.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesSpectrum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1964368132" name="CaesStat.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesStat.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1197979916" name="CaesPrimes.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesPrimes.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1514325155" name="CaesFFT.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesFFT.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1737009402" name="CaesHpNum.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesHpNum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.433643034" name="CaesSocket.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesSocket.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.559790195" name="CaesCplx.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesCplx.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1853349790" name="CpuRdtsc.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CpuRdtsc.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.311540310" name="CaesRemez.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesRemez.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1797672338" name="CaesDLL.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesDLL.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.77215325" name="CaesFFT.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesFFT.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.455437062" name="CaesHeiTree.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesHeiTree.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1083445033" name="CaesPThread.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesPThread.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.858746363" name="CaesHpNum.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesHpNum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1183076035" name="CaesIpps.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesIpps.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1394411598" name="CaesSpectrum.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesSpectrum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.757628910" name="CaesSocket.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesSocket.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1347343428" name="CaesStat.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesStat.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.462617235" name="CaesCplx.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesCplx.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.559970120.1198403377" name="CaesPrimes.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesPrimes.hpp" toolsToInvoke=""/>
+					<sourceEntries>
+						<entry excluding="caeslib/caes/CaesStat.hpp|caeslib/caes/CaesStat.cpp|caeslib/caes/CaesSpectrum.hpp|caeslib/caes/CaesSpectrum.cpp|caeslib/caes/CaesSocket.hpp|caeslib/caes/CaesSocket.cpp|caeslib/caes/CaesPThread.hpp|caeslib/caes/CaesPrimes.hpp|caeslib/caes/CaesIpps.hpp|caeslib/caes/CaesIpps.cpp|caeslib/caes/CaesHpNum.hpp|caeslib/caes/CaesHpNum.cpp|caeslib/caes/CaesHeiTree.hpp|caeslib/caes/CaesHeiTree.cpp|caeslib/caes/CaesFFT.hpp|caeslib/caes/CaesFFT.cpp|caeslib/caes/CaesDLL.hpp|caeslib/caes/CaesDLL.cpp|caeslib/caes/CaesCplx.hpp|caeslib/caes/CaesCplx.cpp|caeslib/caes/Alsa|caeslib/caes/deprecate|libs_local/caes/CpuRdtsc.hpp|libs_local/caes/CaesStat.hpp|libs_local/caes/CaesStat.cpp|libs_local/caes/CaesSpectrum.hpp|libs_local/caes/CaesSpectrum.cpp|libs_local/caes/CaesSocket.hpp|libs_local/caes/CaesSocket.cpp|libs_local/caes/CaesPThread.hpp|libs_local/caes/CaesPrimes.hpp|libs_local/caes/CaesIpps.hpp|libs_local/caes/CaesIpps.cpp|libs_local/caes/CaesHpNum.hpp|libs_local/caes/CaesHpNum.cpp|libs_local/caes/CaesCplx.hpp|libs_local/caes/CaesCplx.cpp|libs_local/caes/CaesDLL.hpp|libs_local/caes/CaesDLL.cpp|libs_local/caes/CaesFFT.hpp|libs_local/caes/CaesFFT.cpp|libs_local/caes/CaesHeiTree.hpp|libs_local/caes/CaesHeiTree.cpp|libs_local/caes/Alsa|libs_local/caes/deprecate|libs/pcg|libs/caes/AudioFile/RawFile.cpp|libs/caes/AudioFile/RawFile.hpp|libs/caes/CaesStat.hpp|libs/caes/CaesStat.cpp|libs/caes/CaesSpectrum.hpp|libs/caes/CaesSpectrum.cpp|libs/caes/CaesSocket.hpp|libs/caes/CaesSocket.cpp|libs/caes/CaesPThread.hpp|libs/caes/CaesPrimes.hpp|libs/caes/CaesHpNum.hpp|libs/caes/CaesHpNum.cpp|libs/caes/CaesHeiTree.hpp|libs/caes/CaesHeiTree.cpp|libs/caes/CaesFFT.hpp|libs/caes/CaesFFT.cpp|libs/caes/CaesDLL.hpp|libs/caes/CaesDLL.cpp|libs/caes/CaesCplx.hpp|libs/caes/CaesCplx.cpp|libs/icon|libs/caes/Alsa|libs/caes/deprecate|libs/caev/SpecTran.hpp|libs/caev/SpecTran.cpp|libs/caev/Alsa|libs/caev/caev_FFT.hpp|libs/caev/caev_FFT.cpp|llib/MusicFile/WaveGUID.cpp|llib/MusicFile/WaveGUID.hpp|llib/caev|llib/caev/caev_Signal.hpp|llib/caev/caev_Signal.cpp|libs/caev/AudioFile/RawFile.cpp|libs/caev/AudioFile/RawFile.hpp|llib/MusicFile/NField.cpp|llib/MusicFile/NField.hpp|libs/caev/HaiTree|libs/caev/caev_cplx.cpp|libs/caev/caev_cplx.hpp|libs/caev/caev_HeiTree.cpp|libs/caev/caev_HeiTree.hpp|libs/caev/caev_ipps.cpp|libs/caev/caev_ipps.hpp|libs/caev/caev_PThread.hpp|libs/caev/caev_SockTop.cpp|libs/caev/caev_SockTop.hpp|libs/caev/caev_SpecTran.cpp|libs/caev/caev_SpecTran.hpp|libs/caev/caev_stat.cpp|libs/caev/caev_stat.hpp|libs/caev/hextal.cpp|libs/caev/hextal.hpp|libs/caev/primes.hpp|libs/caev/Window_Parzen.ods|llib/caev/Window_Parzen.ods|llib/caev/HaiTree|libs/comms|libs/foreign|libs/MusicFile|libs/Alsa|llib/MusicFile/RawFile.hpp|llib/MusicFile/RawFile.cpp|MusicFile/AudAry.hpp|lib/caev/caev_SockTop.hpp|caev/caev_remez.hpp|lib/caev/caev_SpecTran.cpp|lib/caev/caev_SockTop.cpp|lib/caev/caev_ipps.hpp|caev/caev_remez.cpp|lib/caev/caev_stat.cpp|MusicFile/AudAry.cpp|lib/caev/caev_cplx.cpp|caev/caev_cplx.hpp|lib/caev/caev_stat.hpp|caev/hextal.hpp|lib/caev/caev_freq.cpp|caev/hextal.cpp|lib/caev/primes.hpp|lib/caev/hextal.hpp|caev/caev_cplx.cpp|lib/caev/caev_PThread.hpp|caev/caev_freq.hpp|lib/caev/caev_SpecTran.hpp|lib/caev/caev_HeiTree.hpp|lib/caev/hextal.cpp|lib/caev/caev_remez.cpp|lib/caev/caev_HeiTree.cpp|MusicFile/_AudAry_.hppkill|MusicFile/_AudAry_.cppkill|lib/caev/caev_cplx.hpp|caev/caev_freq.cpp|lib/caev/caev_ipps.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.config.gnu.exe.release.2115216574">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.release.2115216574" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.exe.release.2115216574" name="Release" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="cdt.managedbuild.config.gnu.exe.release" prebuildStep="svnmark ../src/Cfg/CfgVersion.hpp">
+					<folderInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.exe.release.1324970823" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.exe.release">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.exe.release.1972156349" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.exe.release"/>
+							<builder buildPath="${workspace_loc:/beryl}/Release" id="cdt.managedbuild.target.gnu.builder.exe.release.1859502777" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.release"/>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1015196758" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.8058147" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.release">
+								<option id="gnu.cpp.compiler.exe.release.option.optimization.level.15580911" name="Optimization Level" superClass="gnu.cpp.compiler.exe.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.743416271" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.other.other.1652582154" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c++11 -Wno-misleading-indentation -Wno-unused-result" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.557993987" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/lib/arch/gtkmm-3.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/gdkmm-3.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/glib-2.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/glibmm-2.4/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/giomm-2.4/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/pangomm-1.4/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/cairomm-1.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/sigc++-2.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/include/gtk-3.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/glib-2.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/atk-1.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/pango-1.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/cairo"/>
+									<listOptionValue builtIn="false" value="/usr/include/libpng"/>
+									<listOptionValue builtIn="false" value="/usr/include/gtkmm-3.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/gdkmm-3.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/glibmm-2.4"/>
+									<listOptionValue builtIn="false" value="/usr/include/giomm-2.4"/>
+									<listOptionValue builtIn="false" value="/usr/include/atkmm-1.6"/>
+									<listOptionValue builtIn="false" value="/usr/lib/arch/atkmm-1.6/include"/>
+									<listOptionValue builtIn="false" value="/usr/include/pangomm-1.4"/>
+									<listOptionValue builtIn="false" value="/usr/include/harfbuzz"/>
+									<listOptionValue builtIn="false" value="/usr/include/cairomm-1.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/pixman-1"/>
+									<listOptionValue builtIn="false" value="/usr/include/freetype2"/>
+									<listOptionValue builtIn="false" value="/usr/include/gdk-pixbuf-2.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/gio-unix-2.0"/>
+									<listOptionValue builtIn="false" value="/usr/include/sigc++-2.0"/>
+									<listOptionValue builtIn="false" value="/way/dev/SW/caeslib"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.dialect.std.1254701579" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++17" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.882563985" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.712010472" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.exe.release.option.optimization.level.19179389" name="Optimization Level" superClass="gnu.c.compiler.exe.release.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option id="gnu.c.compiler.exe.release.option.debugging.level.1197622396" name="Debug Level" superClass="gnu.c.compiler.exe.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.dialect.std.242310201" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.c11" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.2066358038" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1565852676" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.179150678" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.libs.965295034" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="gtkmm-3.0"/>
+									<listOptionValue builtIn="false" value="gtk-3"/>
+									<listOptionValue builtIn="false" value="gdkmm-3.0"/>
+									<listOptionValue builtIn="false" value="atkmm-1.6"/>
+									<listOptionValue builtIn="false" value="glibmm-2.4"/>
+									<listOptionValue builtIn="false" value="cairomm-1.0"/>
+									<listOptionValue builtIn="false" value="pangomm-1.4"/>
+									<listOptionValue builtIn="false" value="sigc-2.0"/>
+									<listOptionValue builtIn="false" value="gsl"/>
+									<listOptionValue builtIn="false" value="gslcblas"/>
+								</option>
+								<option id="gnu.cpp.link.option.flags.1463220223" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-no-pie" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1859702958" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.exe.release.1337198650" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.release">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1408946535" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.923113893" name="CaesDLL.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesDLL.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1033797061" name="CaesHeiTree.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesHeiTree.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.582674251" name="CaesPThread.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesPThread.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1659514575" name="CaesIpps.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesIpps.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.640885862" name="CaesSpectrum.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesSpectrum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1110294218" name="CaesStat.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesStat.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1242268370" name="CaesPrimes.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesPrimes.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.671304471" name="CaesFFT.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesFFT.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.952291470" name="CaesHpNum.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesHpNum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1821567690" name="CaesSocket.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesSocket.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.2033174866" name="CaesCplx.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesCplx.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.253582544" name="CpuRdtsc.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CpuRdtsc.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1253834723" name="CaesRemez.hpp" rcbsApplicability="disable" resourcePath="src/libs_local/caes/CaesRemez.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1920821181" name="CaesDLL.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesDLL.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.81039824" name="CaesFFT.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesFFT.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.698829729" name="CaesHeiTree.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesHeiTree.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.270862202" name="CaesPThread.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesPThread.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1599830571" name="CaesHpNum.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesHpNum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1581822476" name="CaesIpps.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesIpps.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.628125453" name="CaesSpectrum.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesSpectrum.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.119672232" name="CaesSocket.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesSocket.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1243150641" name="CaesStat.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesStat.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.1506429800" name="CaesCplx.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesCplx.hpp" toolsToInvoke=""/>
+					<fileInfo id="cdt.managedbuild.config.gnu.exe.release.2115216574.814085848" name="CaesPrimes.hpp" rcbsApplicability="disable" resourcePath="src/caeslib/caes/CaesPrimes.hpp" toolsToInvoke=""/>
+					<sourceEntries>
+						<entry excluding="caeslib/caes/CaesStat.hpp|caeslib/caes/CaesStat.cpp|caeslib/caes/CaesSpectrum.hpp|caeslib/caes/CaesSpectrum.cpp|caeslib/caes/CaesSocket.hpp|caeslib/caes/CaesSocket.cpp|caeslib/caes/CaesPThread.hpp|caeslib/caes/CaesPrimes.hpp|caeslib/caes/CaesIpps.hpp|caeslib/caes/CaesIpps.cpp|caeslib/caes/CaesHpNum.hpp|caeslib/caes/CaesHpNum.cpp|caeslib/caes/CaesHeiTree.hpp|caeslib/caes/CaesHeiTree.cpp|caeslib/caes/CaesFFT.hpp|caeslib/caes/CaesFFT.cpp|caeslib/caes/CaesDLL.hpp|caeslib/caes/CaesDLL.cpp|caeslib/caes/CaesCplx.hpp|caeslib/caes/CaesCplx.cpp|caeslib/caes/Alsa|caeslib/caes/deprecate|libs_local/caes/CpuRdtsc.hpp|libs_local/caes/CaesStat.hpp|libs_local/caes/CaesStat.cpp|libs_local/caes/CaesSpectrum.hpp|libs_local/caes/CaesSpectrum.cpp|libs_local/caes/CaesSocket.hpp|libs_local/caes/CaesSocket.cpp|libs_local/caes/CaesPThread.hpp|libs_local/caes/CaesPrimes.hpp|libs_local/caes/CaesIpps.hpp|libs_local/caes/CaesIpps.cpp|libs_local/caes/CaesHpNum.hpp|libs_local/caes/CaesHpNum.cpp|libs_local/caes/CaesCplx.hpp|libs_local/caes/CaesCplx.cpp|libs_local/caes/CaesDLL.hpp|libs_local/caes/CaesDLL.cpp|libs_local/caes/CaesFFT.hpp|libs_local/caes/CaesFFT.cpp|libs_local/caes/CaesHeiTree.hpp|libs_local/caes/CaesHeiTree.cpp|libs_local/caes/Alsa|libs_local/caes/deprecate|libs/pcg|libs/caes/AudioFile/RawFile.cpp|libs/caes/AudioFile/RawFile.hpp|libs/caes/CaesStat.hpp|libs/caes/CaesStat.cpp|libs/caes/CaesSpectrum.hpp|libs/caes/CaesSpectrum.cpp|libs/caes/CaesSocket.hpp|libs/caes/CaesSocket.cpp|libs/caes/CaesPThread.hpp|libs/caes/CaesPrimes.hpp|libs/caes/CaesHpNum.hpp|libs/caes/CaesHpNum.cpp|libs/caes/CaesHeiTree.hpp|libs/caes/CaesHeiTree.cpp|libs/caes/CaesFFT.hpp|libs/caes/CaesFFT.cpp|libs/caes/CaesDLL.hpp|libs/caes/CaesDLL.cpp|libs/caes/CaesCplx.hpp|libs/caes/CaesCplx.cpp|libs/icon|libs/caes/Alsa|libs/caes/deprecate|libs/caev/HaiTree|libs/caev/caev_PThread.hpp|libs/caev/caev_ipps.hpp|libs/caev/caev_ipps.cpp|libs/caev/caev_HeiTree.hpp|libs/caev/caev_HeiTree.cpp|libs/caev/caev_FFT.hpp|libs/caev/caev_FFT.cpp|libs/caev/caev_cplx.hpp|libs/caev/caev_cplx.cpp|libs/caev/hextal.hpp|libs/caev/hextal.cpp|libs/caev/caev_stat.hpp|libs/caev/caev_stat.cpp|libs/caev/caev_SockTop.cpp|libs/caev/caev_SockTop.hpp|libs/caev/SpecTran.cpp|libs/caev/SpecTran.hpp|libs/caev/Alsa|libs/comms|lib/caev/caev_cplx.cpp|lib/caev/caev_specfun.cpp|lib/caev/caev_remez.cpp|lib/caev/caev_freq.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="beryl.cdt.managedbuild.target.gnu.exe.1157936512" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.559970120;cdt.managedbuild.config.gnu.exe.debug.559970120.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.182032513;cdt.managedbuild.tool.gnu.cpp.compiler.input.1585348217">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.559970120;cdt.managedbuild.config.gnu.exe.debug.559970120.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.287060065;cdt.managedbuild.tool.gnu.c.compiler.input.888292030">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.2115216574;cdt.managedbuild.config.gnu.exe.release.2115216574.;cdt.managedbuild.tool.gnu.c.compiler.exe.release.712010472;cdt.managedbuild.tool.gnu.c.compiler.input.2066358038">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.2115216574;cdt.managedbuild.config.gnu.exe.release.2115216574.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.8058147;cdt.managedbuild.tool.gnu.cpp.compiler.input.882563985">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/beryl"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/beryl"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+</cproject>
