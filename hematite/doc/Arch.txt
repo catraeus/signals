@@ -1,0 +1,60 @@
+
+$Id: Arch.txt 474 2019-05-02 18:27:06Z duncang $
+
+WaveFile
+
+0 – File System is done only by unistd, it has everything.
+
+1 – Next up is chunks, they have a nice class.  They get put into a memory image that skips the data chunk but grabs an image of the other chunks.
+
+2 – Next up is chunk handlers.  I have a WAVE chunk handler (trivial, hierarchical only) and a fmt_ handler.  The fmt_ handler is only for uncompressed formats.
+
+3 – Next up is where we provide multiple interfaces.  This hides the chunk and file-system
+
+Analyzers –
+Scope:
+SpecAn:
+Distortion:
+SNR:
+Dynamic Range:
+Jitter:
+Frequency Counter:
+
+Scope –
+
+Trigger:
+Type – {auto, normal}
+Conditioning1: DC Block freq - float
+Conditioning2: LPF freq - float
+Run – {capture-until, Free, Off}
+Source – {Keyboard, A, B, either}
+Position – float
+Level – float
+edge – {pos, neg}
+
+Display:
+10x10 div
+zero V-mark
+trigger H-mark
+Aggregation – {peak, filter, instantaneous, RMS}
+
+Stream:
+Shuttle
+Realtime
+Contiguous
+
+Markers:
+H pair
+V pair
+
+Vert[]:
+on/off
+Z/div
+Units {Z, V, b, FSU}
+Offset
+DC Block
+
+Horiz:
+T/div
+
+

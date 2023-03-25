@@ -1,0 +1,45 @@
+
+$Id: StaleDirtyClean.txt 477 2019-05-02 19:33:54Z duncang $
+
+Nouns
+  The ReadFile
+  The WriteFile
+  The Stream
+
+  The Bulk Analysis
+  The Sine Analysis
+
+Verbs
+  To Select a File Name
+  To Analyze a File Format
+  To Specify a File Format
+  To Stream-In a File
+  To Stream-Out a File
+  To Trim a Stream
+  To Bulk Normalize a Stream
+  To Resample a Stream
+  To Carrier-Reduce a Stream
+
+
+Workflows:
+  1. Select an Input File.
+  2, Read the File Info, don't flow to Stream.
+  3. Flow File to Stream.
+  4. Bulk-Analyze Stream.
+  5. Bulk-Normalize Stream                        Write it back out or write to alt
+  6. Carrier-Reduce a Stream                      Write it back out or write to alt
+  7. Carrier Analyze the Reduced Stream           could be done by a read of an already Carrier-Reduced File.
+
+
+Underlying Source Material:
+the wave file
+the stream
+
+Derived Data:
+Bulk Stats
+Sine Stats
+
+Source Pollution:
+Open a new file.
+  stream dirty needs warning
+  
