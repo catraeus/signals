@@ -1,0 +1,31 @@
+$ID: A $
+*ALSA_SETTINGS
+  [protected from execution during ALSA_OPEN state by GUI]
+  Check for legality
+  Check for HW capability
+  Transform to ALSA param set
+
+STARTUP
+  Instantiate default database
+  push database to GUI
+  Open persistence into database
+  push database to GUI
+  Find all ALSA objects
+  Justify ALSA found vs. database
+  User Interaction to aid justification if necessary
+  Justification push to database
+  push database to GUI
+  database transform to ALSA param set
+  database push to persistence
+  open ALSA if OK
+  Idle wait for user interaction
+
+ALSA_OPEN
+  [all within one function because of ALSA crack-headed implementation]
+  initiate bullshit ALSA opening session
+  ALSA param set push to ALSA_HAL
+  perform bullshit ALSA commit
+  create ALSA_THREAD specifying the ALSA playback loop function
+  connect the ALSA_SIGNAL to the GENERATOR_LOOP function
+  start the ALSA_THREAD
+

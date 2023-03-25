@@ -1,0 +1,285 @@
+basalt
+    Sound Generator
+    version 1.0 build 692
+    Copyright (C) 2012 Catraeus and Duncan Gray
+    CWD is /way/dev/SW/apps/signals/basalt/Debug
+basalt is opening a conf file at /home/duncang/.basalt/conf
+Invocation doesn't seem to want to open a file.
+HINTLESS  Card: 0  Ifc: card
+HINTFULL  Card: 0  Ifc: hwdep
+  err from   snd_pcm_open trying Input on pcmSpec hw:NVidia,0    -2 (human) [No such file or directory]
+  err from   snd_pcm_open trying Output on pcmSpec hw:NVidia,0    -2 (human) [No such file or directory]
+HINTFULL  Card: 0  Ifc: ctl
+  err from   snd_pcm_open trying Input on pcmSpec sysdefault:NVidia    -2 (human) [No such file or directory]
+  err from   snd_pcm_open trying Output on pcmSpec sysdefault:NVidia    -2 (human) [No such file or directory]
+  err from   snd_pcm_open trying Input on pcmSpec hw:NVidia    -2 (human) [No such file or directory]
+  err from   snd_pcm_open trying Output on pcmSpec hw:NVidia    -2 (human) [No such file or directory]
+HINTFULL  Card: 0  Ifc: pcm
+  err from   snd_pcm_open trying Input on pcmSpec usbstream:NVidia    -13 (human) [Permission denied]
+  err from   snd_pcm_open trying Output on pcmSpec usbstream:NVidia    -13 (human) [Permission denied]
+HINTLESS  Card: 0  Ifc: rawmidi
+HINTLESS  Card: 0  Ifc: timer
+HINTLESS  Card: 0  Ifc: seq
+HINTLESS  Card: 1  Ifc: card
+HINTLESS  Card: 1  Ifc: hwdep
+HINTFULL  Card: 1  Ifc: ctl
+HINTFULL  Card: 1  Ifc: pcm
+  err from   snd_pcm_open trying Input on pcmSpec usbstream:S3    -2 (human) [No such file or directory]
+  err from   snd_pcm_open trying Output on pcmSpec usbstream:S3    -2 (human) [No such file or directory]
+HINTLESS  Card: 1  Ifc: rawmidi
+HINTLESS  Card: 1  Ifc: timer
+HINTLESS  Card: 1  Ifc: seq
+HINTLESS  Card: 2  Ifc: card
+HINTFULL  Card: 2  Ifc: hwdep
+  err from   snd_pcm_open trying Input on pcmSpec hw:sofhdadsp,2    -2 (human) [No such file or directory]
+  err from   snd_pcm_open trying Output on pcmSpec hw:sofhdadsp,2    -2 (human) [No such file or directory]
+HINTFULL  Card: 2  Ifc: ctl
+HINTFULL  Card: 2  Ifc: pcm
+  err from   snd_pcm_open trying Input on pcmSpec hw:sofhdadsp,1    -22 (human) [Invalid argument]
+  err from   snd_pcm_open trying Output on pcmSpec hw:sofhdadsp,1    -22 (human) [Invalid argument]
+  err from   snd_pcm_open trying Input on pcmSpec plughw:sofhdadsp,1    -22 (human) [Invalid argument]
+  err from   snd_pcm_open trying Output on pcmSpec plughw:sofhdadsp,1    -22 (human) [Invalid argument]
+  err from   snd_pcm_open trying Output on pcmSpec dmix:sofhdadsp,1    -22 (human) [Invalid argument]
+  err from   snd_pcm_open trying Input on pcmSpec dsnoop:sofhdadsp,1    -22 (human) [Invalid argument]
+  err from   snd_pcm_open trying Input on pcmSpec usbstream:sofhdadsp    -13 (human) [Permission denied]
+  err from   snd_pcm_open trying Output on pcmSpec usbstream:sofhdadsp    -13 (human) [Permission denied]
+HINTLESS  Card: 2  Ifc: rawmidi
+HINTLESS  Card: 2  Ifc: timer
+HINTLESS  Card: 2  Ifc: seq
+
+
+
+
+
+
+
+
+Alsa Version: .1.2.6.1.
+Card-------[00] cardNmLng: .HDA NVidia.
+Interface--[00]  .card.
+Interface--[01]  .hwdep.
+Device-----[00]  cardNo:  0  AACardNm: .NVidia.         ifNo:  1  IfName: .hwdep.  AADevNm: .hw.            HintDev:    0  HintDesc1: .HDA NVidia, HDA Codec 0&Direct hardware dependent device.                                                       HintIoId: .<none>.      
+Interface--[02]  .ctl.
+Device-----[00]  cardNo:  0  AACardNm: .NVidia.         ifNo:  2  IfName: .ctl.    AADevNm: .sysdefault.    HintDev: 1000  HintDesc1: .HDA NVidia&Default Control Device.                                                                              HintIoId: .<none>.      
+Device-----[01]  cardNo:  0  AACardNm: .NVidia.         ifNo:  2  IfName: .ctl.    AADevNm: .hw.            HintDev: 1000  HintDesc1: .HDA NVidia&Direct control device.                                                                               HintIoId: .<none>.      
+Interface--[03]  .pcm.
+Device-----[00]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    3  HintDesc1: .HDA NVidia, HDMI 0&Direct hardware device without any conversions.                                              HintIoId: .Output.      
+Device-----[01]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    7  HintDesc1: .HDA NVidia, HDMI 1&Direct hardware device without any conversions.                                              HintIoId: .Output.      
+Device-----[02]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    8  HintDesc1: .HDA NVidia, HDMI 2&Direct hardware device without any conversions.                                              HintIoId: .Output.      
+Device-----[03]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    9  HintDesc1: .HDA NVidia, HDMI 3&Direct hardware device without any conversions.                                              HintIoId: .Output.      
+Device-----[04]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:   10  HintDesc1: .HDA NVidia, HDMI 4&Direct hardware device without any conversions.                                              HintIoId: .Output.      
+Device-----[05]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:   11  HintDesc1: .HDA NVidia, HDMI 5&Direct hardware device without any conversions.                                              HintIoId: .Output.      
+Device-----[06]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    3  HintDesc1: .HDA NVidia, HDMI 0&Hardware device with all software conversions.                                               HintIoId: .Output.      
+Device-----[07]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    7  HintDesc1: .HDA NVidia, HDMI 1&Hardware device with all software conversions.                                               HintIoId: .Output.      
+Device-----[08]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    8  HintDesc1: .HDA NVidia, HDMI 2&Hardware device with all software conversions.                                               HintIoId: .Output.      
+Device-----[09]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    9  HintDesc1: .HDA NVidia, HDMI 3&Hardware device with all software conversions.                                               HintIoId: .Output.      
+Device-----[10]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:   10  HintDesc1: .HDA NVidia, HDMI 4&Hardware device with all software conversions.                                               HintIoId: .Output.      
+Device-----[11]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:   11  HintDesc1: .HDA NVidia, HDMI 5&Hardware device with all software conversions.                                               HintIoId: .Output.      
+Device-----[12]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hdmi.          HintDev:    0  HintDesc1: .HDA NVidia, HDMI 0&HDMI Audio Output.                                                                           HintIoId: .Output.      
+Device-----[13]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hdmi.          HintDev:    1  HintDesc1: .HDA NVidia, HDMI 1&HDMI Audio Output.                                                                           HintIoId: .Output.      
+Device-----[14]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hdmi.          HintDev:    2  HintDesc1: .HDA NVidia, HDMI 2&HDMI Audio Output.                                                                           HintIoId: .Output.      
+Device-----[15]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hdmi.          HintDev:    3  HintDesc1: .HDA NVidia, HDMI 3&HDMI Audio Output.                                                                           HintIoId: .Output.      
+Device-----[16]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hdmi.          HintDev:    4  HintDesc1: .HDA NVidia, HDMI 4&HDMI Audio Output.                                                                           HintIoId: .Output.      
+Device-----[17]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .hdmi.          HintDev:    5  HintDesc1: .HDA NVidia, HDMI 5&HDMI Audio Output.                                                                           HintIoId: .Output.      
+Device-----[18]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    3  HintDesc1: .HDA NVidia, HDMI 0&Direct sample mixing device.                                                                 HintIoId: .Output.      
+Device-----[19]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    7  HintDesc1: .HDA NVidia, HDMI 1&Direct sample mixing device.                                                                 HintIoId: .Output.      
+Device-----[20]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    8  HintDesc1: .HDA NVidia, HDMI 2&Direct sample mixing device.                                                                 HintIoId: .Output.      
+Device-----[21]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    9  HintDesc1: .HDA NVidia, HDMI 3&Direct sample mixing device.                                                                 HintIoId: .Output.      
+Device-----[22]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:   10  HintDesc1: .HDA NVidia, HDMI 4&Direct sample mixing device.                                                                 HintIoId: .Output.      
+Device-----[23]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:   11  HintDesc1: .HDA NVidia, HDMI 5&Direct sample mixing device.                                                                 HintIoId: .Output.      
+Device-----[24]  cardNo:  0  AACardNm: .NVidia.         ifNo:  3  IfName: .pcm.    AADevNm: .usbstream.     HintDev: 1000  HintDesc1: .HDA NVidia&USB Stream Output.                                                                                   HintIoId: .<none>.      
+Interface--[04]  .rawmidi.
+Interface--[05]  .timer.
+Interface--[06]  .seq.
+Card-------[01] cardNmLng: .Sound Blaster Play! 3.
+Interface--[00]  .card.
+Interface--[01]  .hwdep.
+Interface--[02]  .ctl.
+Device-----[00]  cardNo:  1  AACardNm: .S3.             ifNo:  2  IfName: .ctl.    AADevNm: .sysdefault.    HintDev: 1000  HintDesc1: .Sound Blaster Play! 3&Default Control Device.                                                                   HintIoId: .<none>.      
+Device-----[01]  cardNo:  1  AACardNm: .S3.             ifNo:  2  IfName: .ctl.    AADevNm: .hw.            HintDev: 1000  HintDesc1: .Sound Blaster Play! 3&Direct control device.                                                                    HintIoId: .<none>.      
+Interface--[03]  .pcm.
+Device-----[00]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&Direct hardware device without any conversions.                                HintIoId: .<none>.      
+Device-----[01]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&Hardware device with all software conversions.                                 HintIoId: .<none>.      
+Device-----[02]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .sysdefault.    HintDev: 1000  HintDesc1: .Sound Blaster Play! 3, USB Audio&Default Audio Device.                                                          HintIoId: .<none>.      
+Device-----[03]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .front.         HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&Front output / input.                                                          HintIoId: .<none>.      
+Device-----[04]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .surround21.    HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&2.1 Surround output to Front and Subwoofer speakers.                           HintIoId: .Output.      
+Device-----[05]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .surround40.    HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&4.0 Surround output to Front and Rear speakers.                                HintIoId: .Output.      
+Device-----[06]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .surround41.    HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&4.1 Surround output to Front, Rear and Subwoofer speakers.                     HintIoId: .Output.      
+Device-----[07]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .surround50.    HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&5.0 Surround output to Front, Center and Rear speakers.                        HintIoId: .Output.      
+Device-----[08]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .surround51.    HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&5.1 Surround output to Front, Center, Rear and Subwoofer speakers.             HintIoId: .Output.      
+Device-----[09]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .surround71.    HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&7.1 Surround output to Front, Center, Side, Rear and Woofer speakers.          HintIoId: .Output.      
+Device-----[10]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .iec958.        HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&IEC958 (S/PDIF) Digital Audio Output.                                          HintIoId: .Output.      
+Device-----[11]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&Direct sample mixing device.                                                   HintIoId: .Output.      
+Device-----[12]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .dsnoop.        HintDev:    0  HintDesc1: .Sound Blaster Play! 3, USB Audio&Direct sample snooping device.                                                 HintIoId: .Input.       
+Device-----[13]  cardNo:  1  AACardNm: .S3.             ifNo:  3  IfName: .pcm.    AADevNm: .usbstream.     HintDev: 1000  HintDesc1: .Sound Blaster Play! 3&USB Stream Output.                                                                        HintIoId: .<none>.      
+Interface--[04]  .rawmidi.
+Interface--[05]  .timer.
+Interface--[06]  .seq.
+Card-------[02] cardNmLng: .sof-hda-dsp.
+Interface--[00]  .card.
+Interface--[01]  .hwdep.
+Device-----[00]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  1  IfName: .hwdep.  AADevNm: .hw.            HintDev:    0  HintDesc1: .sof-hda-dsp, HDA Codec 0&Direct hardware dependent device.                                                      HintIoId: .<none>.      
+Device-----[01]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  1  IfName: .hwdep.  AADevNm: .hw.            HintDev:    2  HintDesc1: .sof-hda-dsp, HDA Codec 2&Direct hardware dependent device.                                                      HintIoId: .<none>.      
+Interface--[02]  .ctl.
+Device-----[00]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  2  IfName: .ctl.    AADevNm: .sysdefault.    HintDev: 1000  HintDesc1: .sof-hda-dsp&Default Control Device.                                                                             HintIoId: .<none>.      
+Device-----[01]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  2  IfName: .ctl.    AADevNm: .hw.            HintDev: 1000  HintDesc1: .sof-hda-dsp&Direct control device.                                                                              HintIoId: .<none>.      
+Interface--[03]  .pcm.
+Device-----[00]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    0  HintDesc1: .sof-hda-dsp, &Direct hardware device without any conversions.                                                   HintIoId: .<none>.      
+Device-----[01]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    1  HintDesc1: .sof-hda-dsp, &Direct hardware device without any conversions.                                                   HintIoId: .<none>.      
+Device-----[02]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    3  HintDesc1: .sof-hda-dsp, &Direct hardware device without any conversions.                                                   HintIoId: .Output.      
+Device-----[03]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    4  HintDesc1: .sof-hda-dsp, &Direct hardware device without any conversions.                                                   HintIoId: .Output.      
+Device-----[04]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    5  HintDesc1: .sof-hda-dsp, &Direct hardware device without any conversions.                                                   HintIoId: .Output.      
+Device-----[05]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    6  HintDesc1: .sof-hda-dsp, &Direct hardware device without any conversions.                                                   HintIoId: .Input.       
+Device-----[06]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .hw.            HintDev:    7  HintDesc1: .sof-hda-dsp, &Direct hardware device without any conversions.                                                   HintIoId: .Input.       
+Device-----[07]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    0  HintDesc1: .sof-hda-dsp, &Hardware device with all software conversions.                                                    HintIoId: .<none>.      
+Device-----[08]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    1  HintDesc1: .sof-hda-dsp, &Hardware device with all software conversions.                                                    HintIoId: .<none>.      
+Device-----[09]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    3  HintDesc1: .sof-hda-dsp, &Hardware device with all software conversions.                                                    HintIoId: .Output.      
+Device-----[10]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    4  HintDesc1: .sof-hda-dsp, &Hardware device with all software conversions.                                                    HintIoId: .Output.      
+Device-----[11]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    5  HintDesc1: .sof-hda-dsp, &Hardware device with all software conversions.                                                    HintIoId: .Output.      
+Device-----[12]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    6  HintDesc1: .sof-hda-dsp, &Hardware device with all software conversions.                                                    HintIoId: .Input.       
+Device-----[13]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .plughw.        HintDev:    7  HintDesc1: .sof-hda-dsp, &Hardware device with all software conversions.                                                    HintIoId: .Input.       
+Device-----[14]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .sysdefault.    HintDev: 1000  HintDesc1: .sof-hda-dsp, &Default Audio Device.                                                                             HintIoId: .<none>.      
+Device-----[15]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    0  HintDesc1: .sof-hda-dsp, &Direct sample mixing device.                                                                      HintIoId: .Output.      
+Device-----[16]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    1  HintDesc1: .sof-hda-dsp, &Direct sample mixing device.                                                                      HintIoId: .Output.      
+Device-----[17]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    3  HintDesc1: .sof-hda-dsp, &Direct sample mixing device.                                                                      HintIoId: .Output.      
+Device-----[18]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    4  HintDesc1: .sof-hda-dsp, &Direct sample mixing device.                                                                      HintIoId: .Output.      
+Device-----[19]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dmix.          HintDev:    5  HintDesc1: .sof-hda-dsp, &Direct sample mixing device.                                                                      HintIoId: .Output.      
+Device-----[20]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dsnoop.        HintDev:    0  HintDesc1: .sof-hda-dsp, &Direct sample snooping device.                                                                    HintIoId: .Input.       
+Device-----[21]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dsnoop.        HintDev:    1  HintDesc1: .sof-hda-dsp, &Direct sample snooping device.                                                                    HintIoId: .Input.       
+Device-----[22]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dsnoop.        HintDev:    6  HintDesc1: .sof-hda-dsp, &Direct sample snooping device.                                                                    HintIoId: .Input.       
+Device-----[23]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .dsnoop.        HintDev:    7  HintDesc1: .sof-hda-dsp, &Direct sample snooping device.                                                                    HintIoId: .Input.       
+Device-----[24]  cardNo:  2  AACardNm: .sofhdadsp.      ifNo:  3  IfName: .pcm.    AADevNm: .usbstream.     HintDev: 1000  HintDesc1: .sof-hda-dsp&USB Stream Output.                                                                                  HintIoId: .<none>.      
+Interface--[04]  .rawmidi.
+Interface--[05]  .timer.
+Interface--[06]  .seq.
+ALSA Version:  1.2.6.1
+PCM Spec List:
+      devNo[00]    ifcNo[03]  name .hw.            shortName .HDA NVidia.    devNo 03     desc1: .HDA NVidia, HDMI 0&Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=NVidia,DEV=3|DESCHDA NVidia, HDMI 0&Direct hardware device without any conversions|IOIDOutput####
+      devNo[01]    ifcNo[03]  name .hw.            shortName .HDA NVidia.    devNo 07     desc1: .HDA NVidia, HDMI 1&Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=NVidia,DEV=7|DESCHDA NVidia, HDMI 1&Direct hardware device without any conversions|IOIDOutput####
+      devNo[02]    ifcNo[03]  name .hw.            shortName .HDA NVidia.    devNo 08     desc1: .HDA NVidia, HDMI 2&Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=NVidia,DEV=8|DESCHDA NVidia, HDMI 2&Direct hardware device without any conversions|IOIDOutput####
+      devNo[03]    ifcNo[03]  name .hw.            shortName .HDA NVidia.    devNo 09     desc1: .HDA NVidia, HDMI 3&Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=NVidia,DEV=9|DESCHDA NVidia, HDMI 3&Direct hardware device without any conversions|IOIDOutput####
+      devNo[04]    ifcNo[03]  name .hw.            shortName .HDA NVidia.    devNo 10     desc1: .HDA NVidia, HDMI 4&Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=NVidia,DEV=10|DESCHDA NVidia, HDMI 4&Direct hardware device without any conversions|IOIDOutput####
+      devNo[05]    ifcNo[03]  name .hw.            shortName .HDA NVidia.    devNo 11     desc1: .HDA NVidia, HDMI 5&Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=NVidia,DEV=11|DESCHDA NVidia, HDMI 5&Direct hardware device without any conversions|IOIDOutput####
+      devNo[06]    ifcNo[03]  name .plughw.        shortName .HDA NVidia.    devNo 03     desc1: .HDA NVidia, HDMI 0&Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=NVidia,DEV=3|DESCHDA NVidia, HDMI 0&Hardware device with all software conversions|IOIDOutput####
+      devNo[07]    ifcNo[03]  name .plughw.        shortName .HDA NVidia.    devNo 07     desc1: .HDA NVidia, HDMI 1&Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=NVidia,DEV=7|DESCHDA NVidia, HDMI 1&Hardware device with all software conversions|IOIDOutput####
+      devNo[08]    ifcNo[03]  name .plughw.        shortName .HDA NVidia.    devNo 08     desc1: .HDA NVidia, HDMI 2&Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=NVidia,DEV=8|DESCHDA NVidia, HDMI 2&Hardware device with all software conversions|IOIDOutput####
+      devNo[09]    ifcNo[03]  name .plughw.        shortName .HDA NVidia.    devNo 09     desc1: .HDA NVidia, HDMI 3&Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=NVidia,DEV=9|DESCHDA NVidia, HDMI 3&Hardware device with all software conversions|IOIDOutput####
+      devNo[10]    ifcNo[03]  name .plughw.        shortName .HDA NVidia.    devNo 10     desc1: .HDA NVidia, HDMI 4&Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=NVidia,DEV=10|DESCHDA NVidia, HDMI 4&Hardware device with all software conversions|IOIDOutput####
+      devNo[11]    ifcNo[03]  name .plughw.        shortName .HDA NVidia.    devNo 11     desc1: .HDA NVidia, HDMI 5&Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=NVidia,DEV=11|DESCHDA NVidia, HDMI 5&Hardware device with all software conversions|IOIDOutput####
+      devNo[12]    ifcNo[03]  name .hdmi.          shortName .HDA NVidia.    devNo 00     desc1: .HDA NVidia, HDMI 0&HDMI Audio Output.
+        whole hint ####NAMEhdmi:CARD=NVidia,DEV=0|DESCHDA NVidia, HDMI 0&HDMI Audio Output|IOIDOutput####
+      devNo[13]    ifcNo[03]  name .hdmi.          shortName .HDA NVidia.    devNo 01     desc1: .HDA NVidia, HDMI 1&HDMI Audio Output.
+        whole hint ####NAMEhdmi:CARD=NVidia,DEV=1|DESCHDA NVidia, HDMI 1&HDMI Audio Output|IOIDOutput####
+      devNo[14]    ifcNo[03]  name .hdmi.          shortName .HDA NVidia.    devNo 02     desc1: .HDA NVidia, HDMI 2&HDMI Audio Output.
+        whole hint ####NAMEhdmi:CARD=NVidia,DEV=2|DESCHDA NVidia, HDMI 2&HDMI Audio Output|IOIDOutput####
+      devNo[15]    ifcNo[03]  name .hdmi.          shortName .HDA NVidia.    devNo 03     desc1: .HDA NVidia, HDMI 3&HDMI Audio Output.
+        whole hint ####NAMEhdmi:CARD=NVidia,DEV=3|DESCHDA NVidia, HDMI 3&HDMI Audio Output|IOIDOutput####
+      devNo[16]    ifcNo[03]  name .hdmi.          shortName .HDA NVidia.    devNo 04     desc1: .HDA NVidia, HDMI 4&HDMI Audio Output.
+        whole hint ####NAMEhdmi:CARD=NVidia,DEV=4|DESCHDA NVidia, HDMI 4&HDMI Audio Output|IOIDOutput####
+      devNo[17]    ifcNo[03]  name .hdmi.          shortName .HDA NVidia.    devNo 05     desc1: .HDA NVidia, HDMI 5&HDMI Audio Output.
+        whole hint ####NAMEhdmi:CARD=NVidia,DEV=5|DESCHDA NVidia, HDMI 5&HDMI Audio Output|IOIDOutput####
+      devNo[18]    ifcNo[03]  name .dmix.          shortName .HDA NVidia.    devNo 03     desc1: .HDA NVidia, HDMI 0&Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=NVidia,DEV=3|DESCHDA NVidia, HDMI 0&Direct sample mixing device|IOIDOutput####
+      devNo[19]    ifcNo[03]  name .dmix.          shortName .HDA NVidia.    devNo 07     desc1: .HDA NVidia, HDMI 1&Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=NVidia,DEV=7|DESCHDA NVidia, HDMI 1&Direct sample mixing device|IOIDOutput####
+      devNo[20]    ifcNo[03]  name .dmix.          shortName .HDA NVidia.    devNo 08     desc1: .HDA NVidia, HDMI 2&Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=NVidia,DEV=8|DESCHDA NVidia, HDMI 2&Direct sample mixing device|IOIDOutput####
+      devNo[21]    ifcNo[03]  name .dmix.          shortName .HDA NVidia.    devNo 09     desc1: .HDA NVidia, HDMI 3&Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=NVidia,DEV=9|DESCHDA NVidia, HDMI 3&Direct sample mixing device|IOIDOutput####
+      devNo[22]    ifcNo[03]  name .dmix.          shortName .HDA NVidia.    devNo 10     desc1: .HDA NVidia, HDMI 4&Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=NVidia,DEV=10|DESCHDA NVidia, HDMI 4&Direct sample mixing device|IOIDOutput####
+      devNo[23]    ifcNo[03]  name .dmix.          shortName .HDA NVidia.    devNo 11     desc1: .HDA NVidia, HDMI 5&Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=NVidia,DEV=11|DESCHDA NVidia, HDMI 5&Direct sample mixing device|IOIDOutput####
+      devNo[24]    ifcNo[03]  name .usbstream.     shortName .HDA NVidia.    devNo 1000     desc1: .HDA NVidia&USB Stream Output.      
+        whole hint ####NAMEusbstream:CARD=NVidia|DESCHDA NVidia&USB Stream Output####
+      devNo[00]    ifcNo[03]  name .hw.            shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&Direct hardware device without any conversions####
+      devNo[01]    ifcNo[03]  name .plughw.        shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&Hardware device with all software conversions####
+      devNo[02]    ifcNo[03]  name .sysdefault.    shortName .Sound Blaster Play! 3.devNo 1000     desc1: .Sound Blaster Play! 3, USB Audio&Default Audio Device.
+        whole hint ####NAMEsysdefault:CARD=S3|DESCSound Blaster Play! 3, USB Audio&Default Audio Device####
+      devNo[03]    ifcNo[03]  name .front.         shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&Front output / input.
+        whole hint ####NAMEfront:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&Front output / input####
+      devNo[04]    ifcNo[03]  name .surround21.    shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&2.1 Surround output to Front and Subwoofer speakers.
+        whole hint ####NAMEsurround21:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&2.1 Surround output to Front and Subwoofer speakers|IOIDOutput####
+      devNo[05]    ifcNo[03]  name .surround40.    shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&4.0 Surround output to Front and Rear speakers.
+        whole hint ####NAMEsurround40:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&4.0 Surround output to Front and Rear speakers|IOIDOutput####
+      devNo[06]    ifcNo[03]  name .surround41.    shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&4.1 Surround output to Front, Rear and Subwoofer speakers.
+        whole hint ####NAMEsurround41:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&4.1 Surround output to Front, Rear and Subwoofer speakers|IOIDOutput####
+      devNo[07]    ifcNo[03]  name .surround50.    shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&5.0 Surround output to Front, Center and Rear speakers.
+        whole hint ####NAMEsurround50:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&5.0 Surround output to Front, Center and Rear speakers|IOIDOutput####
+      devNo[08]    ifcNo[03]  name .surround51.    shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&5.1 Surround output to Front, Center, Rear and Subwoofer speakers.
+        whole hint ####NAMEsurround51:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&5.1 Surround output to Front, Center, Rear and Subwoofer speakers|IOIDOutput####
+      devNo[09]    ifcNo[03]  name .surround71.    shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&7.1 Surround output to Front, Center, Side, Rear and Woofer speakers.
+        whole hint ####NAMEsurround71:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&7.1 Surround output to Front, Center, Side, Rear and Woofer speakers|IOIDOutput####
+      devNo[10]    ifcNo[03]  name .iec958.        shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&IEC958 (S/PDIF) Digital Audio Output.
+        whole hint ####NAMEiec958:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&IEC958 (S/PDIF) Digital Audio Output|IOIDOutput####
+      devNo[11]    ifcNo[03]  name .dmix.          shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&Direct sample mixing device|IOIDOutput####
+      devNo[12]    ifcNo[03]  name .dsnoop.        shortName .Sound Blaster Play! 3.devNo 00     desc1: .Sound Blaster Play! 3, USB Audio&Direct sample snooping device.
+        whole hint ####NAMEdsnoop:CARD=S3,DEV=0|DESCSound Blaster Play! 3, USB Audio&Direct sample snooping device|IOIDInput####
+      devNo[13]    ifcNo[03]  name .usbstream.     shortName .Sound Blaster Play! 3.devNo 1000     desc1: .Sound Blaster Play! 3&USB Stream Output.
+        whole hint ####NAMEusbstream:CARD=S3|DESCSound Blaster Play! 3&USB Stream Output####
+      devNo[00]    ifcNo[03]  name .hw.            shortName .sof-hda-dsp.   devNo 00     desc1: .sof-hda-dsp, &Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=sofhdadsp,DEV=0|DESCsof-hda-dsp, &Direct hardware device without any conversions####
+      devNo[01]    ifcNo[03]  name .hw.            shortName .sof-hda-dsp.   devNo 01     desc1: .sof-hda-dsp, &Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=sofhdadsp,DEV=1|DESCsof-hda-dsp, &Direct hardware device without any conversions####
+      devNo[02]    ifcNo[03]  name .hw.            shortName .sof-hda-dsp.   devNo 03     desc1: .sof-hda-dsp, &Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=sofhdadsp,DEV=3|DESCsof-hda-dsp, &Direct hardware device without any conversions|IOIDOutput####
+      devNo[03]    ifcNo[03]  name .hw.            shortName .sof-hda-dsp.   devNo 04     desc1: .sof-hda-dsp, &Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=sofhdadsp,DEV=4|DESCsof-hda-dsp, &Direct hardware device without any conversions|IOIDOutput####
+      devNo[04]    ifcNo[03]  name .hw.            shortName .sof-hda-dsp.   devNo 05     desc1: .sof-hda-dsp, &Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=sofhdadsp,DEV=5|DESCsof-hda-dsp, &Direct hardware device without any conversions|IOIDOutput####
+      devNo[05]    ifcNo[03]  name .hw.            shortName .sof-hda-dsp.   devNo 06     desc1: .sof-hda-dsp, &Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=sofhdadsp,DEV=6|DESCsof-hda-dsp, &Direct hardware device without any conversions|IOIDInput####
+      devNo[06]    ifcNo[03]  name .hw.            shortName .sof-hda-dsp.   devNo 07     desc1: .sof-hda-dsp, &Direct hardware device without any conversions.
+        whole hint ####NAMEhw:CARD=sofhdadsp,DEV=7|DESCsof-hda-dsp, &Direct hardware device without any conversions|IOIDInput####
+      devNo[07]    ifcNo[03]  name .plughw.        shortName .sof-hda-dsp.   devNo 00     desc1: .sof-hda-dsp, &Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=sofhdadsp,DEV=0|DESCsof-hda-dsp, &Hardware device with all software conversions####
+      devNo[08]    ifcNo[03]  name .plughw.        shortName .sof-hda-dsp.   devNo 01     desc1: .sof-hda-dsp, &Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=sofhdadsp,DEV=1|DESCsof-hda-dsp, &Hardware device with all software conversions####
+      devNo[09]    ifcNo[03]  name .plughw.        shortName .sof-hda-dsp.   devNo 03     desc1: .sof-hda-dsp, &Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=sofhdadsp,DEV=3|DESCsof-hda-dsp, &Hardware device with all software conversions|IOIDOutput####
+      devNo[10]    ifcNo[03]  name .plughw.        shortName .sof-hda-dsp.   devNo 04     desc1: .sof-hda-dsp, &Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=sofhdadsp,DEV=4|DESCsof-hda-dsp, &Hardware device with all software conversions|IOIDOutput####
+      devNo[11]    ifcNo[03]  name .plughw.        shortName .sof-hda-dsp.   devNo 05     desc1: .sof-hda-dsp, &Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=sofhdadsp,DEV=5|DESCsof-hda-dsp, &Hardware device with all software conversions|IOIDOutput####
+      devNo[12]    ifcNo[03]  name .plughw.        shortName .sof-hda-dsp.   devNo 06     desc1: .sof-hda-dsp, &Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=sofhdadsp,DEV=6|DESCsof-hda-dsp, &Hardware device with all software conversions|IOIDInput####
+      devNo[13]    ifcNo[03]  name .plughw.        shortName .sof-hda-dsp.   devNo 07     desc1: .sof-hda-dsp, &Hardware device with all software conversions.
+        whole hint ####NAMEplughw:CARD=sofhdadsp,DEV=7|DESCsof-hda-dsp, &Hardware device with all software conversions|IOIDInput####
+      devNo[14]    ifcNo[03]  name .sysdefault.    shortName .sof-hda-dsp.   devNo 1000     desc1: .sof-hda-dsp, &Default Audio Device.
+        whole hint ####NAMEsysdefault:CARD=sofhdadsp|DESCsof-hda-dsp, &Default Audio Device####
+      devNo[15]    ifcNo[03]  name .dmix.          shortName .sof-hda-dsp.   devNo 00     desc1: .sof-hda-dsp, &Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=sofhdadsp,DEV=0|DESCsof-hda-dsp, &Direct sample mixing device|IOIDOutput####
+      devNo[16]    ifcNo[03]  name .dmix.          shortName .sof-hda-dsp.   devNo 01     desc1: .sof-hda-dsp, &Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=sofhdadsp,DEV=1|DESCsof-hda-dsp, &Direct sample mixing device|IOIDOutput####
+      devNo[17]    ifcNo[03]  name .dmix.          shortName .sof-hda-dsp.   devNo 03     desc1: .sof-hda-dsp, &Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=sofhdadsp,DEV=3|DESCsof-hda-dsp, &Direct sample mixing device|IOIDOutput####
+      devNo[18]    ifcNo[03]  name .dmix.          shortName .sof-hda-dsp.   devNo 04     desc1: .sof-hda-dsp, &Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=sofhdadsp,DEV=4|DESCsof-hda-dsp, &Direct sample mixing device|IOIDOutput####
+      devNo[19]    ifcNo[03]  name .dmix.          shortName .sof-hda-dsp.   devNo 05     desc1: .sof-hda-dsp, &Direct sample mixing device.
+        whole hint ####NAMEdmix:CARD=sofhdadsp,DEV=5|DESCsof-hda-dsp, &Direct sample mixing device|IOIDOutput####
+      devNo[20]    ifcNo[03]  name .dsnoop.        shortName .sof-hda-dsp.   devNo 00     desc1: .sof-hda-dsp, &Direct sample snooping device.
+        whole hint ####NAMEdsnoop:CARD=sofhdadsp,DEV=0|DESCsof-hda-dsp, &Direct sample snooping device|IOIDInput####
+      devNo[21]    ifcNo[03]  name .dsnoop.        shortName .sof-hda-dsp.   devNo 01     desc1: .sof-hda-dsp, &Direct sample snooping device.
+        whole hint ####NAMEdsnoop:CARD=sofhdadsp,DEV=1|DESCsof-hda-dsp, &Direct sample snooping device|IOIDInput####
+      devNo[22]    ifcNo[03]  name .dsnoop.        shortName .sof-hda-dsp.   devNo 06     desc1: .sof-hda-dsp, &Direct sample snooping device.
+        whole hint ####NAMEdsnoop:CARD=sofhdadsp,DEV=6|DESCsof-hda-dsp, &Direct sample snooping device|IOIDInput####
+      devNo[23]    ifcNo[03]  name .dsnoop.        shortName .sof-hda-dsp.   devNo 07     desc1: .sof-hda-dsp, &Direct sample snooping device.
+        whole hint ####NAMEdsnoop:CARD=sofhdadsp,DEV=7|DESCsof-hda-dsp, &Direct sample snooping device|IOIDInput####
+      devNo[24]    ifcNo[03]  name .usbstream.     shortName .sof-hda-dsp.   devNo 1000     desc1: .sof-hda-dsp&USB Stream Output.     
+        whole hint ####NAMEusbstream:CARD=sofhdadsp|DESCsof-hda-dsp&USB Stream Output####
+I just got c++ destroyed
