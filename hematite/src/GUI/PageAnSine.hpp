@@ -55,7 +55,8 @@ class PageAnSine: public Gtk::Box {
             bool    OnSetCarrFreq   ( GdkEventFocus *i_theEvent);
             bool    OnSetAnBW       ( GdkEventFocus *i_theEvent);
 
-            bool    HndlSineVoid   ( void    *   );
+            bool    HndlSineVoid    ( void    *   );
+            bool    HndlSineHasData ( void    *   );
 
             void    ReScale         ( void        );
             void    FillStats       ( void        );
@@ -169,10 +170,10 @@ class PageAnSine: public Gtk::Box {
     Gtk::Entry                ebxCarrAnBW;
     sigc::connection          evSetCarrAnBW;
 
+    CtlMsgDspch              *ctMd;
 
-    CtlMsgDspch             *ctMd;
-
-    CbT<PageAnSine>        *HnCbSineVoid;
+    CbT<PageAnSine>          *HnCbSineVoid;
+    CbT<PageAnSine>          *HnCbSineHasData;
 
 
   };

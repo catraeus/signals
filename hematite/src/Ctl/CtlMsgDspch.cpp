@@ -20,10 +20,14 @@ CtlMsgDspch *CtlMsgDspch::ctMd = NULL;
              CtlMsgDspch::CtlMsgDspch             ( void            ) {
   HCB_AnBulkVoid           = NULL;
   HCB_AnSineVoid           = NULL;
+  HCB_AnSineHasData        = NULL;
 
   HCB_MainReTitle          = NULL;
   HCB_MainStWork           = NULL;
   HCB_MainStCmpl           = NULL;
+
+  HCB_SigWrChg             = NULL;
+  HCB_WaveWrChg            = NULL;
   return;
 }
              CtlMsgDspch::~CtlMsgDspch            ( void            ) {
@@ -33,14 +37,23 @@ CtlMsgDspch* CtlMsgDspch::GetInstance             ( void            ) {
   return ctMd;
 }
 
-void         CtlMsgDspch::Emit_FileWrChg          ( void            ) {
+void         CtlMsgDspch::Emit_SigWrChg           ( void            ) {
+  if(HCB_SigWrChg  != NULL) HCB_SigWrChg ->Execute(NULL);
+  return;
+}
+void         CtlMsgDspch::Emit_WaveWrChg          ( void            ) {
+  if(HCB_WaveWrChg != NULL) HCB_WaveWrChg->Execute(NULL);
   return;
 }
 
 void         CtlMsgDspch::Emit_FileRdChg          ( void            ) {
-  if(HCB_AnBulkVoid   != NULL) HCB_AnBulkVoid  ->Execute(NULL);
-  if(HCB_AnSineVoid   != NULL) HCB_AnSineVoid  ->Execute(NULL);
-  if(HCB_MainReTitle  != NULL) HCB_MainReTitle ->Execute(NULL);
+  if(HCB_AnBulkVoid    != NULL) HCB_AnBulkVoid    ->Execute(NULL);
+  if(HCB_AnSineVoid    != NULL) HCB_AnSineVoid    ->Execute(NULL);
+  if(HCB_MainReTitle   != NULL) HCB_MainReTitle   ->Execute(NULL);
+  return;
+}
+void         CtlMsgDspch::Emit_SineHasData        ( void            ) {
+  if(HCB_AnSineHasData != NULL) HCB_AnSineHasData ->Execute(NULL);
   return;
 }
 void         CtlMsgDspch::Emit_SigStatCmpl        ( double *i_tDbl  ) {

@@ -19,7 +19,7 @@
 #include "PageAnSine.hpp"
 #include "WinMain.hpp"
 
-        PageAnSine::PageAnSine        ( Signal *i_sigRaw, Signal *i_sigNorm, Signal *i_sigCarr, Signal *i_sigBase, Signal *i_sigDem, AnSine *i_anSine )
+        PageAnSine::PageAnSine         ( Signal *i_sigRaw, Signal *i_sigNorm, Signal *i_sigCarr, Signal *i_sigBase, Signal *i_sigDem, AnSine *i_anSine )
 : sigRaw    ( i_sigRaw   )
 , sigNorm   ( i_sigNorm  )
 , sigCarr   ( i_sigCarr  )
@@ -31,7 +31,7 @@
   Connect  ();
   return;
   }
-        PageAnSine::~PageAnSine       ( void         ) {
+        PageAnSine::~PageAnSine        ( void         ) {
   }
 void    PageAnSine::FillStats          ( void         ) {
   char   tStr[256];
@@ -153,7 +153,7 @@ void    PageAnSine::OnIndIQ            ( void         ) {
   anType = newAnType;
   return;
 }
-void    PageAnSine::OnCarrChChoose     ( void        ) {
+void    PageAnSine::OnCarrChChoose     ( void         ) {
   eChCh newIqCh;
   if     (rbtCh0->get_active())
     newIqCh = CT_CH0;
@@ -217,13 +217,21 @@ bool    PageAnSine::OnSetAnBW          ( GdkEventFocus *i_theEvent ) {
   return true;
 }
 
-
-bool    PageAnSine::HndlSineVoid      ( void   *     ) {
+bool    PageAnSine::HndlSineVoid       ( void   *     ) {
   SetDirty();
   ClearStats();
+  btCalcEstZerXrs -> set_sensitive(false);
+  btCalcFilter    -> set_sensitive(false);
+  btCalcDemod     -> set_sensitive(false);
+  btCalcBaseFilt  -> set_sensitive(false);
+  btCalcDemDecim  -> set_sensitive(false);
+
   return true;
 }
-
+bool    PageAnSine::HndlSineHasData    ( void   *     ) {
+  btCalcEstZerXrs -> set_sensitive(true);
+  return false;
+}
 void    PageAnSine::ReScale            ( void         ) {
   FillStats();
   return;
@@ -368,7 +376,7 @@ void    PageAnSine::BuildMain          ( void         ) {
     vbxCtlOv              .pack_start ( *btCalcDemDecim    , Gtk::PACK_SHRINK, 3 );
     vbxCtlOv              .pack_start (  lblPrr            , Gtk::PACK_SHRINK, 3 );
     vbxCtlOv              .pack_start (  ebxPrr            , Gtk::PACK_SHRINK, 3 );
-  hbxSine                .pack_start (  frmZer0           , Gtk::PACK_SHRINK, 3 );
+  hbxSine                 .pack_start (  frmZer0           , Gtk::PACK_SHRINK, 3 );
     frmZer0               .add        (  vbxZer0                                 );
       vbxZer0             .pack_start (  hbxZerFrq0        , Gtk::PACK_SHRINK, 3 );
         hbxZerFrq0        .pack_start (  lblFrq            , Gtk::PACK_SHRINK, 3 );
@@ -388,7 +396,7 @@ void    PageAnSine::BuildMain          ( void         ) {
       vbxZer0             .pack_start (  hbxZeraPh0        , Gtk::PACK_SHRINK, 3 );
         hbxZeraPh0        .pack_start (  lblaPh            , Gtk::PACK_SHRINK, 3 );
         hbxZeraPh0        .pack_start (  ebxZeraPh0        , Gtk::PACK_SHRINK, 3 );
-  hbxSine                .pack_start (  frmZer1           , Gtk::PACK_SHRINK, 3 );
+  hbxSine                 .pack_start (  frmZer1           , Gtk::PACK_SHRINK, 3 );
     frmZer1               .add        (  vbxZer1                                 );
       vbxZer1             .pack_start (  hbxZerFrq1        , Gtk::PACK_SHRINK, 3 );
         hbxZerFrq1        .pack_start (  ebxZerFrq1        , Gtk::PACK_SHRINK, 3 );
@@ -402,7 +410,7 @@ void    PageAnSine::BuildMain          ( void         ) {
         hbxZeraPk1        .pack_start (  ebxZeraPk1        , Gtk::PACK_SHRINK, 3 );
       vbxZer1             .pack_start (  hbxZeraPh1        , Gtk::PACK_SHRINK, 3 );
         hbxZeraPh1        .pack_start (  ebxZeraPh1        , Gtk::PACK_SHRINK, 3 );
-  hbxSine                .pack_start (  frmAnType         , Gtk::PACK_SHRINK, 3 );
+  hbxSine                 .pack_start (  frmAnType         , Gtk::PACK_SHRINK, 3 );
     frmAnType             .add        (  vbxAnSetup                              );
       vbxAnSetup          .pack_start (  vbxAnType         , Gtk::PACK_SHRINK, 3 );
         vbxAnType         .pack_start ( *rbtAnTypeIndep    , Gtk::PACK_SHRINK, 3 );
@@ -438,6 +446,9 @@ void    PageAnSine::Connect            ( void         ) {
 
   HnCbSineVoid         ->SetCallback(this, &PageAnSine::HndlSineVoid);
   ctMd->HCB_AnSineVoid = HnCbSineVoid;
+
+  HnCbSineHasData      ->SetCallback(this, &PageAnSine::HndlSineHasData);
+  ctMd->HCB_AnSineHasData = HnCbSineHasData;
 
   return;
 }

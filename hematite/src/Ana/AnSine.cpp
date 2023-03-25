@@ -442,6 +442,8 @@ void    AnSine::DemRect       ( void        ) {
   t1 *= sigDemAmPh->GetFS() / PIx2;
   t0 *= 1.0D / PIx2;
   fprintf(stdout, "        Rectification:  t2: %lf    t1: %lf    t0: %lf\n", t2, t1, t0);
+  ctMd->Emit_SigWrChg();
+  return;
 }
 
 

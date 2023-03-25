@@ -5,9 +5,33 @@
 // Original File Name : PageFileWr.hpp
 // Original Author    : duncang
 // Creation Date      : Oct 17, 2012
-// Copyright          : Copyright © 2011 - 2017 by Catraeus and Duncan Gray
+// Copyright          : Copyright © 2012 - 2023 by Catraeus and Duncan Gray
 //
 // Description        :
+/*
+
+The sine jitter processing is the only thing that can turn on a re-write.  I don't think there's
+  much value to letting, for example the gain normalization to send the file back out.  First
+  is the problem that most apps will not permit peak greater than 1.0 etc. etc. bla bla.
+SO
+  the sine jitter processing, generally, makes a very very very low level signal.  I'll gain that up
+  then it decimates it to something much more narrowband than the original.  Most often this will
+  be to take a 48kHz input with a 1000-ish Hz carrier that is demodulated to be analyzed for
+  near-in phase noise.  Even at that the output is the phase, not frequency and will have its DC
+  taken out.  Thus making it so that wander is (kind-of) removed and there should be a missing
+  hole at DC.  I had better do some TIE work in the analyzer, hunh?
+
+Finally:
+  The write controller might be moot and everything can stay here in the view.
+      The Signal:: informs of the number of channels and samples.
+      A WaveFiler that has a RIFF and FMT section is told by this page what the FMT stuff
+          needs to look like.
+So, let's have the Demodulate Signal be known to this page.
+Let the Analyzer Emit a ctMd which is caught by this page.
+This page then pushes FS, ch and N down to the File/Wave/Riff/Fmt stuff.
+The user can set the bit depth, float vs. int on this page.  That's all.
+
+*/
 //
 //
 //=================================================================================================
@@ -31,7 +55,6 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "../Ctl/CtlWaveWr.hpp"
 #include "../Ctl/CtlMsgDspch.hpp"
 
 class PageFileWr: public Gtk::Box {
@@ -42,6 +65,9 @@ class PageFileWr: public Gtk::Box {
 
             void  OnFileWrite       ( void                  );
             void  OnFileOutSelect   ( void                  );
+
+            void  SetHasData        ( bool           i_d    ) { hasData = i_d; return        ; };
+            bool  GetHasDatta       ( void                  ) {                return hasData; };
 
   private:
             void  BuildEnv          ( void                  );
@@ -80,8 +106,6 @@ class PageFileWr: public Gtk::Box {
     RiffMgr                  *trf;
     AudioFiler               *taf;
 
-    CtlWaveWr                *ctWave;
-
     Gtk::Window              *parent;
 
     Gtk::Frame                frmCtlActions;
@@ -116,11 +140,14 @@ class PageFileWr: public Gtk::Box {
 
     bool                      holdOffAction;
 
+    bool                      hasData;
+
     CtlMsgDspch              *ctMd;
-    CbT<PageFileWr>          *Handler_FileWrRshAll;
-    CbT<PageFileWr>          *Handler_WaveRshAll;
-    bool                      OnFileWrRshAll(void *i_d);
-    bool                      OnWaveWrRshAll(void *i_d);
+
+    CbT<PageFileWr>          *HnCb_WaveChg;
+    bool                      OnWaveChg(void *i_d);
+    CbT<PageFileWr>          *HnCb_SigChg;
+    bool                      OnSigChg(void *i_d);
   };
 
 #endif // __PAGE_FILE_WR_HPP_

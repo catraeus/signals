@@ -29,8 +29,7 @@
   BuildMain();
   Connect();
   SetupWave();
-  OnFileWrRshAll(NULL);
-  OnWaveWrRshAll(NULL);
+  OnWaveChg(NULL);
 }
          PageFileWr::~PageFileWr         ( void                  ) {
 }
@@ -41,7 +40,6 @@ void     PageFileWr::BuildEnv            ( void                  ) {
   trf       = two->GetRiffMgr();
   taf       = two->GetAudioFiler();
   ctMd      = CtlMsgDspch ::GetInstance();
-  ctWave    = CtlWaveWr   ::GetInstance(sig);
   return;
 }
 void     PageFileWr::BuildMain           ( void                  ) {
@@ -134,15 +132,15 @@ void     PageFileWr::Connect             ( void                  ) {
             ebxWaveTimeDur   .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeT          ));
   sigKeyT = ebxWaveTimeDur   .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyT             ));
 
-        Handler_FileWrRshAll = new CbT<PageFileWr>();
-        Handler_FileWrRshAll->SetCallback(this, &PageFileWr::OnFileWrRshAll);
-  //ctMd->Handle_FileRshAll = Handler_FileWrRshAll;
+        HnCb_SigChg   = new CbT<PageFileWr>();
+        HnCb_SigChg  ->SetCallback(this, &PageFileWr::OnSigChg);
+  ctMd->HCB_SigWrChg  = HnCb_SigChg;
 
-        Handler_WaveRshAll = new CbT<PageFileWr>();
-        Handler_WaveRshAll->SetCallback(this, &PageFileWr::OnWaveWrRshAll);
-  //ctMd->Handle_FaveRshAll = Handler_WaveRshAll;
+        HnCb_WaveChg  = new CbT<PageFileWr>();
+        HnCb_WaveChg ->SetCallback(this, &PageFileWr::OnWaveChg);
+  ctMd->HCB_WaveWrChg = HnCb_WaveChg;
 
-holdOffAction = false;
+  holdOffAction = false;
   return;
 }
 void     PageFileWr::DisConnect          ( void                  ) {
@@ -174,7 +172,7 @@ bool     PageFileWr::OnKeyFileName       ( GdkEventKey    *i_d   ) {
   return true;
 }
 
-void     PageFileWr::OnFileOutSelect       ( void                  ) {
+void     PageFileWr::OnFileOutSelect     ( void                  ) {
   Gtk::FileChooserDialog   *dlg;
 
   dlg = new Gtk::FileChooserDialog("Please choose a wave file", Gtk::FILE_CHOOSER_ACTION_SAVE);
@@ -232,7 +230,6 @@ bool     PageFileWr::OnFileChooseB       ( GdkEventButton *i_ev  ) {
 }
 void     PageFileWr::OnFileWrite         ( void                  ) {
 
-  ctWave->ReBase();
   AudioFiler::eStatus status;
   char  tStr[32768];
 
@@ -259,7 +256,7 @@ void     PageFileWr::OnFileWrite         ( void                  ) {
   return;
   }
 
-bool     PageFileWr::OnChangeFileName    ( GdkEventFocus   *i_e    ) {
+bool     PageFileWr::OnChangeFileName    ( GdkEventFocus  *i_e    ) {
   char tStr[32768];
   strcpy(tStr, ebxCtlFileName.get_text().c_str());
 
@@ -267,7 +264,7 @@ bool     PageFileWr::OnChangeFileName    ( GdkEventFocus   *i_e    ) {
   taf->SetFileNameWrite(tStr);
   ClearFileInfo();
   ebxCtlFileName.set_text(tStr);
-  ctMd->Emit_FileWrChg();
+  ctMd->Emit_WaveWrChg();
   return false;
 }
 bool     PageFileWr::OnKeyCh             ( GdkEventKey    *i_d   ) {
@@ -292,7 +289,7 @@ bool     PageFileWr::OnChangeCh          ( GdkEventFocus  *i_e   ) {
   nn = sig->GetN();
   sig->ReBase(nn, dd);
   trf->FmtSetCh(dd);
-  ctMd->Emit_FileWrChg();
+  ctMd->Emit_WaveWrChg();
   return true;
 }
 bool     PageFileWr::OnKeyFs             ( GdkEventKey    *i_d   ) {
@@ -311,7 +308,7 @@ bool     PageFileWr::OnChangeFs          ( GdkEventFocus  *i_e   ) {
     sscanf(cc, "%lf", &dd);
   sig->SetFS(dd);
   trf->FmtSetFS(dd);
-  ctMd->Emit_FileWrChg();
+  ctMd->Emit_WaveWrChg();
   return true;
 }
 void     PageFileWr::OnChangeFmt         ( void                  ) {
@@ -320,7 +317,7 @@ void     PageFileWr::OnChangeFmt         ( void                  ) {
   ll = cbxSetFmt->get_active_row_number();
   tns->SetNumType((NumSys::eType)ll);
   trf->FmtSetType((NumSys::eType)ll);
-  ctMd->Emit_FileWrChg();
+  ctMd->Emit_WaveWrChg();
   return;
 }
 bool     PageFileWr::OnKeyN              ( GdkEventKey    *i_d   ) {
@@ -337,11 +334,10 @@ bool     PageFileWr::OnChangeN           ( GdkEventFocus  *i_e   ) {
   ll = sig->GetN();
   if(IsDoubleFixed(cc))
     sscanf(cc, "%lld", &ll);
-  ctWave->SetN(ll);
   ll = sig->GetN();
   trf->SetN(ll);
   trf->Build();
-  ctMd->Emit_FileWrChg();
+  ctMd->Emit_WaveWrChg();
   return true;
 }
 bool     PageFileWr::OnKeyT              ( GdkEventKey    *i_d   ) {
@@ -359,10 +355,9 @@ bool     PageFileWr::OnChangeT           ( GdkEventFocus  *i_e   ) {
   dd = sig->GetT();
   if(IsDoubleFixed(cc))
     sscanf(cc, "%lf", &dd);
-  ctWave->SetT(dd);
   ll = sig->GetN();
   trf->SetN(ll);
-  ctMd->Emit_FileWrChg();
+  ctMd->Emit_WaveWrChg();
   return true;
 }
 
@@ -376,18 +371,13 @@ void     PageFileWr::ClearFileInfo       ( void                  ) {
 }
 
 
-
-bool     PageFileWr::OnFileWrRshAll        ( void  *i_d            ) {
-  char   tStr[1024];
-
-  holdOffAction = true;
-  strcpy(tStr, ce->GetFileNameAbs());
-  ebxCtlFileName.set_text(tStr);
-  //==
-  holdOffAction = false;
+bool     PageFileWr::OnSigChg            ( void  *i_d            ) {
+  (void)i_d;
+  fprintf(stdout, "Write File FS: %lf  N: %lld\n", sig->GetFS(), sig->GetN());
   return false;
-  }
-bool     PageFileWr::OnWaveWrRshAll        ( void  *i_d            ) {
+}
+
+bool     PageFileWr::OnWaveChg      ( void  *i_d            ) {
   char   tStr[1024];
   double dd;
   llong  ll;

@@ -20,27 +20,33 @@
 
 class CtlMsgDspch {
   private:
-                                 CtlMsgDspch           (                );
-    virtual                     ~CtlMsgDspch           (                );
+                        CtlMsgDspch           (                  );
+    virtual            ~CtlMsgDspch           (                  );
   public:
-    static CtlMsgDspch          *GetInstance           ( void           );  // I think it's pretty obvious why this is a singleton.
+    static CtlMsgDspch *GetInstance           ( void             );  // I think it's pretty obvious why this is a singleton.
 
-           void Emit_FileRdChg        ( void             );
+           void         Emit_FileRdChg        ( void             );
 
-           void Emit_FileWrChg        ( void             );
+           void         Emit_SigWrChg         ( void             );
+           void         Emit_SineHasData      ( void             );
+           void         Emit_WaveWrChg        ( void             );
 
-           void Emit_SigStatWork        ( char   *i_tStr   );
-           void Emit_SigStatCmpl        ( double *i_tDbl   );
+           void         Emit_SigStatWork      ( char   *i_tStr   );
+           void         Emit_SigStatCmpl      ( double *i_tDbl   );
 
   private:
   public:
 
-           CbV *HCB_AnBulkVoid;  // PageAnBulk
-           CbV *HCB_AnSineVoid;  // PageAnSine
+           CbV *HCB_AnBulkVoid;    // PageAnBulk
+           CbV *HCB_AnSineVoid;    // PageAnSine
+           CbV *HCB_AnSineHasData; // PageAnSine
 
-           CbV *HCB_MainReTitle; // WiinMain
-           CbV *HCB_MainStCmpl;  // WinMain
-           CbV *HCB_MainStWork;  // WinMain
+           CbV *HCB_MainReTitle;   // WinMain
+           CbV *HCB_MainStCmpl;    // WinMain
+           CbV *HCB_MainStWork;    // WinMain
+
+           CbV *HCB_SigWrChg;      // PageFileWr
+           CbV *HCB_WaveWrChg;     // PageFileWr
 
   private:
   public:
