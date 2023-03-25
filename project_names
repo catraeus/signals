@@ -1,0 +1,22 @@
+# $Id: project_names 1610 2013-08-26 02:41:30Z  $
+
+Rules of project naming
+ 1.  Must be the name of a type of rock, mineral, element or soil.
+ 2.  Must be 12 characters long or less.
+ 3.  Can't be anybody's name.
+ 4.  Can't be generic like rock, mineral, element, soil, crystal, dirt, etc.
+ 5.  Can't contain meaning, like the coal project with anthracite, bituminous sub-projects,
+         keep it random.
+ 6.  Try to keep the name to 8 characters or less.
+
+initDate     repo    codeName     marketName        desc
+============================================================================================================
+2022-11-19   signals   agate                         Signal analyzer for audio, level, THD, etc.
+2011-05-12   signals   basalt       at17400          Signal generator for audio
+2011-10-03   signals   chert        ak70130          Signal analyzer for audio, SpecAn, Scope
+2013-01-05             calcite                       Convolver.
+2012-05-31   signals   hematite                      Wave File header analyzer and phase jitter analyzer
+2010-11-24   music     fluorite     mx11090          JACK Mixer.
+2013-08-19   signals   beryl                         Window Function Generator
+2014-11-27   signals   ruby                          Stretch and Squash a time-domain waveform.
+2015-12-25   music     quartz                        Traverse the Heirarchical Tree that is a RIFF file.
