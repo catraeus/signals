@@ -1,6 +1,4 @@
 
-// $Id: CfgEnv.hpp 708 2023-02-12 03:10:59Z duncang $
-
 //=================================================================================================
 // Original File Name : Env.h
 // Original Author    : duncang
@@ -17,7 +15,7 @@
 #include <stdio.h>
 #include <gdkmm.h>
 #include <caes/CaesTypes.hpp>
-/* \cond HIDDEN_SYMBOLS */
+
 class CfgEnv {
   private:
     struct sWinSpec {

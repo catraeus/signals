@@ -34,7 +34,7 @@ CfgEnv *CfgEnv::ce = NULL;
 
   verMaj  = VER_MAIN;
   verMin  = VER_POINT;
-  buildNo = SVN_MARK;
+  buildNo = GIT_MARK;
 
   sFileNm               = new char[MAX_LINE_LEN];
   CWD                   = new char[MAX_LINE_LEN];

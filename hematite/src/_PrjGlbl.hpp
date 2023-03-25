@@ -12,9 +12,9 @@
 //
 //=================================================================================================
 
-#ifndef _PRJ_GLBL_HPP_
-#define _PRJ_GLBL_HPP_
+#ifndef __PRJ_GLBL_HPP_
+#define __PRJ_GLBL_HPP_
 
 
 
-#endif //_PRJ_GLBL_HPP_
+#endif // __PRJ_GLBL_HPP_
