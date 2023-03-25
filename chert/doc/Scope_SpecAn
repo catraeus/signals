@@ -1,0 +1,27 @@
+
+// $Id: Scope_SpecAn 52 2014-11-29 16:01:34Z duncang $
+
+A scope has time per div, stream sampling rate, pixels per div
+  Generally there is either decimation or interpolation.
+   
+A specan has base settings of start/stop and RBW.
+  These dictate an input sample rate and number of samples.
+  
+It seems reasonable to assert that the information on the two (roughly same sized) screens will be similar.
+
+Use case 1:
+  The scope sets tpdiv, ppdiv  This is, by definition, a resampled waveform.  The most sensible use of the specan then
+  is that it just sets a zero-base in the spec-an.  It also sets an FS/2 span, getting a vision of the spectrum means
+  that the specan settings are going for a ride.  No problem, easy peasey.
+
+Use case 2:
+  The specan is in charge.
+    If you zoom way in on a little tiny piece of spectrum, you might want to make an envelope in the scope.
+    You can set a wide RBW and have a not-full screen.  On the time-domain side RBW equates to screen time span
+      regardless of sample rate.
+  Well, so I have to do the work to figure the number of samples and duration to satisfy the specan settings.
+  I don't want to do a bandpass resample, not just yet, so I'll just dictate Nyquist to the RBW to grab the
+    length of time.  Then I'll only do the number of sine waves to get the RBW/bin count to cover the
+    screen.
+    Back in the time domain, there will have to be a resample. to get whatever that length is down to
+      the length of the screen.

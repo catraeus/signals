@@ -1,0 +1,19 @@
+
+// $Id: CtlMsgZooming 52 2014-11-29 16:01:34Z duncang $
+
+events:
+  settings changes
+  zoom-x button in transport [all|selection]
+  drag event <horiz||all>
+
+Event Qualification:
+  Should modality be implemented in the GUI(cooked) or in the engine(raw)?
+    cooked sends only screen x-y to only the correct subsystem.
+    else
+    raw sends x-y to marshalling interface to keep modality in engine.
+      Engine tells GUI which annunciators to show.
+      
+         Raw                                    Cooked
+Traffic  Higher                                 Lower
+Sync     Coordinated                            All in GUI
+

@@ -1,0 +1,85 @@
+
+// $Id: Screen_Frames 52 2014-11-29 16:01:34Z duncang $
+
+fetchRatio = framesPerFetch / pixelsPerScreen = framesPerPixel
+replayRatio = tPerStride / tPerRefresh
+            = framesPerStride / tPerFrame * tPerRefresh
+strideRatio = framesPerStride / framesPerFetch = tPerRefresh / tPerScreen
+  strideRatio > 1.0 is typical for high-speed screen updates.
+  strideRatio = 1.0 is for waveform scanning ... look for stuff and know that nothing's missing.
+  strideRatio < 1.0 is typically called "scrolling mode" also good for scanning.
+
+tScreen = tPerPixel * pixelPerScreen
+
+pixelsPerScreen comes from resizing.
+pixelsPerDiv comes from the vertical resize and our demanding 10 divs per vertical.
+So
+We get pixelsPerDiv without being able to directly set it.
+
+So
+
+Time per Div is calculated as:
+tPerPixel = fetchRatio / frameRate <=>  nFrames / nPixels / frames * sec <=> sec / frame
+tPerDiv = secPerPixel * pixelPerDiv
+
+===== Fundamental Settings: =================================================================================
+pixelsPerScreen
+pixelsPerDiv
+screensPerSec AKA update rate
+framesPerSec
+
+===== Chosen Preferences: ===================================================================================
+secPerRefresh
+secPerDiv
+strideRatio (scroll rate)
+replayRatio (slow-motion relative speed)
+
+===== Derived Numbers for Machinery: ========================================================================
+framesPerFetch
+framesPerStride
+framesPerPixel = resample rate
+secPerPixel (but not really that interesting)
+
+===== USE CASES: ============================================================================================
+Looking for events:
+  set a scroll ratio, replay ratio, time-per-secreen and forward/reverse button to slide through the file
+Assessing factors:
+  set a scroll ratio, replay ratio, time-per-secreen and forward/reverse button to slide through the file
+    while also looking at another readout ... THIS MEANS THAT FETCHES ALSO HAVE TO FORK TO ANALYZERS
+    e.g. noise trajectories, amplitude profiles, phase/amplitude hits.
+    ALSO
+    add a parrallel scope trace that has demod phase/amplitude, noise, IMD etc. tracking the fetch that is on
+    the screen
+Monitoring
+  WHILE ALSA IS PLAYING THE FILE -- ouch, I hate ALSA, maybe I'll just go to JACK.
+  This one wants an X-Y screen also.
+
+===== Use Modes: ============================================================================================
+Set sec-per-div and replay rate and update rate
+  derive frames-per-fetch and frames-per-stride and report derived interesting parameters
+Set sec-per-div and scroll rate and update rate
+  derive frames-per-fetch and frames-per-stride and report derived interesting parameters
+
+===== Ergonomics Questions: =================================================================================
+Do I want a "contiguous" button (just forces scroll ratio to 1.000000000)
+  subsidiary will be with a set replay rate (has screen update rate bounds)
+  subsidiary will be with a set sec-per-div setting (has screen update rate bounds)
+Do I want a "realtime" button (forces
+
+===== Settings Desirability: ================================================================================
+  framesPerSec                                      forced by the file or audio card
+  pixelsPerScreen : pixelsPerDiv                    set by the user resizing the screen
+  secPerRefresh                                   * big comfort factor
+  strideRatio                                       Scanning security factor
+  secPerPixel    : secPerDiv    : secPerScreen      Sometimes just info, sometimes set all in lockstep
+  framesPerPixel : framesPerDiv : framesPerScreen   Sometimes just info, sometimes set all in lockstep
+  replayRatio                                     * Sometimes just info, sometimes set all in lockstep
+  framesPerStride                                   Esoteric information
+                                                  ^
+                                                  |
+  This star means it's only relevant when RUNNING-|
+  
+STRANGE FACTORS:
+When we scroll, the plucked samples should exactly line up.  Currently the ratio recalculates and plucks differently.
+It's an interesting dancing effect, but not very user friendly.
+
