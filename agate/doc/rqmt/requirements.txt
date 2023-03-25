@@ -1,0 +1,5 @@
+$Id: requirements.txt 7 2014-10-16 01:36:47Z duncang $
+M00001="The card conforms to any PCIe Workstation card form factor as of PCIe 3.0"<br>
+M00002="Permissive across x1, x4, x16 physicalslot sizes."<br>
+M00003="Permissive across extra-powered or entirely bus-powered."<br>
+

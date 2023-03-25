@@ -1,0 +1,36 @@
+A Purchaser is the one who takes ownership of license to use Bertrand.
+
+Enumerated agents are: viewer, pilot, expert, owner.
+  The viewer is a person who uses the output of testing.  This may be any distance of association to the owner.
+  The pilot may use the product but is not either an expert, nor the legal license holder.  The pilot must be tightly associated with the owner otherwise warranty, help, updates and etc. are voided.  The pilot should not call for technical items such as service or help.
+  The expert is a superset of pilot and adds expert to some extent (to some undefined but sufficient extent) thereby adding permission to call for help and provide technical input for service.  Experts are preferred for technical transactions and feature guidance.
+  The owner may or may not be either a pilot or an expert.  The owner is legally permitted to assign expert status to tightly associated individials and to authorize work, help, and service.
+
+Enumerated user-types are: Tester, TestEng, Producer, Critic, Servicer, Reader.
+  Tester is typically a pilot who operates the equipment and stores output.
+  TestEng is typically an expert who designs Bertrand into testing scenarios etc.
+  Producer is typically an owner who makes music and needs to know how good the invironment is.  There are two sub-classes of Producer ... GlamourKitty and HandsOn.
+  Critic is a superset of Reader who uses output to declare goodness of OtherProducts.
+  Servicer is a pilot who services OtherProducts.
+  Reader is someone who needs to know what the output of testing means.
+
+Note that the agency of Viewer and the user-tupe of Reader may be 90% common, but are different concepts, one for legal binding and the other for product knowledge and proximity.
+
+Enumerated knowledges are: Audio, Electronics, Signals, Music, Artist, Market.
+  Audio is the knowledge of psycho-acoustics, acoustics, effects, production etc, that are employed in making audio productions.
+  Electronics is power, voltage, connectors, heat, current, networking.
+  Signals includes fourier, time, complex-variables, distortion, noise.
+  Music is why we're here.
+  Artist is the schmooze factor.
+  Market is how we make money.
+
+WellOrdered user-levels are: Home, Local, Technician, Pro
+  This is a spectrum from Home=low-knowledge to Pro=high-knowledge.  This includes any aspect of knowledge.
+
+Enumerated devices are: microphones, speakers, headphones, amplifiers musical-instruments, effects.
+
+Enumerated scenarios are: test, review, setup.
+
+Enumerated environments are: mobile, venue, event, studio, session, instrument-sales, OEM-Manufacturing, Development-regression, Research, home/office.
+
+
