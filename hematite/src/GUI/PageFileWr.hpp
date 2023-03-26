@@ -85,8 +85,6 @@ class PageFileWr: public Gtk::Box {
             bool  OnChangeFileName  ( GdkEventFocus  *i_s   );
             bool  OnKeyCh           ( GdkEventKey    *i_e   );
             bool  OnChangeCh        ( GdkEventFocus  *i_e   );
-            bool  OnKeyFs           ( GdkEventKey    *i_e   );
-            bool  OnChangeFs        ( GdkEventFocus  *i_e   );
             void  OnChangeFmt       ( void                  );
             bool  OnKeyN            ( GdkEventKey    *i_e   );
             bool  OnChangeN         ( GdkEventFocus  *i_e   );

@@ -101,7 +101,7 @@ void     PageFileWr::BuildFile           ( void                  ) {
   lblSetCh       .set_text("ch:"         );  lblSetCh       .set_alignment(Gtk::ALIGN_END  );
   ebxSetCh       .set_text(    "1"       );  ebxSetCh       .set_alignment(Gtk::ALIGN_END  );  ebxSetCh       .set_width_chars( 3);  ebxSetCh       .set_editable(true );
   lblSetFS       .set_text("FS:"         );  lblSetFS       .set_alignment(Gtk::ALIGN_END  );
-  ebxSetFS       .set_text("48000"       );  ebxSetFS       .set_alignment(Gtk::ALIGN_END  );  ebxSetFS       .set_width_chars(12);  ebxSetFS       .set_editable(true );
+  ebxSetFS       .set_text("1"           );  ebxSetFS       .set_alignment(Gtk::ALIGN_END  );  ebxSetFS       .set_width_chars(12);  ebxSetFS       .set_editable(false);
   lblWaveNumByte .set_text("File Size:"  );  lblWaveNumByte .set_alignment(Gtk::ALIGN_END  );
                                              ebxFileSize    .set_alignment(Gtk::ALIGN_END  );  ebxFileSize    .set_width_chars(13);  ebxFileSize    .set_editable(false);
   lblWaveNumFrms .set_text("Frames:"     );  lblWaveNumFrms .set_alignment(Gtk::ALIGN_END  );
@@ -124,8 +124,6 @@ void     PageFileWr::Connect             ( void                  ) {
             tbtnFileOutSel  ->signal_button_release_event().connect(sigc::mem_fun(*this, &PageFileWr::OnFileChooseB      ));
             ebxSetCh         .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeCh         ));
             ebxSetCh         .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyCh            ));
-            ebxSetFS         .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeFs         ));
-            ebxSetFS         .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyFs            ));
             cbxSetFmt       ->signal_changed             ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeFmt        ));
             ebxWaveNumFrms   .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeN          ));
             ebxWaveNumFrms   .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyN             ));
@@ -292,25 +290,6 @@ bool     PageFileWr::OnChangeCh          ( GdkEventFocus  *i_e   ) {
   ctMd->Emit_WaveWrChg();
   return true;
 }
-bool     PageFileWr::OnKeyFs             ( GdkEventKey    *i_d   ) {
-  if((i_d->keyval == GDK_KEY_Return) || (i_d->keyval == GDK_KEY_Tab))
-    OnChangeFs(NULL);
-  return true;
-}
-bool     PageFileWr::OnChangeFs          ( GdkEventFocus  *i_e   ) {
-  char  *cc;
-  double dd;
-
-  if(holdOffAction) return true;
-  cc = (char *)ebxSetFS.get_text().c_str();
-  dd = sig->GetFS();
-  if(IsDoubleFixed(cc))
-    sscanf(cc, "%lf", &dd);
-  sig->SetFS(dd);
-  trf->FmtSetFS(dd);
-  ctMd->Emit_WaveWrChg();
-  return true;
-}
 void     PageFileWr::OnChangeFmt         ( void                  ) {
   llong ll;
   if(holdOffAction) return;
@@ -372,8 +351,24 @@ void     PageFileWr::ClearFileInfo       ( void                  ) {
 
 
 bool     PageFileWr::OnSigChg            ( void  *i_d            ) {
+  char   cc[32];
+  double dd;
+  llong  ll;
+
   (void)i_d;
-  fprintf(stdout, "Write File FS: %lf  N: %lld\n", sig->GetFS(), sig->GetN());
+  //====
+  dd = sig->GetFS();
+  cc[0] = '\0';
+  sprintf(cc, "%8.2lf", dd);
+  ebxSetFS.set_text(cc);
+
+  //====
+  ll = sig->GetN();
+  IntWithComma(cc, ll);
+  ebxWaveNumFrms.set_text(cc);
+
+  trf->FmtSetFS(dd);
+  ctMd->Emit_WaveWrChg();
   return false;
 }
 
@@ -388,20 +383,13 @@ bool     PageFileWr::OnWaveChg      ( void  *i_d            ) {
   sprintf(tStr, "%lld", ll);
   ebxSetCh.set_text(tStr);
   //==
-  dd = sig->GetFS();
-  IntWithComma(tStr, dd);
-  ebxSetFS.set_text(tStr);
-  //==
   ll = tns->GetType();
   cbxSetFmt->set_active(ll);
   //==
   ll = trf->GetFileSize();
   IntWithComma(tStr, ll);
   ebxFileSize.set_text(tStr);
-  //==
-  ll = trf->GetNumFrms();
-  IntWithComma(tStr, ll);
-  ebxWaveNumFrms.set_text(tStr);
+
   //==
   dd = sig->GetT();
   if(dd > 1.0)    SecToHMS(tStr, dd, true);
