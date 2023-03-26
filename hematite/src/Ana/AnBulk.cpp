@@ -117,5 +117,6 @@ void    AnBulk::CalcNorm      ( void           ) {
       normStats[1]->CalcNormal();
     normStats[0]->CalcRr(normStats[1]);
   }
+  ctMd->Emit_SineHasData();
   return;
 }

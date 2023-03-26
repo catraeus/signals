@@ -78,22 +78,31 @@ void    PageAnSine::OnEstZerXrs        ( void         ) {
   anSine->EstZerXcr();
   dirty = true;
   FillStats();
+  btCalcEstZerXrs->set_sensitive(false);
+  btCalcFilter->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnFilter           ( void         ) {
   anSine->DemFiltCarr();
+  btCalcFilter->set_sensitive(false);
+  btCalcDemod->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnDemod            ( void         ) {
   anSine->DemCmplx();
+  btCalcDemod->set_sensitive(false);
+  btCalcBaseFilt->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnBaseFilt         ( void         ) {
   anSine->DemFiltBase();
+  btCalcBaseFilt->set_sensitive(false);
+  btCalcDemDecim->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnDemDecim         ( void         ) {
   anSine->DemDecimate();
+  btCalcDemDecim->set_sensitive(false);
   return;
 }
 
@@ -267,8 +276,8 @@ void    PageAnSine::BuildEnv           ( void         ) {
 }
 void    PageAnSine::BuildMain          ( void         ) {
 
-  HnCbSineVoid = new CbT<PageAnSine>;
-
+  HnCbSineVoid     = new CbT<PageAnSine>;
+  HnCbSineHasData  = new CbT<PageAnSine>;
 
   set_orientation(Gtk::ORIENTATION_VERTICAL);
   //========================================================================
