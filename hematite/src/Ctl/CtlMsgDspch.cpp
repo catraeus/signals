@@ -27,7 +27,6 @@ CtlMsgDspch *CtlMsgDspch::ctMd = NULL;
   HCB_MainStCmpl           = NULL;
 
   HCB_SigWrChg             = NULL;
-  HCB_WaveWrChg            = NULL;
   return;
 }
              CtlMsgDspch::~CtlMsgDspch            ( void            ) {
@@ -39,10 +38,6 @@ CtlMsgDspch* CtlMsgDspch::GetInstance             ( void            ) {
 
 void         CtlMsgDspch::Emit_SigWrChg           ( void            ) {
   if(HCB_SigWrChg  != NULL) HCB_SigWrChg ->Execute(NULL);
-  return;
-}
-void         CtlMsgDspch::Emit_WaveWrChg          ( void            ) {
-  if(HCB_WaveWrChg != NULL) HCB_WaveWrChg->Execute(NULL);
   return;
 }
 

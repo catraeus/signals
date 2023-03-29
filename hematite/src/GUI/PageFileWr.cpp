@@ -25,40 +25,52 @@
 : sig    ( i_sig    )
 , two    ( i_two    )
 , parent ( i_parent ) {
-  BuildEnv();
-  BuildMain();
-  Connect();
-  SetupWave();
-  OnWaveChg(NULL);
+  BuildEnv    (      );
+  BuildMain   (      );
+  Connect     (      );
+  SetupWave   (      );
+  HnSigWrChg  ( NULL );
+  OnChangeFmt (      );
 }
          PageFileWr::~PageFileWr         ( void                  ) {
 }
 void     PageFileWr::BuildEnv            ( void                  ) {
-  ce        = CfgEnv      ::GetInstance();
-  cs        = CfgStrings  ::GetInstance();
-  tns       = two->GetNumSys();
-  trf       = two->GetRiffMgr();
-  taf       = two->GetAudioFiler();
-  ctMd      = CtlMsgDspch ::GetInstance();
+  ce        = CfgEnv      ::GetInstance   ();
+  cs        = CfgStrings  ::GetInstance   ();
+  tns       = two         ->GetNumSys     ();
+  trf       = two         ->GetRiffMgr    ();
+  taf       = two         ->GetAudioFiler ();
+  ctMd      = CtlMsgDspch ::GetInstance   ();
   return;
 }
 void     PageFileWr::BuildMain           ( void                  ) {
   set_orientation(Gtk::ORIENTATION_VERTICAL);
   BuildFile();
 
-  tbtnFileOutSel = new Gtk::ToolButton();
-  tbtnFileOutSel->set_icon_name("document-open");
-  tbtnFileOutSel->set_has_tooltip(true);
-  tbtnFileOutSel->set_tooltip_text(cs->strsFileOutSel);
+  tbtnFileOutSel    = new Gtk::ToolButton  (                       );
+  tbtnFileOutSel   ->     set_icon_name    ( "document-open"       );
+  tbtnFileOutSel   ->     set_has_tooltip  (  true                 );
+  tbtnFileOutSel   ->     set_tooltip_text (  cs->strsFileOutSel   );
 
-  tbtnFileOutWrite  = new Gtk::ToolButton();
-  tbtnFileOutWrite->set_icon_name("document-save");
-  tbtnFileOutWrite->set_has_tooltip(true);
-  tbtnFileOutWrite->set_tooltip_text(cs->strsFileSaveNone);
+  tbtnFileOutWrite  = new Gtk::ToolButton  (                       );
+  tbtnFileOutWrite ->     set_icon_name    ( "document-save"       );
+  tbtnFileOutWrite ->     set_has_tooltip  (  true                 );
+  tbtnFileOutWrite ->     set_tooltip_text (  cs->strsFileSaveNone );
+
+  ebxSetCh       .set_editable (false);
+  ebxSetCh       .set_sensitive(false);
+  ebxSetFS       .set_editable (false);
+  ebxSetFS       .set_sensitive(false);
+  ebxFileSize    .set_editable (false);
+  ebxFileSize    .set_sensitive(false);
+  ebxWaveNumFrms .set_editable (false);
+  ebxWaveNumFrms .set_sensitive(false);
+  ebxWaveTimeDur .set_editable (false);
+  ebxWaveTimeDur .set_sensitive(false);
 
 
   this               ->pack_start  (  frmCtlActions,         Gtk::PACK_SHRINK, 3 );
-    frmCtlActions     .add         (  hbxCtlActions                             );
+    frmCtlActions     .add         (  hbxCtlActions                              );
       hbxCtlActions   .pack_start  ( *tbtnFileOutSel,        Gtk::PACK_SHRINK    );
       hbxCtlActions   .pack_start  ( *tbtnFileOutWrite,      Gtk::PACK_SHRINK    );
   this               ->pack_start  (  frmCtlFileName,        Gtk::PACK_SHRINK, 3 );
@@ -99,7 +111,7 @@ void     PageFileWr::BuildFile           ( void                  ) {
   lblCtlFileName .set_text("File Name:"  );  lblCtlFileName .set_alignment(Gtk::ALIGN_END  );
   ebxCtlFileName .set_text(tStr          );  ebxCtlFileName .set_alignment(Gtk::ALIGN_START);  ebxCtlFileName .set_width_chars(80);
   lblSetCh       .set_text("ch:"         );  lblSetCh       .set_alignment(Gtk::ALIGN_END  );
-  ebxSetCh       .set_text(    "1"       );  ebxSetCh       .set_alignment(Gtk::ALIGN_END  );  ebxSetCh       .set_width_chars( 3);  ebxSetCh       .set_editable(true );
+  ebxSetCh       .set_text(    "2"       );  ebxSetCh       .set_alignment(Gtk::ALIGN_END  );  ebxSetCh       .set_width_chars( 3);  ebxSetCh       .set_editable(true );
   lblSetFS       .set_text("FS:"         );  lblSetFS       .set_alignment(Gtk::ALIGN_END  );
   ebxSetFS       .set_text("1"           );  ebxSetFS       .set_alignment(Gtk::ALIGN_END  );  ebxSetFS       .set_width_chars(12);  ebxSetFS       .set_editable(false);
   lblWaveNumByte .set_text("File Size:"  );  lblWaveNumByte .set_alignment(Gtk::ALIGN_END  );
@@ -118,32 +130,16 @@ void     PageFileWr::BuildFile           ( void                  ) {
 void     PageFileWr::Connect             ( void                  ) {
   holdOffAction = true;
 
-            ebxCtlFileName   .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeFileName   ));
-            ebxCtlFileName   .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyFileName      ));
-            ebxCtlFileName   .signal_button_press_event  ().connect(sigc::mem_fun(*this, &PageFileWr::OnFileChooseT      ));
-            tbtnFileOutSel  ->signal_button_release_event().connect(sigc::mem_fun(*this, &PageFileWr::OnFileChooseB      ));
-            ebxSetCh         .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeCh         ));
-            ebxSetCh         .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyCh            ));
-            cbxSetFmt       ->signal_changed             ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeFmt        ));
-            ebxWaveNumFrms   .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeN          ));
-            ebxWaveNumFrms   .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyN             ));
-            ebxWaveTimeDur   .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeT          ));
-  sigKeyT = ebxWaveTimeDur   .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyT             ));
+        ebxCtlFileName   .signal_focus_out_event     ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeFileName   ));
+        ebxCtlFileName   .signal_key_release_event   ().connect(sigc::mem_fun(*this, &PageFileWr::OnKeyFileName      ));
+        ebxCtlFileName   .signal_button_press_event  ().connect(sigc::mem_fun(*this, &PageFileWr::OnFileChooseT      ));
+        tbtnFileOutSel  ->signal_button_release_event().connect(sigc::mem_fun(*this, &PageFileWr::OnFileChooseB      ));
+        cbxSetFmt       ->signal_changed             ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeFmt        ));
 
-        HnCb_SigChg   = new CbT<PageFileWr>();
-        HnCb_SigChg  ->SetCallback(this, &PageFileWr::OnSigChg);
-  ctMd->HCB_SigWrChg  = HnCb_SigChg;
+        HnCb_SigWrChg   = new CbT<PageFileWr>();
+        HnCb_SigWrChg  ->SetCallback(this, &PageFileWr::HnSigWrChg);
+  ctMd->HCB_SigWrChg  = HnCb_SigWrChg;
 
-        HnCb_WaveChg  = new CbT<PageFileWr>();
-        HnCb_WaveChg ->SetCallback(this, &PageFileWr::OnWaveChg);
-  ctMd->HCB_WaveWrChg = HnCb_WaveChg;
-
-  holdOffAction = false;
-  return;
-}
-void     PageFileWr::DisConnect          ( void                  ) {
-  holdOffAction = true;
-  sigKeyT.disconnect();
   holdOffAction = false;
   return;
 }
@@ -254,7 +250,7 @@ void     PageFileWr::OnFileWrite         ( void                  ) {
   return;
   }
 
-bool     PageFileWr::OnChangeFileName    ( GdkEventFocus  *i_e    ) {
+bool     PageFileWr::OnChangeFileName    ( GdkEventFocus  *i_e   ) {
   char tStr[32768];
   strcpy(tStr, ebxCtlFileName.get_text().c_str());
 
@@ -262,85 +258,25 @@ bool     PageFileWr::OnChangeFileName    ( GdkEventFocus  *i_e    ) {
   taf->SetFileNameWrite(tStr);
   ClearFileInfo();
   ebxCtlFileName.set_text(tStr);
-  ctMd->Emit_WaveWrChg();
   return false;
-}
-bool     PageFileWr::OnKeyCh             ( GdkEventKey    *i_d   ) {
-  if((i_d->keyval == GDK_KEY_Return) || (i_d->keyval == GDK_KEY_Tab))
-    OnChangeCh(NULL);
-  return true;
-}
-bool     PageFileWr::OnChangeCh          ( GdkEventFocus  *i_e   ) {
-  char  *cc;
-  llong  nn;
-  double dd;
-
-  if(holdOffAction) return true;
-  cc = (char *)ebxSetCh.get_text().c_str();
-  dd = trf->FmtGetFS();
-  if(IsDoubleFixed(cc))
-    sscanf(cc, "%lf", &dd);
-  if(dd > 4)
-    dd = 4;
-  if(dd <  1)
-    dd = 1;
-  nn = sig->GetN();
-  sig->ReBase(nn, dd);
-  trf->FmtSetCh(dd);
-  ctMd->Emit_WaveWrChg();
-  return true;
 }
 void     PageFileWr::OnChangeFmt         ( void                  ) {
   llong ll;
-  if(holdOffAction) return;
+  char  tStr[32];
+
+  if(holdOffAction) return; // I'm pretty sure nobody can set data format, so this is probably moot
   ll = cbxSetFmt->get_active_row_number();
   tns->SetNumType((NumSys::eType)ll);
   trf->FmtSetType((NumSys::eType)ll);
-  ctMd->Emit_WaveWrChg();
+
+  //==
+  ll = trf->GetFileSize(); // no need to do holdOffAction since ebxFileSize is not editable or sensitive
+  IntWithComma(tStr, ll);
+  ebxFileSize.set_text(tStr);
+
+
   return;
 }
-bool     PageFileWr::OnKeyN              ( GdkEventKey    *i_d   ) {
-  if((i_d->keyval == GDK_KEY_Return) || (i_d->keyval == GDK_KEY_Tab))
-    OnChangeN (NULL);
-  return true;
-}
-bool     PageFileWr::OnChangeN           ( GdkEventFocus  *i_e   ) {
-  char  *cc;
-  llong ll;
-
-  if(holdOffAction) return true;
-  cc = (char *)ebxWaveNumFrms.get_text().c_str();
-  ll = sig->GetN();
-  if(IsDoubleFixed(cc))
-    sscanf(cc, "%lld", &ll);
-  ll = sig->GetN();
-  trf->SetN(ll);
-  trf->Build();
-  ctMd->Emit_WaveWrChg();
-  return true;
-}
-bool     PageFileWr::OnKeyT              ( GdkEventKey    *i_d   ) {
-  if((i_d->keyval == GDK_KEY_Return) || (i_d->keyval == GDK_KEY_Tab))
-    OnChangeT (NULL);
-  return true;
-}
-bool     PageFileWr::OnChangeT           ( GdkEventFocus  *i_e   ) {
-  char   *cc;
-  llong   ll;
-  double  dd;
-
-  if(holdOffAction) return true;
-  cc = (char *)ebxWaveTimeDur.get_text().c_str();
-  dd = sig->GetT();
-  if(IsDoubleFixed(cc))
-    sscanf(cc, "%lf", &dd);
-  ll = sig->GetN();
-  trf->SetN(ll);
-  ctMd->Emit_WaveWrChg();
-  return true;
-}
-
-
 
 void     PageFileWr::ClearFileInfo       ( void                  ) {
   holdOffAction = true;
@@ -349,42 +285,33 @@ void     PageFileWr::ClearFileInfo       ( void                  ) {
   return;
 }
 
-
-bool     PageFileWr::OnSigChg            ( void  *i_d            ) {
-  char   cc[32];
-  double dd;
-  llong  ll;
-
-  (void)i_d;
-  //====
-  dd = sig->GetFS();
-  cc[0] = '\0';
-  sprintf(cc, "%8.2lf", dd);
-  ebxSetFS.set_text(cc);
-
-  //====
-  ll = sig->GetN();
-  IntWithComma(cc, ll);
-  ebxWaveNumFrms.set_text(cc);
-
-  trf->FmtSetFS(dd);
-  ctMd->Emit_WaveWrChg();
-  return false;
-}
-
-bool     PageFileWr::OnWaveChg      ( void  *i_d            ) {
-  char   tStr[1024];
+bool     PageFileWr::HnSigWrChg            ( void  *i_d            ) {
+  char   tStr[32];
   double dd;
   llong  ll;
 
   holdOffAction = true;
-  //==
+
+  (void)i_d;
+  //====
+  dd = sig->GetFS();
+  trf->FmtSetFS(dd);
+  tStr[0] = '\0';
+  sprintf(tStr, "%8.2lf", dd);
+  ebxSetFS.set_text(tStr);
+
+  //==  IMPORTANT Do this before getting file size or time length.
   ll = sig->GetCh();
+  trf->FmtSetCh(ll);
   sprintf(tStr, "%lld", ll);
   ebxSetCh.set_text(tStr);
-  //==
-  ll = tns->GetType();
-  cbxSetFmt->set_active(ll);
+
+  //====
+  ll = sig->GetN();
+  IntWithComma(tStr, ll);
+  trf->SetN(ll);
+  ebxWaveNumFrms.set_text(tStr);
+
   //==
   ll = trf->GetFileSize();
   IntWithComma(tStr, ll);
@@ -395,7 +322,11 @@ bool     PageFileWr::OnWaveChg      ( void  *i_d            ) {
   if(dd > 1.0)    SecToHMS(tStr, dd, true);
   else            EngString(tStr, dd, 3,  (char *)"");
   ebxWaveTimeDur.set_text(tStr);
+
+  //== IMPORTANT When changing Data Type, refresh file size.
+
   //==
   holdOffAction = false;
   return false;
 }
+

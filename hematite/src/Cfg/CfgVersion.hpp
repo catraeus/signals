@@ -11,7 +11,7 @@
 //
 //=================================================================================================
 
-#define GIT_MARK     762
+#define GIT_MARK     763
 #define VER_MAIN      1
 #define VER_POINT     0
 #define APP_NAME     "hematite"

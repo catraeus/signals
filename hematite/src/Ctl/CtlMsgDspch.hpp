@@ -29,7 +29,6 @@ class CtlMsgDspch {
 
            void         Emit_SigWrChg         ( void             );
            void         Emit_SineHasData      ( void             );
-           void         Emit_WaveWrChg        ( void             );
 
            void         Emit_SigStatWork      ( char   *i_tStr   );
            void         Emit_SigStatCmpl      ( double *i_tDbl   );
@@ -46,7 +45,6 @@ class CtlMsgDspch {
            CbV *HCB_MainStWork;    // WinMain
 
            CbV *HCB_SigWrChg;      // PageFileWr
-           CbV *HCB_WaveWrChg;     // PageFileWr
 
   private:
   public:

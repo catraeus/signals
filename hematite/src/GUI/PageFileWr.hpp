@@ -75,7 +75,6 @@ class PageFileWr: public Gtk::Box {
             void  BuildFile         ( void                  );
             void  SetupWave         ( void                  );
             void  Connect           ( void                  );
-            void  DisConnect        ( void                  );
 
 
             void  ClearFileInfo     ( void                  );
@@ -83,14 +82,7 @@ class PageFileWr: public Gtk::Box {
             bool  OnFileChooseB     ( GdkEventButton *i_e   );
             bool  OnFileChooseT     ( GdkEventButton *i_e   );
             bool  OnChangeFileName  ( GdkEventFocus  *i_s   );
-            bool  OnKeyCh           ( GdkEventKey    *i_e   );
-            bool  OnChangeCh        ( GdkEventFocus  *i_e   );
             void  OnChangeFmt       ( void                  );
-            bool  OnKeyN            ( GdkEventKey    *i_e   );
-            bool  OnChangeN         ( GdkEventFocus  *i_e   );
-            sigc::connection          sigKeyT;
-            bool  OnKeyT            ( GdkEventKey    *i_e   );
-            bool  OnChangeT         ( GdkEventFocus  *i_e   );
   public:
   protected:
   private:
@@ -142,10 +134,8 @@ class PageFileWr: public Gtk::Box {
 
     CtlMsgDspch              *ctMd;
 
-    CbT<PageFileWr>          *HnCb_WaveChg;
-    bool                      OnWaveChg(void *i_d);
-    CbT<PageFileWr>          *HnCb_SigChg;
-    bool                      OnSigChg(void *i_d);
+    CbT<PageFileWr>          *HnCb_SigWrChg;
+    bool                      HnSigWrChg(void *i_d);
   };
 
 #endif // __PAGE_FILE_WR_HPP_
