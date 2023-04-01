@@ -135,6 +135,7 @@ void     PageFileWr::Connect             ( void                  ) {
         ebxCtlFileName   .signal_button_press_event  ().connect(sigc::mem_fun(*this, &PageFileWr::OnFileChooseT      ));
         tbtnFileOutSel  ->signal_button_release_event().connect(sigc::mem_fun(*this, &PageFileWr::OnFileChooseB      ));
         cbxSetFmt       ->signal_changed             ().connect(sigc::mem_fun(*this, &PageFileWr::OnChangeFmt        ));
+        tbtnFileOutWrite->signal_button_release_event().connect(sigc::mem_fun(*this, &PageFileWr::OnFileWrite        ));
 
         HnCb_SigWrChg   = new CbT<PageFileWr>();
         HnCb_SigWrChg  ->SetCallback(this, &PageFileWr::HnSigWrChg);
@@ -222,12 +223,14 @@ bool     PageFileWr::OnFileChooseB       ( GdkEventButton *i_ev  ) {
     OnFileOutSelect();
   return true;
 }
-void     PageFileWr::OnFileWrite         ( void                  ) {
+bool     PageFileWr::OnFileWrite         (  GdkEventButton *i_ev ) {
+
+  if(i_ev->type != GDK_BUTTON_RELEASE) return false;
 
   AudioFiler::eStatus status;
   char  tStr[32768];
 
-  strcpy(tStr, ce->GetFileNameAbs());
+  strcpy(tStr, taf->GetFileName());
   status = taf->SetFileNameWrite(tStr);
        if((status  == AudioFiler::eStatus::FST_NOENT)) {
     fprintf(stdout, "Brand New File\n");fflush(stdout);
@@ -237,17 +240,22 @@ void     PageFileWr::OnFileWrite         ( void                  ) {
   }
   else {
     fprintf(stdout, "Unknown File Status - I'm not going to proceed\n");fflush(stdout);
-    return;
+    return false;
   }
   taf->Open();
   status = taf->GetStatus();
-  if((status  != AudioFiler::eStatus::FST_OPENWR) && (status != AudioFiler::eStatus::FST_WRITEWARN))
-    return;
+  if((status  != AudioFiler::eStatus::FST_OPENWR) && (status != AudioFiler::eStatus::FST_WRITEWARN)) {
+    fprintf(stdout, "Oops, the output file didn't open correctly.\n");fflush(stdout);
+    return false;
+  }
+  else {
+    fprintf(stdout, "Ah, the output file opened correctly.\n");fflush(stdout);
+  }
   trf->Build();
   two->WriteAry();
   taf->Close();
 
-  return;
+  return true;
   }
 
 bool     PageFileWr::OnChangeFileName    ( GdkEventFocus  *i_e   ) {
@@ -256,8 +264,6 @@ bool     PageFileWr::OnChangeFileName    ( GdkEventFocus  *i_e   ) {
 
   ce->SetFileNameWr(tStr);
   taf->SetFileNameWrite(tStr);
-  ClearFileInfo();
-  ebxCtlFileName.set_text(tStr);
   return false;
 }
 void     PageFileWr::OnChangeFmt         ( void                  ) {

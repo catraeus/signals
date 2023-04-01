@@ -82,7 +82,7 @@ void  WinMain::BuildEnv            ( void ) {
   sigDemAmPh = new Signal();
 
   anBulk     = new AnBulk (sigRaw, sigNorm                                          );
-  anSine    = new AnSine (sigRaw, sigNorm, sigCarr, sigBase, sigDemReIm, sigDemAmPh);
+  anSine     = new AnSine (sigRaw, sigNorm, sigCarr, sigBase, sigDemReIm, sigDemAmPh);
 
   twi        = new WaveFiler(sigRaw);
   two        = new WaveFiler(sigDemReIm);

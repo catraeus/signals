@@ -63,7 +63,7 @@ class PageFileWr: public Gtk::Box {
     virtual      ~PageFileWr        ( void                  );
 
 
-            void  OnFileWrite       ( void                  );
+            bool  OnFileWrite       ( GdkEventButton *i_ev  );
             void  OnFileOutSelect   ( void                  );
 
             void  SetHasData        ( bool           i_d    ) { hasData = i_d; return        ; };

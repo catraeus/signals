@@ -75,34 +75,34 @@ double  PageAnSine::ConvertJitSec      ( llong   i_ch ) {
   return anSine->GetStDev(i_ch);
 }
 void    PageAnSine::OnEstZerXrs        ( void         ) {
+  btCalcEstZerXrs->set_sensitive(false);
   anSine->EstZerXcr();
   dirty = true;
   FillStats();
-  btCalcEstZerXrs->set_sensitive(false);
   btCalcFilter->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnFilter           ( void         ) {
-  anSine->DemFiltCarr();
   btCalcFilter->set_sensitive(false);
+  anSine->DemFiltCarr();
   btCalcDemod->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnDemod            ( void         ) {
-  anSine->DemCmplx();
   btCalcDemod->set_sensitive(false);
+  anSine->DemCmplx();
   btCalcBaseFilt->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnBaseFilt         ( void         ) {
-  anSine->DemFiltBase();
   btCalcBaseFilt->set_sensitive(false);
+  anSine->DemFiltBase();
   btCalcDemDecim->set_sensitive(true);
   return;
 }
 void    PageAnSine::OnDemDecim         ( void         ) {
-  anSine->DemDecimate();
   btCalcDemDecim->set_sensitive(false);
+  anSine->DemDecimate();
   return;
 }
 
