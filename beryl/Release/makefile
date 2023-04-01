@@ -8,8 +8,8 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src/libs/caes/AudioFile/subdir.mk
--include src/libs/caes/subdir.mk
+-include src/caeslib/caes/AudioFile/subdir.mk
+-include src/caeslib/caes/subdir.mk
 -include src/GUI/subdir.mk
 -include src/Ctl/subdir.mk
 -include src/Cfg/subdir.mk

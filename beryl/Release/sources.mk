@@ -27,6 +27,6 @@ src/Cfg \
 src/Ctl \
 src/GUI \
 src \
-src/libs/caes/AudioFile \
-src/libs/caes \
+src/caeslib/caes/AudioFile \
+src/caeslib/caes \
 
