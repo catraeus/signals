@@ -1,6 +1,4 @@
 
-// $Id: CfgVersion.hpp 754 2023-03-19 03:05:07Z duncang $
-
 //=================================================================================================
 // Original File Name : CfgVersion.h
 // Original Author    : duncang
@@ -14,7 +12,7 @@
 
 #ifndef __CFG_VERSION_HPP_
 #define __CFG_VERSION_HPP_
-#define SVN_MARK 743
+#define GIT_MARK 754
 #define VER_MAIN       0
 #define VER_POINT      1
 #define APP_NAME     "beryl"

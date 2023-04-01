@@ -48,6 +48,7 @@ CtlSine    *CtlSine::GetInstance  ( Signal *i_sig  ) {
 }
 
 void         CtlSine::SetFreqSine        ( ullong i_c, double i_f    ) {
+  fprintf(stderr, "\n\nCtlSine::SetFreqSine(ch: %llu f: %lf)\n\n", i_c, i_f); fflush(stderr);
   if(i_f < 0.0) i_f = 0.0;
   if(i_f > 0.5) i_f = 0.5;
   if(i_c >= MAX_COMPOS) i_c = MAX_COMPOS-1;

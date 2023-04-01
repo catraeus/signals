@@ -118,9 +118,11 @@ bool     PageSine::OnChangeFreqRel     ( GdkEventFocus  *i_e   ) {
   fSet = ctSine->GetFreqSine(1);
   if(IsDoubleFixed(cc)) {
     sscanf(cc, "%lf", &fSet);
-    ctSine->SetFreqSine(1, fSet);
-  } // Fallthrough and leave as it was or change if OK.
+  }
+  fprintf(stderr, "\n\nPageSine::OnChangeFreqRel(f: %lf)\n\n", fSet); fflush(stderr);
+  actionHoldoff = true;
   ctSine->SetFreqSine(1, fSet);
+  actionHoldoff = false;
   return false;
 }
 bool     PageSine::OnChangeFreqAbs     ( GdkEventFocus  *i_e   ) {
@@ -135,25 +137,28 @@ bool     PageSine::OnChangeFreqAbs     ( GdkEventFocus  *i_e   ) {
   if(IsDoubleFixed(cc)) {
     sscanf(cc, "%lf", &fSet);
     fSet /= fFS;
-    ctSine->SetFreqSine(1, fSet);
   }
+  fprintf(stderr, "\n\nPageSine::OnChangeFreqAbs(f: %lf)\n\n", fSet); fflush(stderr);
+  actionHoldoff = true;
   ctSine->SetFreqSine(1, fSet);
+  actionHoldoff = false;
   return false;
 }
 bool     PageSine::OnChangeFreqN       ( GdkEventFocus  *i_e   ) {
   char  *cc;
-  double nSmp;
   double fSet;
 
   if(actionHoldoff) return false;
-  nSmp = sig->GetN();
   cc = (char *)ebxFreqN.get_text().c_str();
   fSet = ctSine->GetFreqSine(1);
   if(IsDoubleFixed(cc)) {
     sscanf(cc, "%lf", &fSet);
-    fSet /= nSmp;
+    fSet = 1.0 / fSet;
   }
+  fprintf(stderr, "\n\nPageSine::OnChangeFreqN(f: %lf)\n\n", fSet); fflush(stderr);
+  actionHoldoff = true;
   ctSine->SetFreqSine(1, fSet);
+  actionHoldoff = false;
   return false;
 }
 bool     PageSine::OnChangeAmpLin      ( GdkEventFocus  *i_e   ) {
@@ -263,17 +268,15 @@ bool     PageSine::OnSineRshAll        ( void *i_d      ) {
   double fFS;
   double fRelFS;
   double fAbs;
-  double nN;
   double fN;
   char   cc[128];
 
   actionHoldoff = true;
 
   fFS    = sig->GetFS();
-  nN     = sig->GetN();
   fRelFS = ctSine->GetFreqSine(1);
   fAbs   = fRelFS * fFS;
-  fN     = fRelFS * nN;
+  fN     = 1.0 / fRelFS;
 
   //fprintf(stderr, "PageSine::OnSineRshAll()\n");fflush(stderr);
   //==

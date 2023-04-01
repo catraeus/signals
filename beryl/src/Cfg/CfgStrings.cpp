@@ -20,7 +20,7 @@ CfgStrings *CfgStrings::cs = NULL;
 CfgStrings::CfgStrings(const char *theLang) {
 	char verNbuild[32768];
 
-	sprintf(verNbuild, "%s -- build %d", "", SVN_MARK);
+	sprintf(verNbuild, "%s -- build %d", "", GIT_MARK);
 
 	English = new char*[NUM_ENTRIES];
 	French  = new char*[NUM_ENTRIES];

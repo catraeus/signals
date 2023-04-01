@@ -183,7 +183,7 @@ void     CtlWave::DoIt           ( void       ) {
   ss    = sig->GetAry();
   for(cc=0; cc<numCh; cc++)
     for(nn=0; nn<numN; nn++)
-      ss[cc][nn] = d;
+      ss[cc][nn] = d; // Zero out the destination array
 
     switch(sigType) {
       case ET_APOD:
