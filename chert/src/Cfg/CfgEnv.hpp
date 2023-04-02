@@ -29,6 +29,14 @@ class CfgEnv {
       bool         shown;
       Gdk::Window *me;
     };
+    struct sCfgSpec {
+      char  *fileName;
+      FILE  *file;
+      char  *dirName;
+      char **lines;
+      uint   lineCount;
+      bool   dirty;
+    };
   public:
   private:
                          CfgEnv           ( int i_argc, char *i_argv[], char *i_envp[] );
@@ -80,13 +88,14 @@ class CfgEnv {
     char  *fileNameRel;
     char  *fileNameAbs;
 
-    char  *cfgFileName;
-    FILE  *cfgFile;
-    char  *cfgDirName;
-    char **cfgFileLines;
-    uint   cfgFileLineCount;
-    bool   cfgFileDirty;
-    sWinSpec *wsMain;
+    char  *cfgRootGlbl;
+    char  *cfgRootUser;
+
+    sCfgSpec *cfgGlbl;
+    sCfgSpec *cfgUser;
+
+
+    sWinSpec *wsFile;
     sWinSpec *wsXport;
     sWinSpec *wsOs;
     sWinSpec *wsSa;
