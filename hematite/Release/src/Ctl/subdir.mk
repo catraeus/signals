@@ -4,16 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/Ctl/CtlMsgDspch.cpp \
-../src/Ctl/CtlWave.cpp 
+../src/Ctl/CtlMsgDspch.cpp 
 
 CPP_DEPS += \
-./src/Ctl/CtlMsgDspch.d \
-./src/Ctl/CtlWave.d 
+./src/Ctl/CtlMsgDspch.d 
 
 OBJS += \
-./src/Ctl/CtlMsgDspch.o \
-./src/Ctl/CtlWave.o 
+./src/Ctl/CtlMsgDspch.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -28,7 +25,7 @@ src/Ctl/%.o: ../src/Ctl/%.cpp src/Ctl/subdir.mk
 clean: clean-src-2f-Ctl
 
 clean-src-2f-Ctl:
-	-$(RM) ./src/Ctl/CtlMsgDspch.d ./src/Ctl/CtlMsgDspch.o ./src/Ctl/CtlWave.d ./src/Ctl/CtlWave.o
+	-$(RM) ./src/Ctl/CtlMsgDspch.d ./src/Ctl/CtlMsgDspch.o
 
 .PHONY: clean-src-2f-Ctl
 

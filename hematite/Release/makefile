@@ -54,8 +54,7 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all:
-	+@$(MAKE) --no-print-directory pre-build && $(MAKE) --no-print-directory main-build
+all: main-build
 
 # Main-build Target
 main-build: hematite
@@ -73,10 +72,6 @@ clean:
 	-$(RM) hematite
 	-@echo ' '
 
-pre-build:
-	-svnmark ../src/Cfg/CfgVersion.hpp
-	-@echo ' '
-
-.PHONY: all clean dependents main-build pre-build
+.PHONY: all clean dependents main-build
 
 -include ../makefile.targets

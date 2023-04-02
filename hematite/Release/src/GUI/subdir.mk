@@ -5,21 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/GUI/PageAnBulk.cpp \
-../src/GUI/PageAnSinus.cpp \
+../src/GUI/PageAnSine.cpp \
 ../src/GUI/PageFileRd.cpp \
 ../src/GUI/PageFileWr.cpp \
 ../src/GUI/WinMain.cpp 
 
 CPP_DEPS += \
 ./src/GUI/PageAnBulk.d \
-./src/GUI/PageAnSinus.d \
+./src/GUI/PageAnSine.d \
 ./src/GUI/PageFileRd.d \
 ./src/GUI/PageFileWr.d \
 ./src/GUI/WinMain.d 
 
 OBJS += \
 ./src/GUI/PageAnBulk.o \
-./src/GUI/PageAnSinus.o \
+./src/GUI/PageAnSine.o \
 ./src/GUI/PageFileRd.o \
 ./src/GUI/PageFileWr.o \
 ./src/GUI/WinMain.o 
@@ -37,7 +37,7 @@ src/GUI/%.o: ../src/GUI/%.cpp src/GUI/subdir.mk
 clean: clean-src-2f-GUI
 
 clean-src-2f-GUI:
-	-$(RM) ./src/GUI/PageAnBulk.d ./src/GUI/PageAnBulk.o ./src/GUI/PageAnSinus.d ./src/GUI/PageAnSinus.o ./src/GUI/PageFileRd.d ./src/GUI/PageFileRd.o ./src/GUI/PageFileWr.d ./src/GUI/PageFileWr.o ./src/GUI/WinMain.d ./src/GUI/WinMain.o
+	-$(RM) ./src/GUI/PageAnBulk.d ./src/GUI/PageAnBulk.o ./src/GUI/PageAnSine.d ./src/GUI/PageAnSine.o ./src/GUI/PageFileRd.d ./src/GUI/PageFileRd.o ./src/GUI/PageFileWr.d ./src/GUI/PageFileWr.o ./src/GUI/WinMain.d ./src/GUI/WinMain.o
 
 .PHONY: clean-src-2f-GUI
 

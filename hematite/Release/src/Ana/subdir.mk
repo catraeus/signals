@@ -5,15 +5,15 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/Ana/AnBulk.cpp \
-../src/Ana/AnSinus.cpp 
+../src/Ana/AnSine.cpp 
 
 CPP_DEPS += \
 ./src/Ana/AnBulk.d \
-./src/Ana/AnSinus.d 
+./src/Ana/AnSine.d 
 
 OBJS += \
 ./src/Ana/AnBulk.o \
-./src/Ana/AnSinus.o 
+./src/Ana/AnSine.o 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -28,7 +28,7 @@ src/Ana/%.o: ../src/Ana/%.cpp src/Ana/subdir.mk
 clean: clean-src-2f-Ana
 
 clean-src-2f-Ana:
-	-$(RM) ./src/Ana/AnBulk.d ./src/Ana/AnBulk.o ./src/Ana/AnSinus.d ./src/Ana/AnSinus.o
+	-$(RM) ./src/Ana/AnBulk.d ./src/Ana/AnBulk.o ./src/Ana/AnSine.d ./src/Ana/AnSine.o
 
 .PHONY: clean-src-2f-Ana
 

@@ -223,7 +223,7 @@ bool     PageFileWr::OnFileChooseB       ( GdkEventButton *i_ev  ) {
     OnFileOutSelect();
   return true;
 }
-bool     PageFileWr::OnFileWrite         (  GdkEventButton *i_ev ) {
+bool     PageFileWr::OnFileWrite         ( GdkEventButton *i_ev  ) {
 
   if(i_ev->type != GDK_BUTTON_RELEASE) return false;
 
