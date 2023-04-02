@@ -6,7 +6,7 @@
 // Creation Date      : 2013-08-15
 // Copyright          : Copyright © 2013 - 2020 by Catraeus and Duncan Gray
 
-#define SVN_MARK -1
+#define SVN_MARK 1
 //
 // Description        :
 //    The one and only
@@ -15,7 +15,7 @@
 
 #ifndef __CFG_VERSION_HPP_
 #define __CFG_VERSION_HPP_
-#define GIT_MARK     755
+#define GIT_MARK     757
 #define VER_MAIN       0
 #define VER_POINT      1
 #define APP_NAME     "beryl"
@@ -26,3 +26,4 @@
 #define STR_URL_LBL  "www.catraeus.com"
 
 #endif
+
