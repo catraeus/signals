@@ -1,4 +1,0 @@
-#!/bin/sh
-gitmark src/Cfg/CfgVersion.hpp
-git push
-exit
