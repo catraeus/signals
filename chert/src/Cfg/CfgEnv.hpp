@@ -1,5 +1,4 @@
 
-/* $Id: CfgEnv.hpp 634 2022-11-19 22:52:03Z duncang $ */
 
 //=================================================================================================
 // Original File Name : CfgEnv.h
@@ -48,17 +47,20 @@ class CfgEnv {
            void          SetupFile        ( void        );
            void          SetFileName      ( char   *i_s );
            void          SetWorkingDir    ( char   *i_s );
-           char         *GetWorkingDir    ( void        ) {return workingDir;};
-           char         *GetFileNameAbs   ( void        ) {return fileNameAbs;};
+           char         *GetWorkingDir    ( void        ) {return workingDir  ;};
+           char         *GetFileNameAbs   ( void        ) {return fileNameAbs ;};
+           void          CloseFileUser    ( void        ) {fclose(cu->file); return;};
+
+           void          SetLineText      ( llong i_n, char   *i_s );
+           char         *GetLineText      ( llong i_n   );
+
+           bool          GetFatal         ( void        ) {return fatal       ;};
   protected:
   private:
-           void          OpenCfgEnv       ( void        );
-           void          CheckForCfgDir   ( void        );
-           void          NewCfgDir        ( void        );
-           void          CheckForCfgFile  ( void        );
-           void          OpenCfgFile      ( void        );
-           void          NewCfgFile       ( void        );
-           void          SetupNoFile      ( void        );
+           void          BuildApp         ( void        );
+           void          BuildCfg         ( void        );
+           void          BuildUser        ( void        );
+
            void          ReadCfgFile      ( void        );
            void          PrintCfgLines    ( void        );
            void          WriteCfgFile     ( void        );
@@ -80,6 +82,8 @@ class CfgEnv {
     int    argc;
     char **argv;
     char **envp;
+    bool   fatal;
+
     char  *fileNameInputLine;
 
     char  *CWD;
@@ -92,7 +96,7 @@ class CfgEnv {
     char  *cfgRootUser;
 
     sCfgSpec *cfgGlbl;
-    sCfgSpec *cfgUser;
+    sCfgSpec *cu;
 
 
     sWinSpec *wsFile;

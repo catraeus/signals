@@ -20,6 +20,7 @@
 void      FrmFile::BuildEnv       ( Signal *i_sig   ) {
   cp     = CfgParticles ::GetInstance(       );
   ce     = CfgEnv       ::GetInstance(       );
+  ct     = CfgSettings  ::GetInstance(       );
   twf    = new WaveFiler      ( i_sig );
   taf    = twf->GetAudioFiler (       ); // must be done after WaveFiler
   trf    = twf->GetRiffMgr    (       ); // must be done after WaveFiler
@@ -112,12 +113,13 @@ void      FrmFile::OnFileOpen     ( void   ) {
   dlgFileOpen->add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
   dlgFileOpen->add_button(Gtk::Stock::OK,     Gtk::RESPONSE_OK);
 
-  dlgFileOpen->set_current_folder(ce->GetWorkingDir());
+  dlgFileOpen->set_current_folder(ct->GetDirNameIn());
   result = dlgFileOpen->run();
   dlgFileOpen->hide();
   switch(result) {
     case(Gtk::RESPONSE_OK):
-      strcpy(tStr, (const char*)dlgFileOpen->get_filename().c_str());
+      ct->SetDirNameIn(  dlgFileOpen->get_current_folder().c_str()  );
+      strcpy(tStr, (char*)dlgFileOpen->get_filename().c_str());
       ce->SetFileName(tStr);
       AudioFiler::eStatus accResult;
       accResult = taf->SetFileNameRead(tStr);

@@ -30,6 +30,7 @@
 
 #include "../Cfg/CfgParticles.hpp"
 #include "../Cfg/CfgEnv.hpp"
+#include "../Cfg/CfgSettings.hpp"
 
 #include "../Ctl/CtlMsgDspch.hpp"
 
@@ -51,6 +52,7 @@ class FrmFile: public Gtk::Frame {
   private:
     CfgParticles        *cp;
     CfgEnv              *ce;
+    CfgSettings         *ct;
     Gtk::Window         *parent;
 
 //    MdlFile             *mdFile;
@@ -64,33 +66,21 @@ class FrmFile: public Gtk::Frame {
     Gtk::Box             hbxRiffInfo;
 // == In the hbxFileInfo
     Gtk::Label           lblFileName;
-  public:
     Gtk::Entry           ebxFileName;
-  private:
     Gtk::Label           lblFileSize;
-  public:
     Gtk::Entry           ebxFileSize;
-  private:
     Gtk::Box             boxPadFile;
     Gtk::Box             boxPadBetween;
     Gtk::Button         *btOpen;
 
 // == In the hbxStreamInfo;
-  private:
     Gtk::Label           lblRiffFS;
-  public:
     Gtk::Entry           ebxRiffFS;
-  private:
     Gtk::Label           lblRiffFmt;
-  public:
     Gtk::Entry           ebxRiffFmt;
-  private:
     Gtk::Label           lblRiffBitDepth;
-  public:
     Gtk::Entry           ebxRiffBitDepth;
-  private:
     Gtk::Label           lblRiffNumCH;
-  public:
     Gtk::Entry           ebxRiffNumCH;
 
     CtlMsgDspch         *ctMd;

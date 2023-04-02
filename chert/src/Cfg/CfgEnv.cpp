@@ -1,11 +1,9 @@
 
-// $Id: CfgEnv.cpp 692 2022-12-25 18:51:05Z duncang $
-
 //=================================================================================================
 // Original File Name : CfgEnv.cpp
 // Original Author    : duncang
 // Creation Date      : 2010-12-17
-// Copyright          : Copyright © 2011 by Catraeus and Duncan Gray
+// Copyright          : Copyright © 2010 - 2023 by Catraeus and Duncan Gray
 //
 // Description        :
 //    Very widely used information.
@@ -29,76 +27,39 @@ CfgEnv *CfgEnv::ce = NULL;
 : argc(i_argc)
 , argv(i_argv)
 , envp(i_envp) {
-  inFile = 0;
+  fatal = envp == NULL;
+                if(fatal) return;
+  BuildApp ();  if(fatal) return;
+  BuildCfg ();
+  BuildUser();  if(fatal) return;
 
-  verMaj  = VER_MAIN;
-  verMin  = VER_POINT;
-  buildNo = SVN_MARK;
+  inFile  = 0;
 
   fileNameInputLine     = new char[MAX_LINE_LEN];
-  CWD                   = new char[MAX_LINE_LEN];
   workingDir            = new char[MAX_LINE_LEN];
   fileNameRel           = new char[MAX_LINE_LEN];
   fileNameAbs           = new char[MAX_LINE_LEN];
-  appId                 = new char[MAX_LINE_LEN];
-
-  appName               = new char[sizeof(APP_NAME)+1];
-  appDesc               = new char[sizeof(APP_DESC)+1];
-  strCopyright          = new char[sizeof(STR_CPYR)+1];
-  strAuthors            = new char[sizeof(STR_AUTH)+1];
-  strUrl                = new char[sizeof(STR_URL)+1];
-  strUrlLabel           = new char[sizeof(STR_URL_LBL)+1];
-
-  cfgDirName            = new char[MAX_LINE_LEN];
-  cfgFileName           = new char[MAX_LINE_LEN];
-  cfgFileLines          = new char*[MAX_CFG_LINES];
 
 
 //____________________________
-  strcpy(appName,       APP_NAME);
-  strcpy(appId,        "com.catraeus.AAS.");
-  strcat(appId,         APP_ID_NM);
-  strcpy(appDesc,       APP_DESC);
-  strcpy(strCopyright,  STR_CPYR);
-  strcpy(strAuthors,    STR_AUTH);
-  strcpy(strUrl,        STR_URL);
-  strcpy(strUrlLabel,   STR_URL_LBL);
-
-  char *theErr = getcwd(CWD, 4096);
-  if(theErr == NULL) {
-    fprintf(stderr, "BAD CWD ... VERY STRANGE\n"); fflush(stderr);
-  }
   strcpy(workingDir, CWD);
 
-//____________________________
-  *cfgDirName = '\0';
-  if(envp != NULL) for(int i=0; (envp[i] != NULL) && (*cfgDirName == '\0'); i++){
-    if(strncmp((const char*)(envp[i]), "HOME", (size_t)4) == 0) {
-      char *p = &((envp[i])[5]);
-      strcpy(cfgDirName, p);
-    }
-  }
-  strcat  (cfgDirName, "/.");
-  strcat  (cfgDirName, appName);
-  strcat  (cfgDirName, "/");
-  sprintf (cfgFileName, "%sconf", cfgDirName);
   ShowVersion();
-  OpenCfgEnv();
   SetupFile();
 }
         CfgEnv::~CfgEnv               ( void        ) {
   WriteCfgFile();
-  delete cfgDirName;
-  delete cfgFileName;
-  delete cfgFileLines;
+  delete cu->dirName;
+  delete cu->fileName;
+  delete cu->lines;
   delete appName;
-  for(uint i=0; i<cfgFileLineCount; i++) {
-    delete cfgFileLines[i];
+  for(uint i=0; i<cu->lineCount; i++) {
+    delete cu->lines[i];
     }
-  if(cfgFile != NULL)
-    fclose(cfgFile);
+  if(cu->file != NULL)
+    fclose(cu->file);
 }
-void  CfgEnv::ShowVersion(void) {
+void    CfgEnv::ShowVersion(void) {
   fprintf(stdout, "%s\n", appName);
   fprintf(stdout, "    %s\n", appDesc);
   fprintf(stdout, "    version %d.%d build %d\n", verMaj, verMin, buildNo);
@@ -123,9 +84,9 @@ void  CfgEnv::SetupFile(void) {
   int accessAnswer;
 
   if(argc != 2) {
-    fprintf(stdout, "Invocation doesn't seem to want to open a file.\n");
+    fprintf(stdout, "Invocation doesn't specify a file.\n");
     return;
-    }
+  }
   SetFileName(fileNameInputLine);
   accessMode = F_OK;
   accessAnswer = access(fileNameAbs, accessMode);
@@ -234,101 +195,138 @@ void  CfgEnv::SetFileName(char *i_s) {
   return;
   }
 //=================================================================================================
-void  CfgEnv::OpenCfgEnv(void) {
-  cfgFile = NULL;
-  cfgFileLineCount = 0;
-  cfgFileDirty = false;
-  CheckForCfgDir();
-  if(cfgFile == NULL) {
-    }
-  else {
-    ReadCfgFile();
-    //PrintCfgLines();
-    }
-  cfgFileDirty = false;
-  //PrintCfgLines();
-  //WriteCfgFile();
-  return;
-  }
-void  CfgEnv::CheckForCfgDir(void) {
-  int accessResult;
+void  CfgEnv::BuildApp(void) {
+  verMaj  = VER_MAIN;
+  verMin  = VER_POINT;
+  buildNo = GIT_MARK;
 
-  accessResult = access((const char*)cfgDirName, (int)F_OK);
-  if(accessResult != 0) {
-    if((errno) == ENOENT)
-      NewCfgDir();
-    else {
-      ErrNoToString(errno, cfgDirName);
-      SetupNoFile();
-      }
-    }
-  else {
-    CheckForCfgFile();
-    }
-  return;
-  }
-void  CfgEnv::NewCfgDir(void) {
-  int accessResult = mkdir((const char*)cfgDirName, (int)S_IRWXU);
-  if(accessResult != 0) {
-    if((errno) == EEXIST) {
-      fprintf(stdout, "But wait, you called me because there was already a config dir at %s\n", cfgDirName);
-      CheckForCfgFile();
-      }
-    else {
-      ErrNoToString(errno, cfgFileName);
-      SetupNoFile();
-      }
-    }
-  else {
-    fprintf(stdout, "%s made a configuration directory at %s\n", appName, cfgDirName);
-    CheckForCfgFile();
-    }
-  return;
-  }
-void  CfgEnv::SetupNoFile(void) {
-  fprintf(stdout, "%s is continuing without a config file.\n", appName);
-  cfgFile = NULL;
-  return;
-  }
-void  CfgEnv::CheckForCfgFile(void) {
-  int accessResult;
+  CWD                   = new char[MAX_LINE_LEN];
+  appId                 = new char[MAX_LINE_LEN];
 
-  accessResult = access((const char*)cfgFileName, (int)F_OK);
+  appName               = new char[sizeof(APP_NAME)+1];
+  appDesc               = new char[sizeof(APP_DESC)+1];
+  strCopyright          = new char[sizeof(STR_CPYR)+1];
+  strAuthors            = new char[sizeof(STR_AUTH)+1];
+  strUrl                = new char[sizeof(STR_URL)+1];
+  strUrlLabel           = new char[sizeof(STR_URL_LBL)+1];
+
+  strcpy(appName,       APP_NAME);
+  strcpy(appId,        "com.catraeus.AAS.chert");
+  strcat(appId,         APP_ID_NM);
+  strcpy(appDesc,       APP_DESC);
+  strcpy(strCopyright,  STR_CPYR);
+  strcpy(strAuthors,    STR_AUTH);
+  strcpy(strUrl,        STR_URL);
+  strcpy(strUrlLabel,   STR_URL_LBL);
+
+  char *theErr = getcwd(CWD, 4096); // IMPORTANT getcwd() assumes we made the buffer.
+  if(theErr == NULL) {
+    fprintf(stderr, "BAD CWD ... VERY STRANGE\n"); fflush(stderr);
+    fatal = true;
+    return;
+  }
+  fprintf(stderr, "Found CWD at: %s\n", CWD); fflush(stderr);
+
+
+  return;
+}
+void  CfgEnv::BuildCfg(void) {
+  cfgGlbl = new sCfgSpec; // TODO Nothing here for now
+  cu = new sCfgSpec;
+
+
+  cu->dirName      = new char[MAX_LINE_LEN];
+ *cu->dirName      = '\0';
+  cu->fileName     = new char[MAX_LINE_LEN];
+ *cu->fileName     = '\0';
+  cu->file         = NULL;
+  cu->lines        = new char*[MAX_CFG_LINES];
+  for(llong i=0; i<MAX_CFG_LINES; i++)
+    cu->lines[i] = NULL;
+  cu->lineCount    = 0;
+  cu->dirty        = false;
+
+  return;
+}
+void  CfgEnv::BuildUser(void) {
+  char tStr[1024];
+  int  accessResult;
+
+//==========================================================================
+// What is the home like
+  for(int i=0; (envp[i] != NULL) && (*cu->dirName == '\0'); i++) {
+    if(strncmp((const char*)(envp[i]), "HOME", (size_t)4) == 0) {
+      char *p = &((envp[i])[5]); // MAGICK assumes that the envp format for this line is "HOME=..."  been stable since '68
+      strcpy(cu->dirName, p);
+      fprintf(stderr, "Found Root User Directory at %s\n", p);fflush(stderr);
+    }
+  }
+  if(cu->dirName[0] == '\0') {
+    fprintf(stderr, "FATAL -- No Home Directory Found In Environment.\n");fflush(stderr);
+    fatal = true;
+    return;
+  }
+//==========================================================================
+// Use the default Linux home pattern for coniguration thingies
+  strcat(cu->dirName, "/.config/");
+  strcat(cu->dirName, appName);
+//==== If there is a directory cool, else create one
+  accessResult = access((const char*)cu->dirName, (int)F_OK);
   if(accessResult != 0) {
-    if((errno) == ENOENT)
-      NewCfgFile();
+    fprintf(stderr, "Creating a new chert conig directory in ~/.config/.\n");fflush(stderr);
+    accessResult = mkdir(cu->dirName, (mode_t)0755); // IMPORTANT this is octal. AND directories are 755
+  }
+  if(accessResult != 0) {
+    fprintf(stderr, "FATAL -- unable to make config directory %s.\n", cu->dirName);fflush(stderr);
+    fatal = true;
+    return;
+  }
+//==== So, now the actual config file.
+  sprintf(cu->fileName, "%s/config", cu->dirName);
+  accessResult = access((const char*)cu->fileName, (int)F_OK);
+  if(accessResult != 0) {
+    if((errno) == ENOENT) {
+      cu->file = fopen(cu->fileName, "w");
+      fprintf(cu->file, "Hello File World!\n");fflush(cu->file);
+      fclose(cu->file);
+    }
     else {
-      ErrNoToString(errno, cfgFileName);
-      SetupNoFile();
-      }
+      fatal = true;
+      ErrNoToString(errno, tStr);
+      fprintf(stderr, "FATAL Unable to access existing config file: %s with error %s\n", cu->fileName, tStr);fflush(stderr);
+      return;
     }
-  else {
-    OpenCfgFile();
-    }
-  return;
   }
-void  CfgEnv::OpenCfgFile(void) {
-  char *s = new char[256];
-  strcpy(s, """");strcat(s,cfgFileName); strcat(s, """");
-  fprintf(stdout, "    %s is opening a conf file at %s\n", appName, cfgFileName);
-  cfgFile = fopen((const char*)s, "r");
-  int errNo = errno;
-  if(cfgFile == 0) {
-    fprintf(stderr, "%s creating conf file -- Suspicious error -- ", appName);
-    ErrNoToString(errNo, cfgFileName);
+
+
+  cu->file = fopen(cu->fileName, "r+"); // IMPORTANT Leave it open for the duration of operation to prevent file intrusion.
+
+  if(cu->file == NULL) {
+    fatal = true;
+    ErrNoToString(errno, tStr);
+    fprintf(stderr, "FATAL Unable to access existing config file: %s with error %s\n", cu->fileName, tStr);fflush(stderr);
+    return;
     }
-  delete s;
+  ReadCfgFile();
   return;
-  }
-void  CfgEnv::NewCfgFile(void) {
-  fprintf(stdout, "%s is creating a new conf file at %s\n", appName, cfgFileName);
-  cfgFile = fopen(cfgFileName, "wt");
-  if(errno != ENOENT) {
-    fprintf(stderr, "%s creating conf file -- Suspicious error -- ", appName);
-    ErrNoToString(errno, cfgFileName);
-    }
+}
+
+//=================================================================================================
+void  CfgEnv::SetLineText      ( llong i_n, char   *i_s ) {
+  if(i_n > cu->lineCount) return;
+  if(cu->lines[i_n] != NULL) delete cu->lines[i_n];
+  cu->lines[i_n] = new char[strlen(i_s)+1];
+  strcpy(cu->lines[i_n], i_s);
+  cu->dirty = true;
+  WriteCfgFile();
   return;
-  }
+}
+char *CfgEnv::GetLineText      ( llong i_n   ) {
+  return cu->lines[i_n];
+}
+
+
+
 void  CfgEnv::ReadCfgFile(void) {
   char *ts1;
   char *ts2;
@@ -336,42 +334,41 @@ void  CfgEnv::ReadCfgFile(void) {
 
   ts1 = new char[MAX_LINE_LEN];
   ts2 = new char[MAX_LINE_LEN];
-  bs = fgets(ts1, MAX_LINE_LEN, cfgFile);
+  rewind(cu->file);
+  bs = fgets(ts1, MAX_LINE_LEN, cu->file);
   if(bs == NULL) {
     ErrNoToString(errno, ts1);
     strcpy(ts2, ts1);
     sprintf(ts1, "%s   Reading cfg file lines.", ts2);
     }
   else {
-    while((bs != NULL) && (feof(cfgFile) == 0)) {
+    while((bs != NULL) && (feof(cu->file) == 0)) {
       StripNPTrail(bs);
       if(*bs != '\0') {
-        cfgFileLines[cfgFileLineCount++] = bs;
+        cu->lines[cu->lineCount++] = bs;
         ts1 = new char[MAX_LINE_LEN];
         }
-      bs = fgets(ts1, MAX_LINE_LEN, cfgFile);
+      bs = fgets(ts1, MAX_LINE_LEN, cu->file);
       }
     }
-  fprintf(stdout, "    Config File Open Succeeded.\n\n");
+  fprintf(stdout, "Config File Open Succeeded.\n\n");
+  cu->dirty = false;
   return;
   }
 void  CfgEnv::PrintCfgLines(void) {
-  for(uint i=0; i<cfgFileLineCount; i++) {
-    fprintf(stdout, "%s\n", cfgFileLines[i]);
+  for(uint i=0; i<cu->lineCount; i++) {
+    fprintf(stdout, "%s\n", cu->lines[i]);
     }
   return;
   }
 void  CfgEnv::WriteCfgFile(void) {
-  if(cfgFileDirty && (cfgFile != NULL)) {
-    fclose(cfgFile);
-    cfgFile = fopen(cfgFileName, "wt");
-    for(uint i=0; i<cfgFileLineCount; i++) {
-      fprintf(cfgFile, "%s\n", cfgFileLines[i]);
+  if(cu->dirty && (cu->file != NULL)) {
+    rewind(cu->file);
+    for(uint i=0; i<cu->lineCount; i++) {
+      fprintf(cu->file, "%s\n", cu->lines[i]);
       }
     }
-  fprintf(cfgFile, "\n");
-  fclose(cfgFile);
-  cfgFile = fopen(cfgFileName, "rt");
-  cfgFileDirty = false;
+  fprintf(cu->file, "\n");
+  cu->dirty = false;
   return;
   }

@@ -20,6 +20,7 @@
 
 #include "Ctl/CtlMsgDspch.hpp"
 
+#include "Cfg/CfgSettings.hpp"
 #include "Cfg/CfgEnv.hpp"
 #include "Cfg/CfgStrings.hpp"
 #include "Cfg/CfgParticles.hpp"
@@ -34,6 +35,7 @@ class MainConts { // total BS to shut up the warning about setting but not using
     CtlOsHor       *ctOsHor;
     CtlMsgDspch    *ctMh;
     CfgEnv         *ce;
+    CfgSettings    *ct;
     CfgStrings     *cs;
     Glib::ustring  *ss;
     CfgParticles   *cp;
@@ -50,6 +52,11 @@ int main(int i_argc, char *i_argv[], char *i_envp[]) {
   m.ctOsHor  =     CtlOsHor           :: GetInstance  ( m.sig                    );
   m.ctMh     =     CtlMsgDspch        :: GetInstance  (                          );
   m.ce       =     CfgEnv             :: GetInstance  ( i_argc, i_argv, i_envp   );  // Dangerous Singleton  Be very glad it is done here in main before anything else.
+  if(m.ce->GetFatal()) {
+    fprintf(stderr, "FATAL at startup after CfgEnv.\n"); fflush(stderr);
+    return -1;
+  }
+  m.ct       =     CfgSettings        :: GetInstance  (                          );
   m.cs       =     CfgStrings         :: GetInstance  ( "English", m.ce->buildNo );  // Dangerous Singleton  Be very glad it is done here in main before anything else.
   m.ss       = new Glib               :: ustring      ( m.ce->appId              );
   dd_argc    = 1;
@@ -60,6 +67,7 @@ int main(int i_argc, char *i_argv[], char *i_envp[]) {
   if(!Glib::thread_supported())     Glib::thread_init(0);
 
   int    theResult = app->run(*theWinMain);
+  m.ce->CloseFileUser();
 
   delete theWinMain;
 
