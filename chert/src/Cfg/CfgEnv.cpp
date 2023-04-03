@@ -44,8 +44,7 @@ CfgEnv *CfgEnv::ce = NULL;
 //____________________________
   strcpy(workingDir, CWD);
 
-  ShowVersion();
-  SetupFile();
+  PrintVersion();
 }
         CfgEnv::~CfgEnv               ( void        ) {
   WriteCfgFile();
@@ -59,7 +58,7 @@ CfgEnv *CfgEnv::ce = NULL;
   if(cu->file != NULL)
     fclose(cu->file);
 }
-void    CfgEnv::ShowVersion(void) {
+void    CfgEnv::PrintVersion(void) {
   fprintf(stdout, "%s\n", appName);
   fprintf(stdout, "    %s\n", appDesc);
   fprintf(stdout, "    version %d.%d build %d\n", verMaj, verMin, buildNo);
@@ -79,37 +78,7 @@ CfgEnv *CfgEnv::GetInstance() {
   return ce;
 }
 //=================================================================================================
-void  CfgEnv::SetupFile(void) {
-  int accessMode;
-  int accessAnswer;
 
-  if(argc != 2) {
-    fprintf(stdout, "Invocation doesn't specify a file.\n");
-    return;
-  }
-  SetFileName(fileNameInputLine);
-  accessMode = F_OK;
-  accessAnswer = access(fileNameAbs, accessMode);
-  if(accessAnswer == -1) {
-    SetFileName((char *)"");
-    inFile = 0;
-    char ss[128];
-    ErrNoToString(errno, ss);
-    fprintf(stdout, "The command line input file has problems because %s.\n", strerror(errno));
-    return;
-    }
-  inFile = fopen(fileNameAbs, "r");
-  if(errno == 0) {
-    fprintf(stdout, "The command line input file exists and can be opened.\n");
-    fclose(inFile);
-    inFile = 0;
-    return;
-    }
-  SetFileName((char *)"");
-  inFile = 0;
-  fprintf(stdout, "The command line input file <%s>has problems being opened.\n", fileNameInputLine);
-  return;
-  }
 void  CfgEnv::CleanupFileName(char *i_s) {
   char *pSrc;
   char *pDst;

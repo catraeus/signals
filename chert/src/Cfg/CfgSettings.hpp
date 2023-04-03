@@ -14,10 +14,21 @@
 #define __CFG_SETTINGS_HPP_
 
 #include <caes/CaesTypes.hpp>
+#include <map>
 #include "CfgEnv.hpp"
 
 class CfgSettings {
-  static const char*parmNames[];
+  private:
+    typedef enum eScope_e {
+      CTES_RUN,
+      CTES_USER,
+      CTES_GLOBAL
+    } eScope;
+    static const char*parmNames[];
+    struct sParms {
+      char   *parmValue;
+      eScope  scope;
+    };
   private:
                             CfgSettings         (       void              );
     virtual                ~CfgSettings         (       void              );
@@ -35,6 +46,7 @@ class CfgSettings {
 
            char         *dirNameIn;
            char         *dirNameOut;
+           std::map<char *, sParms *>    parmMap;
     static CfgSettings  *ct;
 };
 

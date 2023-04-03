@@ -43,14 +43,14 @@ class CfgEnv {
   public:
     static CfgEnv       *GetInstance      ( void        );
     static CfgEnv       *GetInstance      ( int i_argc, char *i_argv[], char *i_envp[] );
-           void          ShowVersion      ( void        );
-           void          SetupFile        ( void        );
+           void          PrintVersion     ( void        );
            void          SetFileName      ( char   *i_s );
            void          SetWorkingDir    ( char   *i_s );
            char         *GetWorkingDir    ( void        ) {return workingDir  ;};
            char         *GetFileNameAbs   ( void        ) {return fileNameAbs ;};
            void          CloseFileUser    ( void        ) {fclose(cu->file); return;};
 
+           llong         GetLineCountUser ( void        ) {return cu->lineCount;};
            void          SetLineText      ( llong i_n, char   *i_s );
            char         *GetLineText      ( llong i_n   );
 
@@ -79,21 +79,21 @@ class CfgEnv {
     char  *strUrlLabel;
 
   private:
-    int    argc;
-    char **argv;
-    char **envp;
-    bool   fatal;
+    int       argc;
+    char    **argv;
+    char    **envp;
+    bool      fatal;
 
-    char  *fileNameInputLine;
+    char     *fileNameInputLine;
 
-    char  *CWD;
-    FILE  *inFile;
-    char  *workingDir;
-    char  *fileNameRel;
-    char  *fileNameAbs;
+    char     *CWD;
+    FILE     *inFile;
+    char     *workingDir;
+    char     *fileNameRel;
+    char     *fileNameAbs;
 
-    char  *cfgRootGlbl;
-    char  *cfgRootUser;
+    char     *cfgRootGlbl;
+    char     *cfgRootUser;
 
     sCfgSpec *cfgGlbl;
     sCfgSpec *cu;
