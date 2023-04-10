@@ -6,16 +6,19 @@
 CPP_SRCS += \
 ../src/Cfg/CfgEnv.cpp \
 ../src/Cfg/CfgParticles.cpp \
+../src/Cfg/CfgSettings.cpp \
 ../src/Cfg/CfgStrings.cpp 
 
 CPP_DEPS += \
 ./src/Cfg/CfgEnv.d \
 ./src/Cfg/CfgParticles.d \
+./src/Cfg/CfgSettings.d \
 ./src/Cfg/CfgStrings.d 
 
 OBJS += \
 ./src/Cfg/CfgEnv.o \
 ./src/Cfg/CfgParticles.o \
+./src/Cfg/CfgSettings.o \
 ./src/Cfg/CfgStrings.o 
 
 
@@ -31,7 +34,7 @@ src/Cfg/%.o: ../src/Cfg/%.cpp src/Cfg/subdir.mk
 clean: clean-src-2f-Cfg
 
 clean-src-2f-Cfg:
-	-$(RM) ./src/Cfg/CfgEnv.d ./src/Cfg/CfgEnv.o ./src/Cfg/CfgParticles.d ./src/Cfg/CfgParticles.o ./src/Cfg/CfgStrings.d ./src/Cfg/CfgStrings.o
+	-$(RM) ./src/Cfg/CfgEnv.d ./src/Cfg/CfgEnv.o ./src/Cfg/CfgParticles.d ./src/Cfg/CfgParticles.o ./src/Cfg/CfgSettings.d ./src/Cfg/CfgSettings.o ./src/Cfg/CfgStrings.d ./src/Cfg/CfgStrings.o
 
 .PHONY: clean-src-2f-Cfg
 

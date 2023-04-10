@@ -1,9 +1,10 @@
 
+
 //=================================================================================================
-// Original File Name : Env.h
+// Original File Name : CfgEnv.h
 // Original Author    : duncang
-// Creation Date      : May 31, 2012
-// Copyright          : Copyright © 2012 - 2023 by Catraeus and Duncan Gray
+// Creation Date      : 2010-12-17
+// Copyright          : Copyright © 2011 by Catraeus and Duncan Gray
 //
 // Description        :
 //
@@ -14,6 +15,7 @@
 
 #include <stdio.h>
 #include <gdkmm.h>
+
 #include <caes/CaesTypes.hpp>
 
 class CfgEnv {
@@ -26,6 +28,14 @@ class CfgEnv {
       bool         shown;
       Gdk::Window *me;
     };
+    struct sCfgSpec {
+      char  *fileName;
+      FILE  *file;
+      char  *dirName;
+      char **lines;
+      uint   lineCount;
+      bool   dirty;
+    };
   public:
   private:
                          CfgEnv           ( int i_argc, char *i_argv[], char *i_envp[] );
@@ -33,75 +43,69 @@ class CfgEnv {
   public:
     static CfgEnv       *GetInstance      ( void        );
     static CfgEnv       *GetInstance      ( int i_argc, char *i_argv[], char *i_envp[] );
-           void          ShowVersion      ( void        );
-           void          SetupFile        ( void        );
+           void          PrintVersion     ( void        );
+           void          SetFileName      ( char   *i_s );
+           void          SetWorkingDir    ( char   *i_s );
+           char         *GetWorkingDir    ( void        ) {return workingDir  ;};
+           char         *GetFileNameAbs   ( void        ) {return fileNameAbs ;};
+           void          CloseFileUser    ( void        ) {fclose(cu->file); return;};
 
-           void          SetFileNameRd    ( char   *i_s );
-           void          SetDirWorkRd     ( char   *i_s );
-           char         *GetDirWorkRd     ( void        ) {return dirWorkRd;};
+           llong         GetLineCountUser ( void        ) {return cu->lineCount;};
+           void          SetLineText      ( llong i_n, char   *i_s );
+           char         *GetLineText      ( llong i_n   );
 
-           void          SetFileNameWr    ( char   *i_s );
-           void          SetDirWorkWr     ( char   *i_s );
-           char         *GetDirWorkWr     ( void        ) {return dirWorkWr;};
-
-           char         *GetFileNameAbs   ( void        ) {return fileNameAbsRd;};
+           bool          GetFatal         ( void        ) {return fatal       ;};
   protected:
   private:
-           void          CfgEnvInit       ( void        );
-           void          CfgReBase        ( void        );
-           void          CfgPrint         ( void        );
-           void          CfgDirCheck      ( void        );
-           void          CfgDirNew        ( void        );
-           void          CfgFileCheck     ( void        );
-           void          CfgFileOpen      ( void        );
-           void          CfgFileNew       ( void        );
-           void          CfgFileWrFrm     ( void        );
-           void          CfgFileRd        ( void        );
-           void          CfgFileWr        ( void        );
+           void          BuildApp         ( void        );
+           void          BuildCfg         ( void        );
+           void          BuildUser        ( void        );
+
+           void          ReadCfgFile      ( void        );
+           void          PrintCfgLines    ( void        );
+           void          WriteCfgFile     ( void        );
+           void          CleanupFileName  ( char   *i_s );
            void          SplitAbsPath     ( void        );
   public:
-    int        verMaj;
-    int        verMin;
-    int        buildNo;
-    char      *appName;
-    char      *appId;
-    char      *appDesc;
-    char      *strCopyright;
-    char      *strAuthors;
-    char      *strUrl;
-    char      *strUrlLabel;
+    int    verMaj;
+    int    verMin;
+    int    buildNo;
+    char  *appName;
+    char  *appId;
+    char  *appDesc;
+    char  *strCopyright;
+    char  *strAuthors;
+    char  *strUrl;
+    char  *strUrlLabel;
 
   private:
-    int        argc;
-    char     **argv;
-    char     **envp;
-    char      *sFileNm;
+    int       argc;
+    char    **argv;
+    char    **envp;
+    bool      fatal;
 
-    char      *CWD;
+    char     *fileNameInputLine;
 
-    FILE      *fileWr;
-    char      *dirWorkWr;
-    char      *fileNameRelWr;
-    char      *fileNameAbsWr;
+    char     *CWD;
+    FILE     *inFile;
+    char     *workingDir;
+    char     *fileNameRel;
+    char     *fileNameAbs;
 
-    FILE      *fileRd;
-    char      *dirWorkRd;
-    char      *fileNameRelRd;
-    char      *fileNameAbsRd;
+    char     *cfgRootGlbl;
+    char     *cfgRootUser;
 
-    char      *cfgFileName;
-    FILE      *cfgFile;
-    char      *cfgDirName;
-    char     **cfgFileLines;
-    uint       cfgFileLineCount;
-    bool       cfgFileDirty;
-    sWinSpec  *wsMain;
+    sCfgSpec *cfgGlbl;
+    sCfgSpec *cu;
 
 
-
+    sWinSpec *wsFile;
+    sWinSpec *wsXport;
+    sWinSpec *wsOs;
+    sWinSpec *wsSa;
 
     static CfgEnv *ce;
   };
-/* \endcond HIDDEN_SYMBOLS */
+/* \endcond */
 #endif // __CFG_ENV_H_
 

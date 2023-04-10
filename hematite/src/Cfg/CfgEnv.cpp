@@ -1,10 +1,9 @@
 
-
 //=================================================================================================
-// Original File Name : Env.cpp
+// Original File Name : CfgEnv.cpp
 // Original Author    : duncang
-// Creation Date      : May 31, 2012
-// Copyright          : Copyright © 2012 - 2023 by Catraeus and Duncan Gray
+// Creation Date      : 2010-12-17
+// Copyright          : Copyright © 2010 - 2023 by Catraeus and Duncan Gray
 //
 // Description        :
 //    Very widely used information.
@@ -22,30 +21,155 @@
 #include "CfgVersion.hpp"
 #include "../_PrjGlbl.hpp"
 
-
 CfgEnv *CfgEnv::ce = NULL;
 
-        CfgEnv::CfgEnv                ( int i_argc, char *i_argv[], char *i_envp[] )
+        CfgEnv::CfgEnv(int i_argc, char *i_argv[], char *i_envp[])
 : argc(i_argc)
 , argv(i_argv)
 , envp(i_envp) {
-  fileRd = 0;
+  fatal = envp == NULL;
+                if(fatal) return;
+  BuildApp ();  if(fatal) return;
+  BuildCfg ();
+  BuildUser();  if(fatal) return;
 
+  inFile  = 0;
+
+  fileNameInputLine     = new char[MAX_LINE_LEN];
+  workingDir            = new char[MAX_LINE_LEN];
+  fileNameRel           = new char[MAX_LINE_LEN];
+  fileNameAbs           = new char[MAX_LINE_LEN];
+
+
+//____________________________
+  strcpy(workingDir, CWD);
+
+  PrintVersion();
+}
+        CfgEnv::~CfgEnv               ( void        ) {
+  WriteCfgFile();
+  delete cu->dirName;
+  delete cu->fileName;
+  delete cu->lines;
+  delete appName;
+  for(uint i=0; i<cu->lineCount; i++) {
+    delete cu->lines[i];
+    }
+  if(cu->file != NULL)
+    fclose(cu->file);
+}
+void    CfgEnv::PrintVersion(void) {
+  fprintf(stdout, "%s\n", appName);
+  fprintf(stdout, "    %s\n", appDesc);
+  fprintf(stdout, "    version %d.%d build %d\n", verMaj, verMin, buildNo);
+  fprintf(stdout, "    %s\n", strCopyright);
+  fprintf(stdout, "    CWD is %s\n", CWD);
+  return;
+}
+CfgEnv *CfgEnv::GetInstance(int i_argc, char *i_argv[], char *i_envp[]) {
+  if(ce == NULL)
+    ce = new CfgEnv(i_argc, i_argv, i_envp);
+  return ce;
+}
+CfgEnv *CfgEnv::GetInstance() {
+  if(ce == NULL) {
+    ce = new CfgEnv(0, NULL, NULL);
+  }
+  return ce;
+}
+//=================================================================================================
+
+void  CfgEnv::CleanupFileName(char *i_s) {
+  char *pSrc;
+  char *pDst;
+  bool  cleaning;
+
+  pSrc = i_s;
+  pDst = i_s;
+  while(*pSrc != '\0') {
+    if( *pSrc == '\"' ||
+        *pSrc == '\'' ||
+        *pSrc == '`' ||
+        ((*pSrc == '/') && (*(pSrc + 1) == '/')) ||
+        0 ) {
+      pSrc++;
+      cleaning = true;
+      }
+    else {
+      if(cleaning)
+        *(pDst++) = *(pSrc++);
+      else {
+        pDst++;
+        pSrc++;
+        }
+      }
+    }
+  *pDst = '\0';
+  return;
+  }
+void  CfgEnv::SplitAbsPath(void) {
+  char *pSrc;
+  char *pDst;
+  char *pMark;
+
+  if(fileNameAbs[strlen(fileNameAbs) - 1] == '/') {
+    if(strlen(fileNameAbs) == 1) {
+      strcpy(workingDir, "/");
+      fileNameRel[0] = '\0';
+      return;
+      }
+    fileNameAbs[strlen(fileNameAbs) - 1] = '\0';
+    strcpy(workingDir, fileNameAbs);
+    fileNameRel[0] = '\0';
+    return;
+    }
+  strcpy(workingDir, fileNameAbs);
+  pMark = workingDir;
+  pMark += strlen(fileNameAbs) - 1;
+  while((*pMark != '/') && (pMark > workingDir))
+    pMark--;
+  pSrc = pMark + 1;
+  pDst = fileNameRel;
+  while(*pSrc != '\0')
+    *(pDst++) = *(pSrc++);
+  *pDst = '\0';
+  *pMark = 0;
+
+  return;
+  }
+void  CfgEnv::SetFileName(char *i_s) {
+  bool isAbs;
+
+  CleanupFileName(i_s);
+  if(strlen(i_s) == 0) {
+    strcpy(workingDir, CWD);
+    strcpy(fileNameAbs, workingDir);
+    strcpy(fileNameRel, "");
+    return;
+    }
+  if(i_s[0] == '/')
+    isAbs = true;
+  else
+    isAbs = false;
+
+  if(!isAbs) {
+    strcpy(fileNameAbs, workingDir);
+    strcat(fileNameAbs, "/");
+    strcat(fileNameAbs, i_s);
+    CleanupFileName(fileNameAbs);
+    }
+  else
+    strcpy(fileNameAbs, i_s);
+  SplitAbsPath();
+  return;
+  }
+//=================================================================================================
+void  CfgEnv::BuildApp(void) {
   verMaj  = VER_MAIN;
   verMin  = VER_POINT;
   buildNo = GIT_MARK;
 
-  sFileNm               = new char[MAX_LINE_LEN];
   CWD                   = new char[MAX_LINE_LEN];
-
-  dirWorkRd             = new char[MAX_LINE_LEN];
-  fileNameRelRd         = new char[MAX_LINE_LEN];
-  fileNameAbsRd         = new char[MAX_LINE_LEN];
-
-  dirWorkWr             = new char[MAX_LINE_LEN];
-  fileNameRelWr         = new char[MAX_LINE_LEN];
-  fileNameAbsWr         = new char[MAX_LINE_LEN];
-
   appId                 = new char[MAX_LINE_LEN];
 
   appName               = new char[sizeof(APP_NAME)+1];
@@ -55,14 +179,8 @@ CfgEnv *CfgEnv::ce = NULL;
   strUrl                = new char[sizeof(STR_URL)+1];
   strUrlLabel           = new char[sizeof(STR_URL_LBL)+1];
 
-  cfgDirName            = new char[MAX_LINE_LEN];
-  cfgFileName           = new char[MAX_LINE_LEN];
-  cfgFileLines          = new char*[MAX_CFG_LINES];
-
-
-//____________________________
   strcpy(appName,       APP_NAME);
-  strcpy(appId,        "com.catraeus.AAS.");
+  strcpy(appId,        "com.catraeus.AAS.chert");
   strcat(appId,         APP_ID_NM);
   strcpy(appDesc,       APP_DESC);
   strcpy(strCopyright,  STR_CPYR);
@@ -70,322 +188,156 @@ CfgEnv *CfgEnv::ce = NULL;
   strcpy(strUrl,        STR_URL);
   strcpy(strUrlLabel,   STR_URL_LBL);
 
-  char *theErr = getcwd(CWD, 4096);
+  char *theErr = getcwd(CWD, 4096); // IMPORTANT getcwd() assumes we made the buffer.
   if(theErr == NULL) {
     fprintf(stderr, "BAD CWD ... VERY STRANGE\n"); fflush(stderr);
+    fatal = true;
+    return;
   }
-  strcpy(dirWorkRd, CWD);
+  fprintf(stderr, "Found CWD at: %s\n", CWD); fflush(stderr);
 
-//____________________________
-  *cfgDirName = '\0';
-  if(envp != NULL) for(int i=0; (envp[i] != NULL) && (*cfgDirName == '\0'); i++){
+
+  return;
+}
+void  CfgEnv::BuildCfg(void) {
+  cfgGlbl = new sCfgSpec; // TODO Nothing here for now
+  cu = new sCfgSpec;
+
+
+  cu->dirName      = new char[MAX_LINE_LEN];
+ *cu->dirName      = '\0';
+  cu->fileName     = new char[MAX_LINE_LEN];
+ *cu->fileName     = '\0';
+  cu->file         = NULL;
+  cu->lines        = new char*[MAX_CFG_LINES];
+  for(llong i=0; i<MAX_CFG_LINES; i++)
+    cu->lines[i] = NULL;
+  cu->lineCount    = 0;
+  cu->dirty        = false;
+
+  return;
+}
+void  CfgEnv::BuildUser(void) {
+  char tStr[1024];
+  int  accessResult;
+
+//==========================================================================
+// What is the home like
+  for(int i=0; (envp[i] != NULL) && (*cu->dirName == '\0'); i++) {
     if(strncmp((const char*)(envp[i]), "HOME", (size_t)4) == 0) {
-      char *p = &((envp[i])[5]);
-      strcpy(cfgDirName, p);
+      char *p = &((envp[i])[5]); // MAGICK assumes that the envp format for this line is "HOME=..."  been stable since '68
+      strcpy(cu->dirName, p);
+      fprintf(stderr, "Found Root User Directory at %s\n", p);fflush(stderr);
     }
   }
-  strcat  (cfgDirName, "/.");
-  strcat  (cfgDirName, appName);
-  strcat  (cfgDirName, "/");
-  sprintf (cfgFileName, "%sconf", cfgDirName);
-  ShowVersion();
-  CfgEnvInit();
-  SetupFile();
-}
-        CfgEnv::~CfgEnv               ( void        ) {
-  CfgFileWr();
-  delete cfgDirName;
-  delete cfgFileName;
-  delete cfgFileLines;
-  delete appName;
-  for(uint i=0; i<cfgFileLineCount; i++) {
-    delete cfgFileLines[i];
-    }
-  if(cfgFile != NULL)
-    fclose(cfgFile);
-}
-void    CfgEnv::ShowVersion           ( void        ) {
-  fprintf(stdout, "%s\n", appName);
-  fprintf(stdout, "    %s\n", appDesc);
-  fprintf(stdout, "    version %d.%d build %d\n", verMaj, verMin, buildNo);
-  fprintf(stdout, "    %s\n", strCopyright);
-  fprintf(stdout, "    CWD is %s\n", CWD);
-  return;
-}
-CfgEnv *CfgEnv::GetInstance           ( int i_argc, char *i_argv[], char *i_envp[] ) {
-  if(ce == NULL)
-    ce = new CfgEnv(i_argc, i_argv, i_envp);
-  return ce;
-}
-CfgEnv *CfgEnv::GetInstance           ( void        ) {
-  if(ce == NULL) {
-    ce = new CfgEnv(0, NULL, NULL);
+  if(cu->dirName[0] == '\0') {
+    fprintf(stderr, "FATAL -- No Home Directory Found In Environment.\n");fflush(stderr);
+    fatal = true;
+    return;
   }
-  return ce;
-}
-//=================================================================================================
-void    CfgEnv::SetupFile             ( void        ) {
-  int accessMode;
-  int accessAnswer;
-  char tStr[256];
-
-  if(argc < 2) {
-    fprintf(stdout, "Invocation doesn't seem to want to open a file.\n");
-    return;
-    }
-  strcpy(sFileNm, argv[1]);
-  SetFileNameRd(sFileNm);
-
-  accessMode = F_OK;
-  accessAnswer = access(fileNameAbsRd, accessMode);
-  if(accessAnswer == -1) {
-    SetFileNameRd((char *)"");
-    fileRd = 0;
-    char ss[128];
-    ErrNoToString(errno, ss);
-    fprintf(stdout, "The command line input file has problems because %s.\n", strerror(errno));
-    return;
-    }
-  fileRd = fopen(fileNameAbsRd, "r");
-  if(errno == 0) {
-    fprintf(stdout, "The command line input file exists and can be opened.\n");
-    fclose(fileRd);
-    fileRd = 0;
-    return;
-    }
-  strcpy(tStr, "");
-  SetFileNameRd(tStr);
-  fileRd = 0;
-  fprintf(stdout, "The command line input file <%s>has problems being opened.\n", sFileNm);
-  return;
+//==========================================================================
+// Use the default Linux home pattern for coniguration thingies
+  strcat(cu->dirName, "/.config/");
+  strcat(cu->dirName, appName);
+//==== If there is a directory cool, else create one
+  accessResult = access((const char*)cu->dirName, (int)F_OK);
+  if(accessResult != 0) {
+    fprintf(stderr, "Creating a new chert conig directory in ~/.config/.\n");fflush(stderr);
+    accessResult = mkdir(cu->dirName, (mode_t)0755); // IMPORTANT this is octal. AND directories are 755
   }
-void    CfgEnv::SetDirWorkRd          ( char   *i_s ) {
-  bool isAbs;
-  char tStr[32768];
-
-  PathNameCleanup(i_s);
-  if(strlen(i_s) == 0) {
-    strcpy(dirWorkRd, CWD);
+  if(accessResult != 0) {
+    fprintf(stderr, "FATAL -- unable to make config directory %s.\n", cu->dirName);fflush(stderr);
+    fatal = true;
     return;
-    }
-  if(i_s[0] == '/')
-    isAbs = true;
-  else
-    isAbs = false;
-
-  if(!isAbs) {
-    strcpy(tStr, dirWorkRd);
-    strcat(tStr, "/");
-    strcat(tStr, i_s);
-    PathNameCleanup(tStr);
-    }
-  else
-    strcpy(tStr, i_s);
-  PathExtractPath(tStr, dirWorkRd);
-  return;
-}
-void    CfgEnv::SetFileNameRd         ( char   *i_s ) {
-  bool isAbs;
-
-  PathNameCleanup(i_s);
-  if(strlen(i_s) == 0) {
-    strcpy(fileNameAbsRd, dirWorkRd);
-    strcpy(fileNameRelRd, "");
-    return;
-    }
-  if(i_s[0] == '/')
-    isAbs = true;
-  else
-    isAbs = false;
-
-  if(!isAbs) {
-    strcpy(fileNameAbsRd, dirWorkRd);
-    strcat(fileNameAbsRd, "/");
-    strcat(fileNameAbsRd, i_s);
-    PathNameCleanup(fileNameAbsRd);
-    }
-  else
-    strcpy(fileNameAbsRd, i_s);
-  PathExtractFileName(fileNameAbsRd, fileNameRelRd);
-  PathExtractPath(fileNameAbsRd, dirWorkRd);
-  return;
   }
-void    CfgEnv::SetFileNameWr         ( char   *i_s ) {
-  bool isAbs;
-
-  PathNameCleanup(i_s);
-  if(strlen(i_s) == 0) {
-    strcpy(fileNameAbsWr, dirWorkWr);
-    strcpy(fileNameRelWr, "");
-    return;
-    }
-  if(i_s[0] == '/')
-    isAbs = true;
-  else
-    isAbs = false;
-
-  if(!isAbs) {
-    strcpy(fileNameAbsWr, dirWorkWr);
-    strcat(fileNameAbsWr, "/");
-    strcat(fileNameAbsWr, i_s);
-    PathNameCleanup(fileNameAbsWr);
-    }
-  else
-    strcpy(fileNameAbsWr, i_s);
-  PathExtractFileName(fileNameAbsWr, fileNameRelWr);
-  PathExtractPath(fileNameAbsWr, dirWorkWr);
-  return;
-  }
-void    CfgEnv::CfgEnvInit            ( void        ) {
-  cfgFile          = NULL;
-  cfgFileLineCount = 0;
-  cfgFileDirty     = false;
-  CfgDirCheck();
-  CfgFileOpen();
-  if(cfgFile == NULL) {
-    }
-  else {
-    CfgFileRd();
-    //CfgPrint();
-    }
-  cfgFileDirty = false;
-  //CfgPrint();
-  //CfgFileWr();
-  return;
-  }
-void    CfgEnv::CfgDirCheck           ( void        ) {
-  int accessResult;
-
-  accessResult = access(cfgDirName, F_OK);
+//==== So, now the actual config file.
+  sprintf(cu->fileName, "%s/config", cu->dirName);
+  accessResult = access((const char*)cu->fileName, (int)F_OK);
   if(accessResult != 0) {
     if((errno) == ENOENT) {
-      CfgDirNew();
-      }
+      cu->file = fopen(cu->fileName, "w");
+      fprintf(cu->file, "Hello File World!\n");fflush(cu->file);
+      fclose(cu->file);
+    }
     else {
-      ErrNoToString(errno, cfgDirName);
-      CfgReBase();
-      }
+      fatal = true;
+      ErrNoToString(errno, tStr);
+      fprintf(stderr, "FATAL Unable to access existing config file: %s with error %s\n", cu->fileName, tStr);fflush(stderr);
+      return;
     }
-  return;
   }
-void    CfgEnv::CfgDirNew             ( void        ) {
-  int accessResult = mkdir(cfgDirName, S_IRWXU);
-  if(accessResult != 0) {
-    if((errno) == EEXIST) {
-      fprintf(stdout, "But wait, you called me because there wasn't a config dir at %s\n", cfgDirName);
-      CfgFileCheck();
-      }
-    else {
-      ErrNoToString(errno, cfgFileName);
-      CfgReBase();
-      }
-    }
-  else {
-    fprintf(stdout, "basalt made a configuration directory at %s\n", cfgDirName);
-    CfgFileNew();
-    }
-  return;
-  }
-void    CfgEnv::CfgReBase             ( void        ) {
-  fprintf(stdout, "basalt is continuing without a config file.\n");
-  cfgFile = NULL;
-  return;
-  }
-void    CfgEnv::CfgFileCheck          ( void        ) {
-  int accessResult;
 
-  strcpy(cfgFileName, cfgDirName);
-  strcat(cfgFileName, "/conf");
-  accessResult = access(cfgFileName, F_OK);
-  if(accessResult != 0) {
-    if((errno) == ENOENT)
-      CfgFileNew();
-    else {
-      ErrNoToString(errno, cfgFileName);
-      CfgReBase();
-      }
+
+  cu->file = fopen(cu->fileName, "r+"); // IMPORTANT Leave it open for the duration of operation to prevent file intrusion.
+
+  if(cu->file == NULL) {
+    fatal = true;
+    ErrNoToString(errno, tStr);
+    fprintf(stderr, "FATAL Unable to access existing config file: %s with error %s\n", cu->fileName, tStr);fflush(stderr);
+    return;
     }
-  else {
-    CfgFileOpen();
-    }
+  ReadCfgFile();
   return;
-  }
-void    CfgEnv::CfgFileOpen           ( void        ) {
-  fprintf(stdout, "%s is opening a conf file at %s\n", appName, cfgFileName);
-  cfgFile = fopen(cfgFileName, "rt");
-  if(cfgFile == 0) {
-    fprintf(stdout, "%s creating conf file -- Suspicious error -- ", appName);
-    ErrNoToString(errno, cfgFileName);
-    }
+}
+
+//=================================================================================================
+void  CfgEnv::SetLineText      ( llong i_n, char   *i_s ) {
+  if(i_n > cu->lineCount) return;
+  if(cu->lines[i_n] != NULL) delete cu->lines[i_n];
+  cu->lines[i_n] = new char[strlen(i_s)+1];
+  strcpy(cu->lines[i_n], i_s);
+  cu->dirty = true;
+  WriteCfgFile();
   return;
-  }
-void    CfgEnv::CfgFileNew            ( void        ) {
-  fprintf(stdout, "basalt is creating a new conf file at %s\n", cfgFileName);
-  cfgFile = fopen(cfgFileName, "wt");
-  if(errno != ENOENT) {
-    fprintf(stdout, "basalt creating conf file -- Suspicious error -- ");
-    ErrNoToString(errno, cfgFileName);
-    }
-  else
-    CfgFileWrFrm();
-  return;
-  }
-void    CfgEnv::CfgFileWrFrm          ( void        ) {
-  if(cfgFileLineCount > 0) {
-    for(uint i=0; i<cfgFileLineCount; i++) {
-      free(cfgFileLines[i]);
-      }
-    }
-  cfgFileLineCount = 0;
-  cfgFileLines[cfgFileLineCount] = new char[MAX_LINE_LEN];
-  strcpy(cfgFileLines[cfgFileLineCount++], "<basalt_config>");
-  cfgFileLines[cfgFileLineCount] = new char[MAX_LINE_LEN];
-  strcpy(cfgFileLines[cfgFileLineCount++], "</basalt_config>");
-  cfgFileLines[cfgFileLineCount] = new char[MAX_LINE_LEN];
-  strcpy(cfgFileLines[cfgFileLineCount++], "");
-  rewind(cfgFile);
-  cfgFileDirty = true;
-  CfgFileWr();
-  return;
-  }
-void    CfgEnv::CfgFileRd             ( void        ) {
-  char *ts;
+}
+char *CfgEnv::GetLineText      ( llong i_n   ) {
+  return cu->lines[i_n];
+}
+
+
+
+void  CfgEnv::ReadCfgFile(void) {
+  char *ts1;
+  char *ts2;
   char *bs;
 
-  ts = (char *)malloc(MAX_LINE_LEN*sizeof(char));
-  bs = fgets(ts, MAX_LINE_LEN, cfgFile);
+  ts1 = new char[MAX_LINE_LEN];
+  ts2 = new char[MAX_LINE_LEN];
+  rewind(cu->file);
+  bs = fgets(ts1, MAX_LINE_LEN, cu->file);
   if(bs == NULL) {
-    fprintf(stdout, "Empty conf file.\n");
-    CfgFileWrFrm();
+    ErrNoToString(errno, ts1);
+    strcpy(ts2, ts1);
+    sprintf(ts1, "%s   Reading cfg file lines.", ts2);
     }
   else {
-    while((bs != NULL) && (feof(cfgFile) == 0)) {
+    while((bs != NULL) && (feof(cu->file) == 0)) {
       StripNPTrail(bs);
       if(*bs != '\0') {
-        cfgFileLines[cfgFileLineCount++] = bs;
-        ts = (char *)malloc(MAX_LINE_LEN*sizeof(char));
+        cu->lines[cu->lineCount++] = bs;
+        ts1 = new char[MAX_LINE_LEN];
         }
-      bs = fgets(ts, MAX_LINE_LEN, cfgFile);
+      bs = fgets(ts1, MAX_LINE_LEN, cu->file);
       }
+    }
+  fprintf(stdout, "Config File Open Succeeded.\n\n");
+  cu->dirty = false;
+  return;
+  }
+void  CfgEnv::PrintCfgLines(void) {
+  for(uint i=0; i<cu->lineCount; i++) {
+    fprintf(stdout, "%s\n", cu->lines[i]);
     }
   return;
   }
-void    CfgEnv::CfgPrint              ( void        ) {
-  for(uint i=0; i<cfgFileLineCount; i++) {
-    fprintf(stdout, "%s\n", cfgFileLines[i]);
-    }
-  return;
-  }
-void    CfgEnv::CfgFileWr             ( void        ) {
-  if(cfgFileDirty && (cfgFile != NULL)) {
-    fclose(cfgFile);
-    cfgFile = fopen(cfgFileName, "wt");
-    for(uint i=0; i<cfgFileLineCount; i++) {
-      fprintf(cfgFile, "%s\n", cfgFileLines[i]);
+void  CfgEnv::WriteCfgFile(void) {
+  if(cu->dirty && (cu->file != NULL)) {
+    rewind(cu->file);
+    for(uint i=0; i<cu->lineCount; i++) {
+      fprintf(cu->file, "%s\n", cu->lines[i]);
       }
     }
-  fclose(cfgFile);
-  cfgFile = fopen(cfgFileName, "rt");
-  cfgFileDirty = false;
+  fprintf(cu->file, "\n");
+  cu->dirty = false;
   return;
   }

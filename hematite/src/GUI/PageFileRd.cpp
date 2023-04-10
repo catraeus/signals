@@ -36,15 +36,16 @@ void  PageFileRd::OnFileInSelect         ( void ) {
   int  result;
   char tStr[32768];
   char rStr[32768];
-  strcpy(tStr, (char *)ce->GetDirWorkRd());
+  strcpy(tStr, (char *)ct->GetDirNameIn());
   dlgSelectRd->set_current_folder(tStr);
   result = dlgSelectRd->run();
   dlgSelectRd->hide();
   switch(result) {
     case(Gtk::RESPONSE_OK):
+      strcpy(rStr, (char *)dlgSelectRd->get_current_folder().c_str());
+      ct->SetDirNameIn(rStr);
       strcpy(rStr, (char *)dlgSelectRd->get_filename().c_str());
       ClearFileInfo();
-      ce->SetFileNameRd(rStr);
       SetFileName(rStr);
       sigRaw  ->MakeBlank();
       ctMd    ->Emit_FileRdChg();
@@ -245,10 +246,11 @@ void  PageFileRd::ClearFileInfo          ( void ) {
   ebxWaveType.set_text("");
   }
 void  PageFileRd::BuildEnv               ( void ) {
-  ce    = CfgEnv     ::GetInstance();
-  cs    = CfgStrings ::GetInstance();
+  ce    = CfgEnv       ::GetInstance  (       );
+  ct    = CfgSettings  ::GetInstance  (       );
+  cs    = CfgStrings   ::GetInstance  (       );
 
-  ctMd  = CtlMsgDspch::GetInstance();
+  ctMd  = CtlMsgDspch  ::GetInstance  (       );
 
   tns   = twi->GetNumSys    ();
   trf   = twi->GetRiffMgr   (); // has to be done after WaveFiler

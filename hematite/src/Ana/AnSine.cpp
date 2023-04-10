@@ -441,7 +441,7 @@ void    AnSine::DemRect       ( void        ) {
   tTaylor->CalcTaylor3(&t0, &t1, &t2);
   t1 *= sigDemAmPh->GetFS() / PIx2;
   t0 *= 1.0D / PIx2;
-  fprintf(stdout, "        Rectification:  t2: %lf    t1: %lf    t0: %lf\n", t2, t1, t0);
+  fprintf(stdout, "        Rectification:  t2: %lg    t1: %lg    t0: %lg\n", t2, t1, t0);
   ctMd->Emit_SigWrChg();
   return;
 }

@@ -36,6 +36,7 @@
 }
 void     PageFileWr::BuildEnv            ( void                  ) {
   ce        = CfgEnv      ::GetInstance   ();
+  ct        = CfgSettings ::GetInstance   ();
   cs        = CfgStrings  ::GetInstance   ();
   tns       = two         ->GetNumSys     ();
   trf       = two         ->GetRiffMgr    ();
@@ -192,10 +193,14 @@ void     PageFileWr::OnFileOutSelect     ( void                  ) {
   dlg->add_filter(fltAll);
 
 
-  dlg->set_current_folder(ce->GetDirWorkWr());
+  dlg->set_current_folder(ct->GetDirNameIn());  // FIXME, make a DirNameOut in CfgSettings
   int result = dlg->run();
   dlg->hide();
   char tStr[32768];
+  strcpy(tStr, dlg->get_current_folder().c_str());
+  ct->SetDirNameIn(tStr);
+
+
   strcpy(tStr, dlg->get_filename().c_str());
 
   switch(result) {
@@ -261,9 +266,8 @@ bool     PageFileWr::OnFileWrite         ( GdkEventButton *i_ev  ) {
 bool     PageFileWr::OnChangeFileName    ( GdkEventFocus  *i_e   ) {
   char tStr[32768];
   strcpy(tStr, ebxCtlFileName.get_text().c_str());
-
-  ce->SetFileNameWr(tStr);
   taf->SetFileNameWrite(tStr);
+
   return false;
 }
 void     PageFileWr::OnChangeFmt         ( void                  ) {

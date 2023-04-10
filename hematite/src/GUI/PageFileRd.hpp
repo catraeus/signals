@@ -22,6 +22,7 @@
 #include <caes/AudioFile/WaveFiler.hpp>
 
 #include "../Cfg/CfgEnv.hpp"
+#include "../Cfg/CfgSettings.hpp"
 #include "../Cfg/CfgStrings.hpp"
 #include "../Ctl/CtlMsgDspch.hpp"
 
@@ -48,6 +49,7 @@ class PageFileRd: public Gtk::Box {
     Signal                   *sigFlat;
     WaveFiler                *twi;
     CfgEnv                   *ce;
+    CfgSettings              *ct;
     CfgStrings               *cs;
     CtlMsgDspch              *ctMd;
 

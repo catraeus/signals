@@ -44,6 +44,7 @@ The user can set the bit depth, float vs. int on this page.  That's all.
 #include <caes/CaesTypes.hpp>
 
 #include "../Cfg/CfgEnv.hpp"
+#include "../Cfg/CfgSettings.hpp"
 #include "../Cfg/CfgStrings.hpp"
 
 //====  This is a tutorial application.  Lots of WAVE file stuff needs exposure.
@@ -88,6 +89,7 @@ class PageFileWr: public Gtk::Box {
   private:
 
     CfgEnv                   *ce;
+    CfgSettings              *ct;
     CfgStrings               *cs;
 
     NumSys                   *tns;
