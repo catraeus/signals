@@ -36,7 +36,7 @@ void   WinSa::BuildEnv           ( void         ) {
 }
 void   WinSa::BuildSubs          ( Signal *i_sig ) {
   vwDrwSa     = new      DrwSa      ( i_sig   );
-  frmAxisH    = new      FrmSaAxisH ( vwDrwSa );  // a whole class of its own since it has lots of function as we rescale etc.
+  frmAxisH    = new      FrmSaAxisH ( vwDrwSa, mdSa);  // a whole class of its own since it has lots of function as we rescale etc.
   frmAxisV    = new      FrmSaAxisV ( vwDrwSa );  // a whole class of its own since it has lots of function as we rescale etc.
   vwSaMode    = new      FrmSaMode  ( i_sig   );
   vwSaHor     = new      FrmSaHor   ( i_sig   );

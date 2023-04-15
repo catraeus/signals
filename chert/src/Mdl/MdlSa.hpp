@@ -6,111 +6,14 @@
 // Creation Date      : Oct 23, 2013
 // Copyright          : Copyright © 2013 - 2017 by Catraeus and Duncan Gray
 //
-//!< \brief Spectrum Analyzer model to justify the screen size, signal source and desired display functionality desired by the user.
+//   Description:
+//   Spectrum Analyzer model to justify the screen size, signal source and desired display functionality desired by the user.
+//     See ScreenGrids.odt in the chert/doc section
 //
 //=================================================================================================
 
 #ifndef __MDL_SA_HPP_
 #define __MDL_SA_HPP_
-/*! The horizontal guts that the user influences but might not really care about
-
-Division of Labor
------------------
-The controller is the function that marshalls all views against the model.
-Only the model persists data.
-The model must be rigorously monitored (in design) to be only minimum/sufficient ... as little derived as possible.
-The model must minimize the duplicaiton of data.
-
-Model contains
---------------
-  top/bottom in amplitude
-  dB/Lin in amplitude
-  start/stop in frequency
-  log/lin in frequency
-  Apodization settings
-  Number of freq points of the freq transformed space.
-  Number of time points of the time-side input. (we aren't an inverse transformer.)
-  Number of vertical pixels on the screen
-  Number of horizontal pixels on the screen
-
-
-Nomenclature
-------------
-  start   -- Lowest freq, at the left end of the screen
-  center  -- Center freq, at the equilateral middle of the view screen.  Not relevant in Log
-  stop    -- Highest freq, at the right edge of the screen
-  span    -- The difference between the right edge and the left edge (Hz or decades, whole number decades please)
-  top     -- Highest amplitude, top edge of the view screen
-  bottom  -- Lowest amplitude, bottom edge of the view screen
-
-Ranges and enums
------------
-  Source Mode { Real, Complex} (This is fundamentally a vertical spec, but influences what happens here.
-  Sweep Mode  { Log, Linear} in Real modes, the lowest freq is 0
-  Freq Range mode  ?SweepMode == Linear ... { (start,stop   =SP) | (start,span  =SN) | (start,scale=SK) | (center,span=CN) | (center,scale=CK) }
-                   :SweepMode == Log    ... { (start|decades=SD) | (stop|decades=PD) }
-  Ampl Mode   { dB, Lin   } in power spectrum modes, the lowest amplitude is 0.
-  Ampl Range mode  (top,bot=TB) | (top,scale=TK) | (top,span=TN) | (center,span=CN) | (center,scale=CK) }
-
-
-There are three sampled domains, the time signal, the frequency signal and the screen dots.
-
-Time Signal is all taken care of in ScopeVert.  Watch out for the end times when the scope display demand is not the same
-    length of samples as the freq analysis demand.
-
-Frequency Signal is defined here.  It is the array of values from some number of frequencies.  There are a few problems to solve.
-    Apodization needs to be handled here.
-    Short sequences use DFT and long sequences use FFT.
-       Both DFT and FFT have N time elements generally not exactly displayed over in the scope.  Some
-           future revision of chert will highlite the portion of the time display that yields the frequency anlysis.
-       DFT demands P analysis points.  All can be in-range for display.
-       FFT demands P analysi spoints, P = N, BUT for real input it is redundant in the second half.  So anlaysi sof real inputs
-           will generally only display half of the FFT's P points.
-
-The fastest way to analyze a truncated time signal is with an equal number of complex sinusoids from DC to the nyquist frequency.
-If it is a pure real input, then the half-spectrum is sufficient, and the negative frequencies will be the complex conjugate
-of the positives, else negative frequencies need analysis.
-
-If you ever want frequencies in between these discrete frequencies, the sinc() will do the job.  It's synthetic and meaningless
-unless you want a nice picture on the screen.  For that, any other method might be good for interpolation.  Zero-order hold,
-straight-line interpolation, pretty much anything but sinc().  HOWEVER, I really hate the jaggedy look in the low frequencies of
-a log-f plot, so I might do more there.  I really like low integer odd-order polynomial fits myself.
-
-So the steps will be:
-1.  Get the time array.
-2.  If the time array is too long, abort. (for now)
-3.  Calculate the same N frequency points by either FFT (if 2^N) or by DFT.
-4.  If there are more points in F than the screen has, then we need the user to make the decimation choices.
-5.  Else if the user wants min-max, smoothed, whatever, we're hozed for now.
-6.  Else, the screen will do the straight-line interpolation connect.
-
-Input real vs. complex:
------------------------
-Complex, of course, only if the input has an even number of channels.
-
-Display/settings modes:
------------------------
-isLog, isCentered, isCplx
-
-So, isLog I struggle with ... because ... it is a positive-only thing ... but ... you could flip the complex spectra around
-and look at their negatives as positives.  So what are the use cases?
- - near-carrier phase noise.  Is a power-spectrum only, so the negative frequencies fold over, no problem - do log.  Weeeellll
-but actually you'd really want to see pos-neg asymmetries, now wouldn't you.  Pos/neg overlay!  Patent it!  Invented
-Thurs 2010-10-24 8:05 Central DST Time, US, Van Alstyne TX 75495.
- - coherent-carrier demodulated down to DC (but we have to synthesize the carrier frequency) just doesn't make sense as log.
- - broadband baseband stuff ... audio channels, noise-floor analysis, impulse responses.  Can be log or linear and only makes sense
-as Real in the time domain stuff.
- - But damn, what about a really cool filter that has a complex component, Hilbert kind of stuff. Linear or log+flipped.
-
-OK, so that answers it.  I will have a Log with Complex then a Flip and an overlay of flipped/unflipped!  Like I said above
-Patent it.
- - Linear -- { (start,center) | (start,stop) | (center,stop) | (start,span) | (center,span) | (stop,span) }
- - Log -- { (start,stop) | (start|decades) | (stop|decades) }
-
-Persistance:
- - Linear --
- - Log --
-*/
 
 #include <math.h>
 
@@ -145,6 +48,10 @@ class MdlSa {
       EK_AN_DFT    =    2048,
       EK_AN_MAX    =  262144
     };
+    typedef enum eGrdDom_e {
+      EG_F_AB, // Is absolute frequency (using the FS to calculate)
+      EG_F_FS  // Is relative frequency (where 1 sample is 1 t_unit
+    } eGrdDom;
   public:
   private:
     static const double C_FREQ_MIN;
@@ -206,30 +113,35 @@ class MdlSa {
              void     SetCenter    ( double i_c );
              double   GetCenter    ( void       ) {                      return GetSpan() * 0.5 + GetFmin()  ;};
   private:
-             bool    isCplx;       //!<vs. Real - Display forced to pos-only if Real, because of the complex-conjugate thing. Deadhead for now.
-             bool    isLogY;       //!<vs. Lin - Display vertical is Db based, we won't display that silly log10() vertical scale.  It doesn't ... wait for it ... scale!
-             bool    isAvg;
+             bool     isCplx;       //!<vs. Real - Display forced to pos-only if Real, because of the complex-conjugate thing. Deadhead for now.
+             bool     isLogY;       //!<vs. Lin - Display vertical is Db based, we won't display that silly log10() vertical scale.  It doesn't ... wait for it ... scale!
+             bool     isAvg;
 
-             double  pxlVscrY;
-             double  vMax;
-             double  vMin;
+             double   pxlVscrY;
+             double   vMax;
+             double   vMin;
 
-static const char   *cbxVrtMode[];
+static const char    *cbxVrtMode[];
 
-             bool    isLogX;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
-             bool    isCentered;   //!<vs. start-span or start-stop - Display is center-pinned, not start-pinned.  Linear only
-             bool    isDelNfreq;
+             bool     isLogX;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
+             bool     isCentered;   //!<vs. start-span or start-stop - Display is center-pinned, not start-pinned.  Linear only
+             bool     isDelNfreq;
 
-             llong   smpVana;      //!<Samples in the time domain lead to this spectrum?
-             llong   frqVana;
-             llong   smpVanaLast;
-             llong   frqVanaLast;
-             double  pxlVscrX;
+             llong    smpVana;      //!<Samples in the time domain lead to this spectrum?
+             llong    frqVana;
+             llong    smpVanaLast;
+             llong    frqVanaLast;
+             double   pxlVscrX;
 
-             double  fMin;
-             double  fMax;
+             eGrdDom  grdDom;
+             double   grdVscrX;
+             double   freqVgrdX; // This will be constrained to the ancient and venerable 1/2/5
+             double   pxlVgrdX;
 
-    static   MdlSa  *mdSa;
+             double   fMin;
+             double   fMax;
+
+    static   MdlSa   *mdSa;
   };
 
 #endif // __MDL_SA_HPP_

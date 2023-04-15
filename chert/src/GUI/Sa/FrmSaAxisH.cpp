@@ -13,8 +13,9 @@
 
 #include "FrmSaAxisH.hpp"
 
-         FrmSaAxisH::FrmSaAxisH    ( DrwSa *i_vwDs  ) {
+         FrmSaAxisH::FrmSaAxisH    ( DrwSa *i_vwDs, MdlSa *i_mdSa  ) {
   vwDs = i_vwDs;
+  mdSa = i_mdSa;
   BuildMain();
 }
 
@@ -27,7 +28,6 @@ void     FrmSaAxisH::BuildMain     ( void      ) {
   hbxAxisH.pack_start( hlyAxisH,        Gtk::PACK_SHRINK, 0);
 
   lblAxisH     = new Gtk::Label[EWOC_AX_H_L];
-
 
   for(uint ii = 0; ii<EWOC_AX_H_L; ii++) {
     char ss[32];
@@ -71,14 +71,14 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   hd  = vd; // TODO Make everyone know that horizontal and vertical grid size will ALWAYS be equal.
   hn  = (int)floor(hs / vs * 10.0) + 1;// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
 
-  hfz = 0.0;
-  hfs = 0.5;
+  hfz = mdSa->GetFmin();
+  hfs = mdSa->GetFmax();
 
   if(hn > EWOC_AX_H_L) hn = EWOC_AX_H_L;
   hfd = (hfs - hfz) / (double)(hn - 1);
   for(int ii = 0; ii < hn; ii++) {
     hi = (int)((0.35 + 1.04*(double)ii) * hd);
-    sprintf(ss, "%1.2lf", ((double)ii * hfd + hfz));
+    sprintf(ss, "%1.2lf", ((double)ii * hfd + hfz)/1000.0);
     lblAxisH[ii]  .set_text      (ss);
     hlyAxisH      .move          (lblAxisH[ii], hi,  10);
     lblAxisH[ii]  .set_visible   (true);

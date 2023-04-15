@@ -110,7 +110,7 @@ class WinSa: public Gtk::Window {
 
 // Analyzer
   private:
-    MdlSa           *mdSa;
+    MdlSa             *mdSa;
 
 // Environment
   private:

@@ -20,6 +20,7 @@
 
 #include <gtkmm.h>
 #include "DrwSa.hpp"
+#include "../../Mdl/MdlSa.hpp"
 
 class FrmSaAxisH: public Gtk::Frame {
   public:
@@ -32,19 +33,20 @@ class FrmSaAxisH: public Gtk::Frame {
       EWOC_AX_H_L          =   32  // How many labels in the horiz dim.
       };
   public:
-                      FrmSaAxisH       ( DrwSa        *i_vwDs  );
-    virtual          ~FrmSaAxisH       ( void        );
-             void     OnSizeAlloc        ( void        );
+                      FrmSaAxisH       ( DrwSa *i_vwDs, MdlSa *i_mdSa  );
+    virtual          ~FrmSaAxisH       ( void   );
+             void     OnSizeAlloc      ( void   );
   protected:
   private:
-             void     BuildMain          ( void        );
+             void     BuildMain        ( void   );
   public:
   private:
              Gtk::Box      hbxAxisH;        // holds the layout and the filler box
              Gtk::Layout   hlyAxisH;        // contains labels
-             Gtk::Label   *lblAxisH; // Are the labels
+             Gtk::Label   *lblAxisH;        // Are the labels, will be an array
 
              DrwSa        *vwDs;
+             MdlSa        *mdSa;
 };
 
 #endif // __FRM_SA_AXIS_H_HPP_
