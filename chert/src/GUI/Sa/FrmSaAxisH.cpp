@@ -69,7 +69,8 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   hs  = (double)vwDs->get_allocated_width(); // FIXME only works because vbxAxisVert has the same top as vwDs
   hlyAxisH.set_size_request((int)(hs + EWOC_DS_B_H), 40);
   hd  = vd; // TODO Make everyone know that horizontal and vertical grid size will ALWAYS be equal.
-  hn  = (int)floor(hs / vs * 10.0) + 1;// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
+  hn  = (int)floor(hs / vs * 10.0) + 1;// First try, let's see how many get made like this.
+                                       // FIXME The grid back in the draw needs to be coordinated.
 
   hfz = mdSa->GetFmin();
   hfs = mdSa->GetFmax();

@@ -1,0 +1,6 @@
+Biggest Picture Thingies:
+Scope         check has it
+SpecAn        check has it
+Histogram     will be nice     only needs the analyzer  Generates a whole new dataset
+x-y           will be nice     only needs the presenter  no new dataset, gives us digital demod constellations!
+eye-diagram   will be nice     needs presenter and analyzer, generates a meta-data from PLL tracker

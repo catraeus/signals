@@ -46,6 +46,12 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
   frqVana        = 800;
   smpVanaLast    = 0;
   frqVanaLast    = 0;
+
+  grdVscrX       =  20.0;
+  freqVgrdX      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
+  pxlVgrdX       = 100.0;
+  grdDom         = EG_F_AB;
+
 //  gak            = 1234;
 //if(__sync_bool_compare_and_swap (&gak, 1234, 5678)) {fprintf(stderr, "ho  ho  ho\n" ); fflush(stderr);}
 //else                                                {fprintf(stderr, "boo hoo hoo\n"); fflush(stderr);}
