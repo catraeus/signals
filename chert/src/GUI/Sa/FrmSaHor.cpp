@@ -15,7 +15,7 @@
 
 #include "FrmSaHor.hpp"
 
-FrmSaHor::FrmSaHor             ( Signal *i_sig )
+       FrmSaHor::FrmSaHor             ( Signal *i_sig )
 : vwSaDrw( NULL)
 , sig (i_sig) {
   BuildEnv      (      );

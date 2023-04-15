@@ -13,15 +13,15 @@
 
 #include "FrmSaAxisH.hpp"
 
-FrmSaAxisH::FrmSaAxisH( DrwSa        *i_vwDs  ) {
+         FrmSaAxisH::FrmSaAxisH    ( DrwSa *i_vwDs  ) {
   vwDs = i_vwDs;
   BuildMain();
 }
 
-FrmSaAxisH::~FrmSaAxisH() {
+         FrmSaAxisH::~FrmSaAxisH   ( void      ) {
 }
 
-void     FrmSaAxisH::BuildMain     ( void        ) {
+void     FrmSaAxisH::BuildMain     ( void      ) {
   set_border_width(1);
   add(hbxAxisH);
   hbxAxisH.pack_start( hlyAxisH,        Gtk::PACK_SHRINK, 0);
@@ -44,33 +44,44 @@ void     FrmSaAxisH::BuildMain     ( void        ) {
 
   return;
 }
-void   FrmSaAxisH::OnSizeAlloc( void      ) {
+void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   //Really, this is just a gridscale-redraw function.
   char   ss[32];
 
-  double vs; // vertical size;
-  double vd; // vertical delta;
+  double vs;     // vertical size;
+  double vd;     // vertical delta;
 
-  double hs; // horizontal size;
-  double hd; // horizontal delta;
-  int    hi; // horizontal integer immediate placement
-  int    hn; // horizontal number of grids
+  double hfs;    // horizontal frequency span
+  double hfz;    // horizontal frequency zero
+  double hfd;    // horizontal frequency delta
+  bool   isLogF; // Logarithmic in frequency
+
+  double hs;     // horizontal size;
+  double hd;     // horizontal delta;
+  int    hi;     // horizontal integer immediate placement
+  int    hn;     // horizontal number of grids
 
   vs  = (double)vwDs->get_allocated_height(); // FIXME only works because vbxAxisVert has the same top as vwDs
-  vd  = vs / 10.0;// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
-
+  vd  = vs / 10.5;  // FIXME because I say so. This will eventually become a constant somewhere in user or global settings
+                    // This MAGICK 10.5 is trail and error to get them laid out at the right places compared to the
+                    // SaDraw vertical lines that got drawn elsewhere
 
   hs  = (double)vwDs->get_allocated_width(); // FIXME only works because vbxAxisVert has the same top as vwDs
   hlyAxisH.set_size_request((int)(hs + EWOC_DS_B_H), 40);
   hd  = vd; // TODO Make everyone know that horizontal and vertical grid size will ALWAYS be equal.
-  hn  = (int)floor(hs / vs * 10.0);// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
+  hn  = (int)floor(hs / vs * 10.0) + 1;// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
+
+  hfz = 0.0;
+  hfs = 0.5;
+
   if(hn > EWOC_AX_H_L) hn = EWOC_AX_H_L;
+  hfd = (hfs - hfz) / (double)(hn - 1);
   for(int ii = 0; ii < hn; ii++) {
-    hi = (int)((double)( 0 + ii) * hd);
-    sprintf(ss, "%dm", (ii - 0) * 30 + 11);
+    hi = (int)((0.35 + 1.04*(double)ii) * hd);
+    sprintf(ss, "%1.2lf", ((double)ii * hfd + hfz));
     lblAxisH[ii]  .set_text      (ss);
-    hlyAxisH          .move      (lblAxisH[ii], hi,  10);
-    lblAxisH[ii] .set_visible    (true);
+    hlyAxisH      .move          (lblAxisH[ii], hi,  10);
+    lblAxisH[ii]  .set_visible   (true);
     }
   for(int ii = hn; ii < EWOC_AX_H_L; ii++) {
     lblAxisH[ii] .set_visible    (false);

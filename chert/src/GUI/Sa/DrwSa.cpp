@@ -178,7 +178,7 @@ bool    DrwSa::on_draw      ( const Cairo::RefPtr<Cairo::Context>& cr ) {
   cr->paint();
   cr->restore();
 
-  cr->set_source_rgba(1.0, 0.7, 0.0, 1.0); // Orange
+  cr->set_source_rgba(1.0, 1.0, 0.0, 1.0); // Orange
   cr->set_line_width(0.707);
   cr->move_to(0.0, mdSa->GetPxlVscrY() / 2.0);
   scaleF = 1.0;
