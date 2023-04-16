@@ -23,15 +23,17 @@
 #include "../../Mdl/MdlSa.hpp"
 
 class FrmSaAxisH: public Gtk::Frame {
+private:
+  enum eConst {
+    EWOC_AX_H_Y          =   30,  // Horizontal Layout for axis markers vertical width.
+    EWOC_AX_V_X          =   50,  // Vertical Axis horiz width, label and strip
+    EWOC_AX_H_L          =   32,  // How many labels in the horiz dim.
+    EWOC_AX_B_H          =   45
+    };
   public:
     enum eSizes {
-      EWOC_DS_B_H          =   25 // drawScreen buffer to let axis lables be centered on graticule lines.
+      EWOC_DS_B_H        =   EWOC_AX_B_H // drawScreen buffer to let axis lables be centered on graticule lines.
     };
-  private:
-    enum eConst {
-      EWOC_AX_V_X          =   50, // Vertical Axis horiz width, label and strip
-      EWOC_AX_H_L          =   32  // How many labels in the horiz dim.
-      };
   public:
                       FrmSaAxisH       ( DrwSa *i_vwDs, MdlSa *i_mdSa  );
     virtual          ~FrmSaAxisH       ( void   );
@@ -41,9 +43,20 @@ class FrmSaAxisH: public Gtk::Frame {
              void     BuildMain        ( void   );
   public:
   private:
+             Gtk::Box      vbxAxisH;        // Packs the full-scalizer labels.
              Gtk::Box      hbxAxisH;        // holds the layout and the filler box
              Gtk::Layout   hlyAxisH;        // contains labels
              Gtk::Label   *lblAxisH;        // Are the labels, will be an array
+             Gtk::Box      hbxFSZrH;        // The box to hold the full-scalizer labels.
+             Gtk::Label    lblFSZsH;        // The start Label
+             Gtk::Box      hbxFSZfill;      // Occupy the space between the start and stop labels.
+             Gtk::Label    lblAxipH;        // The stop  Label
+
+   static const char      pmkuLblFP[];
+   static const char      pmkuLblFS[];
+
+   static const double    PXO_HL_Z;   // How far to move to the right for the first one
+   static const double    PXO_HL_D;   // How far to separate each one
 
              DrwSa        *vwDs;
              MdlSa        *mdSa;

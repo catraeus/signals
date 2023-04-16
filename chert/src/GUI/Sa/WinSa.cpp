@@ -64,7 +64,7 @@ void   WinSa::BuildMain          ( void         ) {
   hbxBfDdLeft     .set_size_request (    FrmSaAxisH::EWOC_DS_B_H, -1  );
   hbxBfDdRite     .set_size_request (    FrmSaAxisH::EWOC_DS_B_H, -1  );
 
-  vbxMode        .set_orientation   ( Gtk::ORIENTATION_VERTICAL);
+  vbxMode        .set_orientation   ( Gtk::ORIENTATION_VERTICAL       );
   vbxMode        .set_size_request  (                       200,   0  );
   vbxModeFill    .set_orientation   ( Gtk::ORIENTATION_VERTICAL       );
 

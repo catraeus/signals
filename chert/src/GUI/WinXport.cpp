@@ -198,16 +198,16 @@ bool   WinXport::XpTimN          (void *i_dummy) {
   if(sliderHoldOff) return false;
   sliderHoldOff = true;
   N = mdOs->GetPosN();
-  sprintf(a, "%'9.2lf", N);
-  b[0] = '\0';
+  sprintf(a, "%'9.2lf", N);         // Get the float onto a
+  //b[0] = '\0';
   for(i=0; i<(16 - strlen(a)); i++)
-    b[i] = ' ';
+    b[i] = ' ';                     // pad front to make fixed size
   b[i] = '\0';
-  strcat(b, a);
-  strcpy(a, b);
-  strcpy(b, txtCurrPosPrefix);
-  strcat(b, a);
-  strcat(b, txtCurrPosSuffix);
+  strcat(b, a);                     // append the number onto the space padding
+  strcpy(a, b);                     // put the working out to the temp
+  strcpy(b, txtCurrPosPrefix);      // put the markup prefix onto the working
+  strcat(b, a);                     // put the real info onto working
+  strcat(b, txtCurrPosSuffix);      // markup suffix finally
   lblCurrPosN.set_markup(b);
 
   SecToHMS(a, mdOs->GetPosT(), true);

@@ -52,7 +52,7 @@ void FrmSaAp::BuildMain(void) {
     apod->GetShapeName((Apodia::eShape)i, s);
     cbxShape->append(s);
     }
-  cbxShape->set_active_text("Blackman-Harris");
+  cbxShape->set_active_text("Dirichlet");
 
   char s[256];
 

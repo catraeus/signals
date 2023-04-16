@@ -13,6 +13,11 @@
 
 #include "FrmSaAxisH.hpp"
 
+const char   FrmSaAxisH::pmkuLblFP[] = "<span font=\"serif\">";
+const char   FrmSaAxisH::pmkuLblFS[] = "</span>";
+const double FrmSaAxisH::PXO_HL_Z    =  0.850;
+const double FrmSaAxisH::PXO_HL_D    =  1.051;
+
          FrmSaAxisH::FrmSaAxisH    ( DrwSa *i_vwDs, MdlSa *i_mdSa  ) {
   vwDs = i_vwDs;
   mdSa = i_mdSa;
@@ -23,30 +28,67 @@
 }
 
 void     FrmSaAxisH::BuildMain     ( void      ) {
+  char markup[256];
+
+  //====  Make Stuff
+
   set_border_width(1);
-  add(hbxAxisH);
-  hbxAxisH.pack_start( hlyAxisH,        Gtk::PACK_SHRINK, 0);
 
+  vbxAxisH   .set_orientation     (Gtk::ORIENTATION_VERTICAL  );
+  hbxAxisH   .set_orientation     (Gtk::ORIENTATION_HORIZONTAL);
+
+  hlyAxisH   .set_size_request    (800, EWOC_AX_H_Y);
+
+  strcpy(markup, pmkuLblFP);
+  strcat(markup, "45");
+  strcat(markup, pmkuLblFS);
   lblAxisH     = new Gtk::Label[EWOC_AX_H_L];
-
   for(uint ii = 0; ii<EWOC_AX_H_L; ii++) {
     char ss[32];
     sprintf(ss, "%d", ii);
-    lblAxisH[ii] .set_text        (ss);
-    lblAxisH[ii] .set_size_request(10,0);
-    lblAxisH[ii] .set_justify     (Gtk::JUSTIFY_CENTER);
-    hlyAxisH     .put             (lblAxisH[ii], ii*5,    10);
-    }
+    lblAxisH[ii] .set_size_request (15,0);
+    lblAxisH[ii] .set_use_markup   (true);
+    lblAxisH[ii] .set_markup       (markup);
+    lblAxisH[ii] .set_justify      (Gtk::JUSTIFY_CENTER);
+  }
 
 
 
-  hlyAxisH   .set_size_request (-1, 40);
+
+  hbxFSZrH   .set_orientation     (Gtk::ORIENTATION_HORIZONTAL);
+
+  strcpy(markup, pmkuLblFP);
+  strcat(markup, "0.0 Hz");
+  strcat(markup, pmkuLblFS);
+  lblFSZsH   .set_use_markup   (true);
+  lblFSZsH   .set_markup       (markup);
+
+  hbxFSZfill .set_orientation     (Gtk::ORIENTATION_HORIZONTAL); // Not that this one matters
+
+  strcpy(markup, pmkuLblFP);
+  strcat(markup, "24.0 kHz");
+  strcat(markup, pmkuLblFS);
+  lblAxipH   .set_use_markup   (true);
+  lblAxipH   .set_markup       (markup);
+
+
+  //====  Place Stuff
+
+                   add        ( vbxAxisH                                   );
+  vbxAxisH        .pack_start ( hbxAxisH,      Gtk::PACK_SHRINK,         0 );
+    hbxAxisH      .pack_start ( hlyAxisH,      Gtk::PACK_EXPAND_WIDGET,  0 );
+    for(uint ii = 0; ii<EWOC_AX_H_L; ii++)
+      hlyAxisH    .put        ( lblAxisH[ii],    ii*5,       10            );  // bogus placement for now
+  vbxAxisH        .pack_start ( hbxFSZrH,      Gtk::PACK_SHRINK,         0 );
+  hbxFSZrH        .pack_start ( lblFSZsH,      Gtk::PACK_SHRINK,         0 );
+  hbxFSZrH        .pack_start ( hbxFSZfill,    Gtk::PACK_EXPAND_WIDGET,  0 );
+  hbxFSZrH        .pack_start ( lblAxipH,      Gtk::PACK_SHRINK,         0 );
 
   return;
 }
 void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   //Really, this is just a gridscale-redraw function.
-  char   ss[32];
+  char   ss[256];
 
   double vs;     // vertical size;
   double vd;     // vertical delta;
@@ -67,7 +109,7 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
                     // SaDraw vertical lines that got drawn elsewhere
 
   hs  = (double)vwDs->get_allocated_width(); // FIXME only works because vbxAxisVert has the same top as vwDs
-  hlyAxisH.set_size_request((int)(hs + EWOC_DS_B_H), 40);
+  hlyAxisH.set_size_request((int)(hs + EWOC_AX_B_H), EWOC_AX_H_Y);
   hd  = vd; // TODO Make everyone know that horizontal and vertical grid size will ALWAYS be equal.
   hn  = (int)floor(hs / vs * 10.0) + 1;// First try, let's see how many get made like this.
                                        // FIXME The grid back in the draw needs to be coordinated.
@@ -78,9 +120,11 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   if(hn > EWOC_AX_H_L) hn = EWOC_AX_H_L;
   hfd = (hfs - hfz) / (double)(hn - 1);
   for(int ii = 0; ii < hn; ii++) {
-    hi = (int)((0.35 + 1.04*(double)ii) * hd);
-    sprintf(ss, "%1.2lf", ((double)ii * hfd + hfz)/1000.0);
-    lblAxisH[ii]  .set_text      (ss);
+    double tnm;
+    hi = (int)((PXO_HL_Z + PXO_HL_D*(double)ii) * hd);
+    tnm = ((double)ii * hfd + hfz)/1000.0;
+    sprintf(ss, "%s%1.1lf%s", pmkuLblFP, tnm, pmkuLblFS);
+    lblAxisH[ii]  .set_markup    (ss);
     hlyAxisH      .move          (lblAxisH[ii], hi,  10);
     lblAxisH[ii]  .set_visible   (true);
     }
