@@ -12,6 +12,7 @@
 
 
 #include "FrmSaAxisH.hpp"
+#include <caes/CaesString.hpp>
 
 const char   FrmSaAxisH::pmkuLblFP[] = "<span font=\"serif\">";
 const char   FrmSaAxisH::pmkuLblFS[] = "</span>";
@@ -29,6 +30,7 @@ const double FrmSaAxisH::PXO_HL_D    =  1.051;
 
 void     FrmSaAxisH::BuildMain     ( void      ) {
   char markup[256];
+  char ss[128];
 
   //====  Make Stuff
 
@@ -44,7 +46,6 @@ void     FrmSaAxisH::BuildMain     ( void      ) {
   strcat(markup, pmkuLblFS);
   lblAxisH     = new Gtk::Label[EWOC_AX_H_L];
   for(uint ii = 0; ii<EWOC_AX_H_L; ii++) {
-    char ss[32];
     sprintf(ss, "%d", ii);
     lblAxisH[ii] .set_size_request (15,0);
     lblAxisH[ii] .set_use_markup   (true);
@@ -57,19 +58,17 @@ void     FrmSaAxisH::BuildMain     ( void      ) {
 
   hbxFSZrH   .set_orientation     (Gtk::ORIENTATION_HORIZONTAL);
 
-  strcpy(markup, pmkuLblFP);
-  strcat(markup, "0.0 Hz");
-  strcat(markup, pmkuLblFS);
+  EngString(ss,     0.0, 1, (char *)"Hz");
+  sprintf(markup, "%s%s%s", pmkuLblFP, ss, pmkuLblFS);
   lblFSZsH   .set_use_markup   (true);
   lblFSZsH   .set_markup       (markup);
 
   hbxFSZfill .set_orientation     (Gtk::ORIENTATION_HORIZONTAL); // Not that this one matters
 
-  strcpy(markup, pmkuLblFP);
-  strcat(markup, "24.0 kHz");
-  strcat(markup, pmkuLblFS);
-  lblAxipH   .set_use_markup   (true);
-  lblAxipH   .set_markup       (markup);
+  EngString(ss, 24000.0, 1, (char *)"Hz");
+  sprintf(markup, "%s%s%s", pmkuLblFP, ss, pmkuLblFS);
+  lblFSZpH   .set_use_markup   (true);
+  lblFSZpH   .set_markup       (markup);
 
 
   //====  Place Stuff
@@ -82,13 +81,17 @@ void     FrmSaAxisH::BuildMain     ( void      ) {
   vbxAxisH        .pack_start ( hbxFSZrH,      Gtk::PACK_SHRINK,         0 );
   hbxFSZrH        .pack_start ( lblFSZsH,      Gtk::PACK_SHRINK,         0 );
   hbxFSZrH        .pack_start ( hbxFSZfill,    Gtk::PACK_EXPAND_WIDGET,  0 );
-  hbxFSZrH        .pack_start ( lblAxipH,      Gtk::PACK_SHRINK,         0 );
+  hbxFSZrH        .pack_start ( lblFSZpH,      Gtk::PACK_SHRINK,         0 );
 
   return;
 }
 void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   //Really, this is just a gridscale-redraw function.
-  char   ss[256];
+  char   ss[128];
+  char   markup[256];
+
+  ss[0]     = 0;
+  markup[0] = 0;
 
   double vs;     // vertical size;
   double vd;     // vertical delta;
@@ -108,29 +111,42 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
                     // This MAGICK 10.5 is trail and error to get them laid out at the right places compared to the
                     // SaDraw vertical lines that got drawn elsewhere
 
-  hs  = (double)vwDs->get_allocated_width(); // FIXME only works because vbxAxisVert has the same top as vwDs
+  hs     = (double)vwDs->get_allocated_width(); // FIXME only works because vbxAxisVert has the same top as vwDs
   hlyAxisH.set_size_request((int)(hs + EWOC_AX_B_H), EWOC_AX_H_Y);
-  hd  = vd; // TODO Make everyone know that horizontal and vertical grid size will ALWAYS be equal.
-  hn  = (int)floor(hs / vs * 10.0) + 1;// First try, let's see how many get made like this.
+  hd     = vd; // TODO Make everyone know that horizontal and vertical grid size will ALWAYS be equal.
+  hn     = (int)floor(hs / vs * 10.0) + 1;// First try, let's see how many get made like this.
                                        // FIXME The grid back in the draw needs to be coordinated.
 
-  hfz = mdSa->GetFmin();
-  hfs = mdSa->GetFmax();
+  hfz    = mdSa->GetFmin();
+  hfs    = mdSa->GetFmax();
+  isLogF = mdSa->IsLogX();
+
+  EngString(ss, hfz, 3, (char *)"Hz");
+  sprintf(markup, "%s%s%s", pmkuLblFP, ss, pmkuLblFS);
+  lblFSZsH   .set_markup       (markup);
+
+  EngString(ss, hfs, 3, (char *)"Hz");
+  sprintf(markup, "%s%s%s", pmkuLblFP, ss, pmkuLblFS);
+  lblFSZpH   .set_markup       (markup);
+
 
   if(hn > EWOC_AX_H_L) hn = EWOC_AX_H_L;
-  hfd = (hfs - hfz) / (double)(hn - 1);
-  for(int ii = 0; ii < hn; ii++) {
-    double tnm;
-    hi = (int)((PXO_HL_Z + PXO_HL_D*(double)ii) * hd);
-    tnm = ((double)ii * hfd + hfz)/1000.0;
-    sprintf(ss, "%s%1.1lf%s", pmkuLblFP, tnm, pmkuLblFS);
-    lblAxisH[ii]  .set_markup    (ss);
-    hlyAxisH      .move          (lblAxisH[ii], hi,  10);
-    lblAxisH[ii]  .set_visible   (true);
+  if(isLogF) {
+  }
+  else {
+    hfd = (hfs - hfz) / (double)(hn - 1);
+    for(int ii = 0; ii < hn; ii++) {
+      double tnm;
+      hi = (int)((PXO_HL_Z + PXO_HL_D*(double)ii) * hd);
+      tnm = ((double)ii * hfd + hfz)/1000.0;
+      sprintf(ss, "%s%1.1lf%s", pmkuLblFP, tnm, pmkuLblFS);
+      lblAxisH[ii]  .set_markup    (ss);
+      hlyAxisH      .move          (lblAxisH[ii], hi,  10);
+      lblAxisH[ii]  .set_visible   (true);
     }
-  for(int ii = hn; ii < EWOC_AX_H_L; ii++) {
-    lblAxisH[ii] .set_visible    (false);
+    for(int ii = hn; ii < EWOC_AX_H_L; ii++) {
+      lblAxisH[ii] .set_visible    (false);
     }
-
+  }
   return;
   }

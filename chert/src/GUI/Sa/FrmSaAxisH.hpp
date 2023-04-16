@@ -50,7 +50,7 @@ private:
              Gtk::Box      hbxFSZrH;        // The box to hold the full-scalizer labels.
              Gtk::Label    lblFSZsH;        // The start Label
              Gtk::Box      hbxFSZfill;      // Occupy the space between the start and stop labels.
-             Gtk::Label    lblAxipH;        // The stop  Label
+             Gtk::Label    lblFSZpH;        // The stop  Label
 
    static const char      pmkuLblFP[];
    static const char      pmkuLblFS[];
