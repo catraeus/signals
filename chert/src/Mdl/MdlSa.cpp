@@ -217,7 +217,7 @@ void        MdlSa::SetVmax      ( double  i_v ) {
   }
   return;
 }
-const char *MdlSa::GetVrtModeStr( ullong i_n ) {
+const char *MdlSa::GetVrtModeStr( ullong  i_n ) {
   if(i_n >= ESAM_COUNT) i_n = ESAM_COUNT - 1;
   return cbxVrtMode[i_n];
 }
