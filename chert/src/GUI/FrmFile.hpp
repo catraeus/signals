@@ -1,6 +1,4 @@
 
-// $Id: FrmFile.hpp 754 2023-03-19 03:05:07Z duncang $
-
 //=================================================================================================
 // Original File Name : FrmFile.hpp
 // Original Author    : duncang

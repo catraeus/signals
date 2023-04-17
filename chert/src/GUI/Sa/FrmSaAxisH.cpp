@@ -121,6 +121,22 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   hfs    = mdSa->GetFmax();
   isLogF = mdSa->IsLogX();
 
+  double nG;
+  double fG;
+  double tT;
+  double tGn;
+  fG  = Gridder125(hfs - hfz, 36, false);
+  nG *= fG * 1.000000000000001;
+  tGn = log10(nG) - floor(log10(nG));
+  tGn = floor(pow(10, tGn));
+  if(tGn == 5.0)
+    nG *= 2.0 / 5.0;
+  else if(tGn == 2.0)
+    nG *= 0.5;
+  else
+    nG *= 0.5;
+  tT  = (hfs - hfz) / nG / 10.0;
+
   EngString(ss, hfz, 3, (char *)"Hz");
   sprintf(markup, "%s%s%s", pmkuLblFP, ss, pmkuLblFS);
   lblFSZsH   .set_markup       (markup);
