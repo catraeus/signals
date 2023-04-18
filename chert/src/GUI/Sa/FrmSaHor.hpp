@@ -51,39 +51,46 @@ class FrmSaHor : public Gtk::Frame {
             void    InterConnect     ( void      );
 
             void    OnLogLin         ( void      );
-
+            void    OnAnchor         ( void      );
             bool    OnFaScale        (GdkEventKey   *i_v, Gtk::Entry *i_x);
 
             bool    SaHorRshAll      ( void *i_d );
   public:
   private:
 // | Horizontal
-    Gtk::Box           vbxCtlHoriz;
-// | 0 Signal Frame Rate & Update Rate
-    Gtk::Box           hbxCtlH0;
-    Gtk::Label         lblFS;
-    Gtk::Entry        *txtFS;
-    Gtk::Label         lblTRfsh;
-    Gtk::ComboBoxText *txtTRfsh;
-    Gtk::CheckButton   btLog;
+    Gtk::Box                vbxCtlHoriz;
+// | 0 Signal: Frame Rate & basic screen presentation log/lin
+    Gtk::Box                hbxCtlH0;
+    Gtk::Label              lblFS;
+    Gtk::Entry             *txtFS;
+    Gtk::CheckButton        btLog;
+
+    Gtk::Frame              frmAnchor;
+    Gtk::Box                hbxAnchor;
+    Gtk::RadioButtonGroup   grpRbHorAnch;
+    Gtk::RadioButton        rbtAnchStrt;
+    Gtk::RadioButton        rbtAnchCntr;
+    Gtk::RadioButton        rbtAnchStop;
 // | 2 Interpolation
-    Gtk::Box           hbxTerp;
-    Gtk::Label         lblTerp;
-    Gtk::ComboBoxText *txtTerp;
+    Gtk::Box                hbxTerp;
+    Gtk::Label              lblTerp;
+    Gtk::ComboBoxText      *txtTerp;
 // | 1 Continuity
-    Gtk::Grid          grdHorizContn;
-    Gtk::Label         lblFmin;
-    Gtk::Entry         txtFmin;
-    Gtk::Label         lblFmax;
-    Gtk::Entry         txtFmax;
+    Gtk::Grid               grdHorizContn;
+    Gtk::Label              lblFstart;
+    Gtk::Entry              txtFstart;
+    Gtk::Label              lblFcenter;
+    Gtk::Entry              txtFcenter;
+    Gtk::Label              lblFstop;
+    Gtk::Entry              txtFstop;
 // | 3 Times and Frames per display unit
-    Gtk::Grid          grdHorizNums;
-    Gtk::Label         lblNtime;
-    Gtk::Entry         txtNtime;
-    Gtk::Label         lblDelFreq;
-    Gtk::Entry         txtDelFreq;
-    Gtk::Label         lblNfreq;
-    Gtk::Entry         txtNfreq;
+    Gtk::Grid               grdHorizNums;
+    Gtk::Label              lblNtime;
+    Gtk::Entry              txtNtime;
+    Gtk::Label              lblDelFreq;
+    Gtk::Entry              txtDelFreq;
+    Gtk::Label              lblNfreq;
+    Gtk::Entry              txtNfreq;
 
 
     Gtk::Label         lblHNBlank;

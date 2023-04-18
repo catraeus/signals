@@ -48,10 +48,19 @@ class MdlSa {
       EK_AN_DFT    =    2048,
       EK_AN_MAX    =  262144
     };
-    typedef enum eGrdDom_e {
-      EG_F_AB, // Is absolute frequency (using the FS to calculate)
-      EG_F_FS  // Is relative frequency (where 1 sample is 1 t_unit
-    } eGrdDom;
+    typedef enum eFrqUnt_e {
+      EF_F_ABS,    // Is absolute frequency (using the FS to calculate)
+      EF_F_RELFS   // Is relative frequency (where 1 sample is 1 t_unit
+    } eFrqUnt;
+    typedef enum eGainF_e {
+      EG_F_GRID,   // Set horizontal gain by Freq/Grid
+      EG_F_SPAN    // Set horizontal gain by screen span
+    } eGainF;
+    typedef enum eAnch_e {
+      EA_F_ST,     // Is the start  frequency
+      EA_F_CN,     // Is the center frequency
+      EA_F_SP      // Is the stop   frequency
+    } eAnch;
   public:
   private:
     static const double C_FREQ_MIN;
@@ -95,17 +104,22 @@ class MdlSa {
              ullong   GetVrtModeN  ( void       ) {                      return ESAM_COUNT                   ;};
        const char    *GetVrtModeStr( ullong i_n );
 
-             void     SetLogX      ( void       ) {SetLogX(true );       return                              ;};
-             void     SetLinX      ( void       ) {SetLogX(false);       return                              ;};
+             void     SetLogX      ( void       ) { SetLogX(true );      return                              ;};
+             void     SetLinX      ( void       ) { SetLogX(false);      return                              ;};
              void     SetLogX      ( bool   i_l );
              bool     IsLogX       ( void       ) {                      return  isLogX                      ;};
              bool     IsLinX       ( void       ) {                      return !isLogX                      ;};
-             void     SetCentered  ( bool   i_l ) { isCentered = i_l;    return                              ;};
-             bool     IsCentered   ( void       ) {                      return isCentered                   ;};
-             void     SetSpanned   ( bool   i_l );
-             bool     GetSpanned   ( void       );
+             void     SetAnchX     ( eAnch  i_a );
+             void     SetAnchS     ( void       ) { SetAnchX(EA_F_ST);   return                              ;};
+             void     SetAnchC     ( void       ) { SetAnchX(EA_F_CN);   return                              ;};
+             void     SetAnchP     ( void       ) { SetAnchX(EA_F_SP);   return                              ;};
+             bool     GetAnchX     ( void       ) {                      return anchX                        ;};
+             void     SetGainF     ( bool   i_l );
+             bool     GetGainF     ( void       );
              void     SetFmin      ( double i_s );
              double   GetFmin      ( void       ) {                      return fMin                         ;};
+             void     SetFcen      ( double i_s );
+             double   GetFcen      ( void       ) {                      return fCen                         ;};
              void     SetFmax      ( double i_s );
              double   GetFmax      ( void       ) {                      return fMax                         ;};
              void     SetSpan      ( double i_s );
@@ -124,7 +138,6 @@ class MdlSa {
 static const char    *cbxVrtMode[];
 
              bool     isLogX;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
-             bool     isCentered;   //!<vs. start-span or start-stop - Display is center-pinned, not start-pinned.  Linear only
              bool     isDelNfreq;
 
              llong    smpVana;      //!<Samples in the time domain lead to this spectrum?
@@ -133,12 +146,14 @@ static const char    *cbxVrtMode[];
              llong    frqVanaLast;
              double   pxlVscrX;
 
-             eGrdDom  grdDom;
+             eFrqUnt  grdDom;
              double   grdVscrX;
              double   freqVgrdX; // This will be constrained to the ancient and venerable 1/2/5
              double   pxlVgrdX;
 
+             eAnch    anchX;
              double   fMin;
+             double   fCen;
              double   fMax;
 
     static   MdlSa   *mdSa;

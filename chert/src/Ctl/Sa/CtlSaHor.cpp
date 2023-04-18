@@ -84,6 +84,11 @@ void      CtlSaHor::SetFmin         ( double i_f ) {
   ctMd->MRD_SaHorNumerics();
   return;
 }
+void      CtlSaHor::SetFcen         ( double i_f ) {
+  mdSa->SetFcen(i_f);
+  ctMd->MRD_SaHorNumerics();
+  return;
+}
 void      CtlSaHor::SetFmax         ( double i_f ) {
   mdSa->SetFmax(i_f);
   ctMd->MRD_SaHorNumerics();

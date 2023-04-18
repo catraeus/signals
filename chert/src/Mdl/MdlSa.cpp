@@ -31,26 +31,27 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
   isCplx         = false;
   isLogX         = false;
   isLogY         = true;
-  isCentered     = false;
   pxlVscrX       = EK_PXL_X_NOM;
   pxlVscrY       = EK_PXL_Y_NOM;
   smpVana        = EK_PXL_X_NOM;
   frqVana        = EK_PXL_X_NOM;
-  fMin           = 0.0;
+  anchX          = EA_F_ST;
+  fMin           =     0.0;
+  fCen           = 12000.0;
   fMax           = 24000.0;
-  vMax           = 1.0;
-  vMin           = 1.0 / C_RANGE_Y_NOM;
+  vMax           =     1.0;
+  vMin           =     1.0 / C_RANGE_Y_NOM;
   isDelNfreq     = false;
   isAvg          = false;
   smpVana        = 800;
   frqVana        = 800;
-  smpVanaLast    = 0;
-  frqVanaLast    = 0;
+  smpVanaLast    =   0;
+  frqVanaLast    =   0;
 
   grdVscrX       =  20.0;
   freqVgrdX      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
   pxlVgrdX       = 100.0;
-  grdDom         = EG_F_AB;
+  grdDom         = EF_F_ABS;
 
 //  gak            = 1234;
 //if(__sync_bool_compare_and_swap (&gak, 1234, 5678)) {fprintf(stderr, "ho  ho  ho\n" ); fflush(stderr);}
@@ -234,6 +235,11 @@ void        MdlSa::SetLogX      ( bool    i_l ) {
   }
   return;
 }
+void        MdlSa::SetAnchX     ( eAnch   i_a ) {
+  fprintf(stderr, "Way down in the model, the anchor was dropped.\n");fflush(stderr);
+  anchX = i_a;
+  return;
+}
 void        MdlSa::SetFmin      ( double  i_f ) {
   double ss;
   if(isLogX) {
@@ -252,6 +258,9 @@ void        MdlSa::SetFmin      ( double  i_f ) {
   fMin = ss;
   return;
   }
+void        MdlSa::SetFcen      ( double  i_f ) {
+  return;
+}
 void        MdlSa::SetFmax      ( double  i_f ) {
   double ss;
   if(isLogX) {

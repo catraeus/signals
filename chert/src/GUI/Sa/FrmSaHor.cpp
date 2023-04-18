@@ -36,57 +36,67 @@ void   FrmSaHor::BuildEnv             ( void      ) {
   return;
 }
 void   FrmSaHor::BuildContnGrid       ( void      ) {
-  lblFmin.set_text("Start: ");
-  lblFmax.set_text("Stop: ");
+  lblFstart          .set_text                ( "Start: "          );
+  lblFcenter         .set_text                ( "Center: "         );
+  lblFstop           .set_text                ( "Stop: "           );
 
-  lblFmin.set_justify(Gtk::JUSTIFY_RIGHT);
-  lblFmax.set_justify(Gtk::JUSTIFY_RIGHT);
+  lblFstart          .set_justify             ( Gtk::JUSTIFY_RIGHT );
+  lblFcenter         .set_justify             ( Gtk::JUSTIFY_RIGHT );
+  lblFstop           .set_justify             ( Gtk::JUSTIFY_RIGHT );
 
-  lblFmin.set_margin_left(5);
-  lblFmax.set_margin_left(5);
+  lblFstart          .set_margin_left         ( 5);
+  lblFcenter         .set_margin_left         ( 5);
+  lblFstop           .set_margin_left         ( 5);
 
-  lblFmin.set_margin_right(5);
-  lblFmax.set_margin_right(5);
+  lblFstart          .set_margin_right        ( 5);
+  lblFcenter         .set_margin_right        ( 5);
+  lblFstop           .set_margin_right        ( 5);
 
-  txtFmin.set_width_chars(9);
-  txtFmax.set_width_chars(9);
+  txtFstart          .set_width_chars         ( 9);
+  txtFcenter         .set_width_chars         ( 9);
+  txtFstop           .set_width_chars         ( 9);
 
-  txtFmin.set_alignment(Gtk::ALIGN_END);
-  txtFmax.set_alignment(Gtk::ALIGN_END);
+  txtFstart          .set_alignment           ( Gtk::ALIGN_END);
+  txtFcenter         .set_alignment           ( Gtk::ALIGN_END);
+  txtFstop           .set_alignment           ( Gtk::ALIGN_END);
 
-  grdHorizContn.set_border_width(3);
-  grdHorizContn.set_row_homogeneous(true);
-  grdHorizContn.set_column_homogeneous(false);
+  grdHorizContn.set_border_width              (3);
+  grdHorizContn.set_row_homogeneous           (true);
+  grdHorizContn.set_column_homogeneous        (false);
 
-  grdHorizContn.attach(lblFmin, 0, 0, 1, 1);
-  grdHorizContn.attach(txtFmin, 1, 0, 1, 1);
-  grdHorizContn.attach(lblFmax, 2, 0, 1, 1);
-  grdHorizContn.attach(txtFmax, 3, 0, 1, 1);
+  grdHorizContn.attach(lblFstart,  0, 0, 1, 1);
+  grdHorizContn.attach(txtFstart,  1, 0, 1, 1);
+  grdHorizContn.attach(lblFcenter, 2, 0, 1, 1);
+  grdHorizContn.attach(txtFcenter, 3, 0, 1, 1);
+  grdHorizContn.attach(lblFstop,   4, 0, 1, 1);
+  grdHorizContn.attach(txtFstop,   5, 0, 1, 1);
 
   return;
-  }
+}
 void   FrmSaHor::BuildMain            ( void      ) {
   txtTerp   = new Gtk:: ComboBoxText();
   txtFS     = new Gtk:: Entry       ();
-  txtTRfsh  = new Gtk:: ComboBoxText();
-
-  hbxCtlH0       .set_orientation     (  Gtk::ORIENTATION_HORIZONTAL              );
-  lblFS           .set_justify        (  Gtk::JUSTIFY_LEFT                        );
-  lblFS           .set_text           (                        "FS:  "            );
-  txtFS          ->set_width_chars    (                                         8 );
-  txtFS          ->set_alignment      ( Gtk::ALIGN_END                            );
-  lblTRfsh        .set_text           (                        "T Rfsh: "         );
-  txtTRfsh       ->append             (                        "20 ms"            );
-  txtTRfsh       ->append             (                        "50 ms"            );
-  txtTRfsh       ->append             (                        "100 ms"           );
-  txtTRfsh       ->append             (                        "200 ms"           );
-  txtTRfsh       ->append             (                        "500 ms"           );
-  txtTRfsh       ->append             (                        "1 s"              );
-  txtTRfsh       ->append             (                        "2 s"              );
-  txtTRfsh       ->set_active_text    ("                        20 ms"            );
-  btLog           .set_label          (                        "Log/Lin"          );
 
   vbxCtlHoriz     .set_orientation    ( Gtk::ORIENTATION_VERTICAL                 );
+
+  hbxCtlH0       .set_orientation     ( Gtk::ORIENTATION_HORIZONTAL               );
+  lblFS          .set_justify         ( Gtk::JUSTIFY_LEFT                         );
+  lblFS          .set_text            (                        "FS:  "            );
+  txtFS          ->set_width_chars    (                                         8 );
+  txtFS          ->set_alignment      ( Gtk::ALIGN_END                            );
+  btLog          .set_label           (                        "Log/Lin"          );
+
+  frmAnchor      .set_label           (                       "Anchor");
+  hbxAnchor      .set_orientation     (  Gtk::ORIENTATION_HORIZONTAL              );
+
+
+  rbtAnchStrt.set_group(grpRbHorAnch);
+  rbtAnchCntr.set_group(grpRbHorAnch);
+  rbtAnchStop.set_group(grpRbHorAnch);
+  rbtAnchStrt.set_label("Start");
+  rbtAnchCntr.set_label("Center");
+  rbtAnchStop.set_label("Stop");
+
 
   hbxTerp         .set_orientation    ( Gtk::ORIENTATION_HORIZONTAL               );
   lblTerp.         set_text           (                        "Resample Method: ");
@@ -97,20 +107,24 @@ void   FrmSaHor::BuildMain            ( void      ) {
 
 
 
+  this               ->add          (  vbxCtlHoriz                                );
+    vbxCtlHoriz       .pack_start   (  hbxCtlH0,      Gtk::PACK_SHRINK,        3  );
+      hbxCtlH0        .pack_start   (  lblFS,         Gtk::PACK_SHRINK,        3  );
+      hbxCtlH0        .pack_start   ( *txtFS,         Gtk::PACK_SHRINK,        3  );
+      hbxCtlH0        .pack_start   (  btLog,         Gtk::PACK_SHRINK,        3  );
 
+      hbxCtlH0        .pack_start   (  frmAnchor,     Gtk::PACK_SHRINK,        3  );
+      frmAnchor       .add          (  hbxAnchor                                  );
 
-  this               ->add          (  vbxCtlHoriz                              );
-    vbxCtlHoriz       .pack_start   (  hbxCtlH0,      Gtk::PACK_SHRINK,        3);
-      hbxCtlH0        .pack_start   (  lblFS,         Gtk::PACK_SHRINK,        3);
-      hbxCtlH0        .pack_start   ( *txtFS,         Gtk::PACK_SHRINK,        3);
-      hbxCtlH0        .pack_start   (  lblTRfsh,      Gtk::PACK_SHRINK,        3);
-      hbxCtlH0        .pack_start   ( *txtTRfsh,      Gtk::PACK_SHRINK,        3);
-      hbxCtlH0        .pack_start   (  btLog,         Gtk::PACK_SHRINK,        3);
-    vbxCtlHoriz       .pack_start   (  grdHorizContn, Gtk::PACK_SHRINK,        3);
-    vbxCtlHoriz       .pack_start   (  hbxTerp,       Gtk::PACK_SHRINK,        3);
-      hbxTerp         .pack_start   (  lblTerp,       Gtk::PACK_SHRINK,        3);
-      hbxTerp         .pack_start   ( *txtTerp,       Gtk::PACK_EXPAND_WIDGET   );
-    vbxCtlHoriz       .pack_start   (  grdHorizNums,  Gtk::PACK_SHRINK,        3);
+      hbxAnchor       .pack_start   (  rbtAnchStrt,   Gtk::PACK_SHRINK,        3  );
+      hbxAnchor       .pack_start   (  rbtAnchCntr,   Gtk::PACK_SHRINK,        3  );
+      hbxAnchor       .pack_start   (  rbtAnchStop,   Gtk::PACK_SHRINK,        3  );
+
+    vbxCtlHoriz       .pack_start   (  grdHorizContn, Gtk::PACK_SHRINK,        3  );
+    vbxCtlHoriz       .pack_start   (  hbxTerp,       Gtk::PACK_SHRINK,        3  );
+      hbxTerp         .pack_start   (  lblTerp,       Gtk::PACK_SHRINK,        3  );
+      hbxTerp         .pack_start   ( *txtTerp,       Gtk::PACK_EXPAND_WIDGET     );
+    vbxCtlHoriz       .pack_start   (  grdHorizNums,  Gtk::PACK_SHRINK,        3  );
 
     this->show_all();
   return;
@@ -127,12 +141,16 @@ void   FrmSaHor::SetDrwSa             ( DrwSa *v  ) {
 }
 void   FrmSaHor::IntraConnect         ( void      ) {
   btLog       .signal_clicked          ().connect(                         sigc::mem_fun(*this, &FrmSaHor::OnLogLin    )                );
-  txtFmin     .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtFmin     ));
-  txtFmax     .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtFmax     ));
+  rbtAnchStrt .signal_clicked          ().connect(                         sigc::mem_fun(*this, &FrmSaHor::OnAnchor    )                );
+  rbtAnchCntr .signal_clicked          ().connect(                         sigc::mem_fun(*this, &FrmSaHor::OnAnchor    )                );
+  rbtAnchStop .signal_clicked          ().connect(                         sigc::mem_fun(*this, &FrmSaHor::OnAnchor    )                );
+  txtFstart   .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtFstart   ));
+  txtFcenter  .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtFcenter  ));
+  txtFstop    .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtFstop    ));
   txtNtime    .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtNtime    ));
   txtDelFreq  .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtDelFreq  ));
   txtNfreq    .signal_key_press_event  ().connect(sigc::bind<Gtk::Entry *>(sigc::mem_fun(*this, &FrmSaHor::OnFaScale   ), &txtNfreq    ));
-  txtFS          ->set_sensitive      (false);
+  txtFS      ->set_sensitive           (false);
   return;
 }
 void   FrmSaHor::InterConnect         ( void      ) {
@@ -205,6 +223,16 @@ void   FrmSaHor::OnLogLin             ( void      ) {
   return;
 }
 
+void   FrmSaHor::OnAnchor             ( void      ) {
+       if(rbtAnchStrt.get_active())
+    ctSaHor->SetAnchS();
+  else if(rbtAnchCntr.get_active())
+    ctSaHor->SetAnchC();
+  else
+    ctSaHor->SetAnchP();
+  return;
+}
+
 bool   FrmSaHor::OnFaScale            (GdkEventKey   *i_v, Gtk::Entry *i_x) {
   if(i_v != 0) {
     if((i_v->keyval != GDK_KEY_Return) && (i_v->keyval != GDK_KEY_Tab))
@@ -217,12 +245,13 @@ bool   FrmSaHor::OnFaScale            (GdkEventKey   *i_v, Gtk::Entry *i_x) {
    StringEng(s, &d);
    fprintf(stdout, "    s: %6s    d: %lf\n", s, d); fflush(stdout);
    u = (ullong) (d + DBL_EPS);
-   if     (i_x ==                NULL     ) {                             return false;  }
-   else if(i_x ==               &txtFmin  ) {    ctSaHor->SetFmin (d);    return false;  }
-   else if(i_x ==               &txtFmax  ) {    ctSaHor->SetFmax (d);    return false;  }
-   else if(i_x ==               &txtNtime ) {    ctSaHor->SetNtime(u);    return false;  }
-   else if(i_x ==               &txtNfreq ) {    ctSaHor->SetNfreq(u);    return false;  }
-   else                                                                   return false;
+   if     (i_x ==                NULL     ) {                               return false;  }
+   else if(i_x ==               &txtFstart  ) {    ctSaHor->SetFmin (d);    return false;  }
+   else if(i_x ==               &txtFcenter ) {    ctSaHor->SetFcen (d);    return false;  }
+   else if(i_x ==               &txtFstop   ) {    ctSaHor->SetFmax (d);    return false;  }
+   else if(i_x ==               &txtNtime   ) {    ctSaHor->SetNtime(u);    return false;  }
+   else if(i_x ==               &txtNfreq   ) {    ctSaHor->SetNfreq(u);    return false;  }
+   else                                                                     return false;
    return false;
 }
 
@@ -239,8 +268,8 @@ bool   FrmSaHor::SaHorRshAll          ( void *i_d ) {
   d  = sig   ->GetFS       ();  EngString    (s, d, 4, (char *)"Hz");  txtFS       ->set_text   (s);
   d /= mdSa  ->GetSmpVana  ();  EngString    (s, d, 4, (char *)"Hz");  txtDelFreq   .set_text   (s);
   b  = mdSa  ->IsLogX      ();                                         btLog        .set_active (b);
-  d  = mdSa  ->GetFmin     ();  EngString    (s, d, 4, (char *)"Hz");  txtFmin      .set_text   (s);
-  d  = mdSa  ->GetFmax     ();  EngString    (s, d, 4, (char *)"Hz");  txtFmax      .set_text   (s);
+  d  = mdSa  ->GetFmin     ();  EngString    (s, d, 4, (char *)"Hz");  txtFstart    .set_text   (s);
+  d  = mdSa  ->GetFmax     ();  EngString    (s, d, 4, (char *)"Hz");  txtFstop     .set_text   (s);
   l  = mdSa  ->GetSmpVana  ();  IntWithComma (s, l                 );  txtNtime     .set_text   (s);
   l  = mdSa  ->GetFrqVana  ();  IntWithComma (s, l                 );  txtNfreq     .set_text   (s);
   if(vwSaDrw != NULL) vwSaDrw->ReGrid();

@@ -126,7 +126,7 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   double tT;
   double tGn;
   fG  = Gridder125(hfs - hfz, 36, false);
-  nG *= fG * 1.000000000000001;
+  nG  = fG * 1.000000000000001;
   tGn = log10(nG) - floor(log10(nG));
   tGn = floor(pow(10, tGn));
   if(tGn == 5.0)
