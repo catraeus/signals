@@ -217,7 +217,7 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
     for(llong ii=0; ii<numFreq; ii++)
       pFwork[cc][ii] = pFreAvg[cc][ii];
 
-  isLogX  = mdSa->IsLogX();
+  isLogX  = mdSa->IsLogF();
   isLogY  = mdSa->IsLogY();
 
 

@@ -25,7 +25,7 @@ int     DrwSa::busy = 0;
   BuildSetup (       );
   BuildMain  (       );
   Connect    (       );
-  ReGrid     (       );
+  OnReGrid   (       );
   show_all();
   }
         DrwSa::~DrwSa     ( void ) {
@@ -62,16 +62,16 @@ void    DrwSa::BuildSetup ( void ) {
 void    DrwSa::Connect    ( void ) {
   MSU_SaReSize = NULL;
 
-  MRU_SaDrwTrace             = new CbT<DrwSa>();
-  MRU_SaDrwTrace            ->SetCallback(this, &DrwSa::SaDrwTrace);
-  ctMd->MSU_SaDrwTrace     = MRU_SaDrwTrace;
+  CbHn_SaDrwTrace          = new CbT<DrwSa>();
+  CbHn_SaDrwTrace         ->SetCallback(this, &DrwSa::OnSaDrwTrace);
+  ctMd->MSU_SaDrwTrace     = CbHn_SaDrwTrace;
   busy = 0;
   return;
 }
 
 
 
-void    DrwSa::ReGrid       ( void ) {
+void    DrwSa::OnReGrid       ( void ) {
   double xStart;
   double xStop;
   double yStart;
@@ -102,7 +102,7 @@ void    DrwSa::ReGrid       ( void ) {
     cd->stroke();
     }
   yStart = 0.00;
-  if(mdSa->IsLogX()) {
+  if(mdSa->IsLogF()) {
     double decadeWidth;
     double numDecades;
     double fMin;
@@ -153,12 +153,12 @@ void    DrwSa::CheckResize  ( void ) {
   int height = allocation.get_height();
   if((width != mdSa->GetPxlVscrX()) || (height != mdSa->GetPxlVscrY())) {
     ctSaHor->SetScrSize(width, height);
-    ReGrid();
+    OnReGrid();
     }
   return;
 }
 void    DrwSa::on_show      ( void                                     ) {
-  ReGrid();
+  OnReGrid();
   Gtk::DrawingArea::on_show();
   return;
 }
@@ -198,7 +198,7 @@ bool    DrwSa::on_draw      ( const Cairo::RefPtr<Cairo::Context>& cr ) {
   return true;
 }
 
-bool    DrwSa::SaDrwTrace  ( void *i_d) {
+bool    DrwSa::OnSaDrwTrace  ( void *i_d) {
   //if(busy) {fprintf(stderr, "oops %6d\n", rand()); fflush(stderr);}
   Glib::RefPtr<Gdk::Window> win = get_window();
   Gdk::Rectangle r(0, 0, get_allocation().get_width(), get_allocation().get_height());

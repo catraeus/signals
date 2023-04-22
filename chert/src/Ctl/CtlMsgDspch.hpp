@@ -91,15 +91,15 @@ class CtlMsgDspch {
   public:
     static  CtlMsgDspch         *GetInstance           ( void             );  // I think it's pretty obvious why this is a singleton.
 
-            void                 MRD_FileReStart       ( void             );
+            void                 CtEm_FileReStart      ( void             );
 
             void                 MRD_XpButSet          ( uint *i_butMask  );
                CbV *MSU_XpButSet;
             void                 MRD_XpTimN            ( void             );
                CbV *MSU_XpTimN;
 
-               CbV *MSU_XpStop;
-               CbV *MSU_XpRshTime;
+               CbV *CtHn_XportStop;   // Handle a need to stop the transport.
+               CbV *CtHn_XptRshTime;  // Handle the fact that the controller moved time forward.
 
 
             void                 MRD_OsHorNumerics     ( void             );
@@ -116,8 +116,11 @@ class CtlMsgDspch {
                CbV *MSU_OsDrwTrace;
 
             void                 MRD_SaHorNumerics     ( void             );
-               CbV *MSU_SaHorReBase;
+               CbV *CtHn_SaHorReBase;
                CbV *MSU_SaHorRshAll;
+
+            void                 CtEm_SaFrqReGrid      ( void             );
+               CbV *CtHn_SaFrqReGrid;
 
             void                 MRD_SaVrtNumerics     ( void             );
                CbV *MSU_SaVrtRshAll;

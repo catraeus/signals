@@ -119,7 +119,7 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
 
   hfz    = mdSa->GetFmin();
   hfs    = mdSa->GetFmax();
-  isLogF = mdSa->IsLogX();
+  isLogF = mdSa->IsLogF();
 
   double nG;
   double fG;

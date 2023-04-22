@@ -76,6 +76,7 @@ class CtlSaHor {
             void      SetFmin         ( double i_f     );
             void      SetFcen         ( double i_f     );
             void      SetFmax         ( double i_f     );
+            void      SetFspan        ( double i_f     );
 
             void      SetAnchS        ( void           ) {mdSa->SetAnchS(); return;};
             void      SetAnchC        ( void           ) {mdSa->SetAnchC(); return;};
@@ -95,7 +96,7 @@ class CtlSaHor {
            CtlRsmp         *ctRsmp;
 
            CtlMsgDspch     *ctMd;
-           CbT<CtlSaHor>   *MRU_SaHorReBase;
+           CbT<CtlSaHor>   *emit_SaHorReBase;
            bool                 SaHorReBase     ( void *d              ); //!< Assume that the Signal and all screen parameters are valid.  Now what?
 
 

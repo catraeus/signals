@@ -21,8 +21,8 @@ CtlMsgDspch *CtlMsgDspch::ctMd = NULL;
 
   MSU_XpButSet             = NULL; // WinXport
   MSU_XpTimN               = NULL; // WinXport
-  MSU_XpStop               = NULL; // WinXport
-  MSU_XpRshTime            = NULL; // WinXport
+  CtHn_XportStop           = NULL; // WinXport
+  CtHn_XptRshTime          = NULL; // WinXport
 
   MSU_OsHorReBase          = NULL; // CtlOsHor
 
@@ -35,9 +35,10 @@ CtlMsgDspch *CtlMsgDspch::ctMd = NULL;
   MSU_RsmpOsAcq            = NULL;
   MSU_OsDrwTrace           = NULL; // DrwOs
 
-  MSU_SaHorReBase          = NULL; // CtlSaHor & CtlSaVrt
+  CtHn_SaHorReBase         = NULL; // CtlSaHor & CtlSaVrt
 
   MSU_SaHorRshAll          = NULL; // FrmSaHor
+  CtHn_SaFrqReGrid         = NULL;
 
   MSU_SaVrtRshAll          = NULL; // nowhere yet
   MSU_SaVrtRshAxis         = NULL;
@@ -55,10 +56,10 @@ CtlMsgDspch* CtlMsgDspch::GetInstance             ( void          ) {
 }
 
 // The whole damned file structure underneath
-void         CtlMsgDspch::MRD_FileReStart         ( void          ) {
-  if(MSU_XpStop          != NULL)     MSU_XpStop         ->Execute(NULL);
+void         CtlMsgDspch::CtEm_FileReStart         ( void          ) {
+  if(CtHn_XportStop      != NULL)     CtHn_XportStop     ->Execute(NULL);
   if(MSU_OsHorReBase     != NULL)     MSU_OsHorReBase    ->Execute(NULL);
-  if(MSU_SaHorReBase     != NULL)     MSU_SaHorReBase    ->Execute(NULL);
+  if(CtHn_SaHorReBase    != NULL)     CtHn_SaHorReBase   ->Execute(NULL);
   if(MSU_RsmpOsAcq       != NULL)     MSU_RsmpOsAcq      ->Execute(NULL);
   if(MSU_RsmpSaAcq       != NULL)     MSU_RsmpSaAcq      ->Execute(NULL);
   MRD_TraceDataHit();
@@ -107,6 +108,10 @@ void         CtlMsgDspch::MRD_SaHorNumerics       ( void          ) { // Simple 
   MRD_TraceDataHit();
   return;
 }
+void         CtlMsgDspch::CtEm_SaFrqReGrid       ( void          ) {
+  if(CtHn_SaFrqReGrid    != NULL)    CtHn_SaFrqReGrid      ->Execute(NULL);
+  return;
+};
 
 // SpecAn Vertical kinds of things
 void         CtlMsgDspch::MRD_SaVrtNumerics      ( void          ) { // Please refill all vertical info

@@ -72,8 +72,8 @@ class DrwSa : public Gtk::DrawingArea {
             void    BuildSetup    ( void          );
             void    Connect       ( void          );
   public:
-            bool    SaDrwTrace    ( void *i_d     );
-            void    ReGrid        ( void          );
+            bool    OnSaDrwTrace  ( void *i_d     );
+            void    OnReGrid      ( void          );
   private:
             void    CheckResize   ( void          );
   protected:
@@ -100,7 +100,7 @@ class DrwSa : public Gtk::DrawingArea {
     MdlSa           *mdSa;
     CtlMsgDspch     *ctMd;
 
-    CbT<DrwSa>      *MRU_SaDrwTrace;
+    CbT<DrwSa>      *CbHn_SaDrwTrace;
   public:
     CbV             *MSU_SaReSize;
     static int       busy;

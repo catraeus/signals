@@ -136,7 +136,7 @@ void      FrmFile::OnFileOpen     ( void   ) {
       trf->OnParse();
 
       twf->OnFileChange();
-      ctMd->MRD_FileReStart();
+      ctMd->CtEm_FileReStart();
 
       ClearFileInfo();
       FillFileInfo();

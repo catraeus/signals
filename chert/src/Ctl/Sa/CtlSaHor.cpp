@@ -37,9 +37,9 @@ void      CtlSaHor::BuildEnv        ( Signal *i_sig ) {
   ctMd           = CtlMsgDspch ::GetInstance();
   ctRsmp         = CtlRsmp     ::GetInstance(i_sig);
 
-  MRU_SaHorReBase = new CbT<CtlSaHor>();
-  MRU_SaHorReBase->SetCallback(this, &CtlSaHor::SaHorReBase);
-  ctMd->MSU_SaHorReBase = MRU_SaHorReBase;
+  emit_SaHorReBase = new CbT<CtlSaHor>();
+  emit_SaHorReBase->SetCallback(this, &CtlSaHor::SaHorReBase);
+  ctMd->CtHn_SaHorReBase = emit_SaHorReBase;
   return;
 }
 void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
@@ -48,18 +48,18 @@ void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
   ctRsmp->ReScale();
   return;
   }
-void      CtlSaHor::SetLog          ( void ) {
-  mdSa->SetLogX(true );
+void      CtlSaHor::SetLog          ( void       ) {
+  mdSa->SetLogF(true );
   ctMd->MRD_SaHorNumerics();
   return;
 }
-void      CtlSaHor::SetLin          ( void ) {
-  mdSa->SetLogX(false);
+void      CtlSaHor::SetLin          ( void       ) {
+  mdSa->SetLogF(false);
   ctMd->MRD_SaHorNumerics();
   return;
 }
 
-void      CtlSaHor::SetModeAvg      ( void ) {
+void      CtlSaHor::SetModeAvg      ( void       ) {
   mdSa->SetAvg(true);
   if(!lastAvg) {
     fprintf(stdout, "ToAvg\n"); fflush(stdout);
@@ -69,7 +69,7 @@ void      CtlSaHor::SetModeAvg      ( void ) {
   ctMd->MRD_SaHorNumerics();
   return;
 }
-void      CtlSaHor::SetModeTrack    ( void ) {
+void      CtlSaHor::SetModeTrack    ( void       ) {
   mdSa->SetAvg(false);
   if(lastAvg) {
     fprintf(stdout, "ToTrack\n"); fflush(stdout);
@@ -79,6 +79,11 @@ void      CtlSaHor::SetModeTrack    ( void ) {
   return;
 }
 
+/*
+   Anchor can be start, center, stop  ... really, center is at an anchor point at a percentage of a screen
+   All this stuff needs grid binning coordinated with drawing the grid in the SaDraw
+   GridSpacing
+*/
 void      CtlSaHor::SetFmin         ( double i_f ) {
   mdSa->SetFmin(i_f);
   ctMd->MRD_SaHorNumerics();
@@ -94,7 +99,9 @@ void      CtlSaHor::SetFmax         ( double i_f ) {
   ctMd->MRD_SaHorNumerics();
   return;
 }
-
+void      CtlSaHor::SetFspan        ( double i_f ) {
+  return;
+}
 void      CtlSaHor::SetNtime        ( ullong i_t ) {
   mdSa->SetSmpVana(i_t);
   ctRsmp->ReScale();
@@ -113,7 +120,7 @@ void      CtlSaHor::SetDelFreq      ( double i_f ) {
   return;
 }
 
-bool      CtlSaHor::SaHorReBase     (void *d) {
+bool      CtlSaHor::SaHorReBase     ( void *d    ) {
   ctRsmp->ReScale();
   ctMd->MRD_SaHorNumerics();
   return false;

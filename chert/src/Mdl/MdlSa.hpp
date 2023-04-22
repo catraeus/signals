@@ -73,6 +73,9 @@ class MdlSa {
     virtual          ~MdlSa        ( void       );
   public:
     static   MdlSa   *GetInstance  ( void       );
+
+             void     SetFS        ( double i_f );
+
              double   GetPxlVdivX  ( void       ) {                      return  pxlVscrY * 0.1              ;};
              void     SetPxlVscrX  ( double i_p );
              double   GetPxlVscrX  ( void       ) {                      return  pxlVscrX                    ;};
@@ -104,29 +107,31 @@ class MdlSa {
              ullong   GetVrtModeN  ( void       ) {                      return ESAM_COUNT                   ;};
        const char    *GetVrtModeStr( ullong i_n );
 
-             void     SetLogX      ( void       ) { SetLogX(true );      return                              ;};
-             void     SetLinX      ( void       ) { SetLogX(false);      return                              ;};
-             void     SetLogX      ( bool   i_l );
-             bool     IsLogX       ( void       ) {                      return  isLogX                      ;};
-             bool     IsLinX       ( void       ) {                      return !isLogX                      ;};
+             void     SetLogF      ( void       ) { SetLogF(true );      return                              ;};
+             void     SetLinF      ( void       ) { SetLogF(false);      return                              ;};
+             void     SetLogF      ( bool   i_l );
+             bool     IsLogF       ( void       ) {                      return  isLogF                      ;};
+             bool     IsLinF       ( void       ) {                      return !isLogF                      ;};
              void     SetAnchX     ( eAnch  i_a );
              void     SetAnchS     ( void       ) { SetAnchX(EA_F_ST);   return                              ;};
              void     SetAnchC     ( void       ) { SetAnchX(EA_F_CN);   return                              ;};
              void     SetAnchP     ( void       ) { SetAnchX(EA_F_SP);   return                              ;};
-             bool     GetAnchX     ( void       ) {                      return anchX                        ;};
+             bool     GetAnchX     ( void       ) {                      return anchF                        ;};
              void     SetGainF     ( bool   i_l );
              bool     GetGainF     ( void       );
              void     SetFmin      ( double i_s );
-             double   GetFmin      ( void       ) {                      return fMin                         ;};
+             double   GetFmin      ( void       ) {                      return fStart                       ;};
              void     SetFcen      ( double i_s );
              double   GetFcen      ( void       ) {                      return fCen                         ;};
              void     SetFmax      ( double i_s );
-             double   GetFmax      ( void       ) {                      return fMax                         ;};
+             double   GetFmax      ( void       ) {                      return fStop                        ;};
              void     SetSpan      ( double i_s );
-             double   GetSpan      ( void       ) {                      return fMax - fMin                  ;};
+             double   GetSpan      ( void       ) {                      return fStop - fStart               ;};
              void     SetCenter    ( double i_c );
              double   GetCenter    ( void       ) {                      return GetSpan() * 0.5 + GetFmin()  ;};
   private:
+             double   FS;
+
              bool     isCplx;       //!<vs. Real - Display forced to pos-only if Real, because of the complex-conjugate thing. Deadhead for now.
              bool     isLogY;       //!<vs. Lin - Display vertical is Db based, we won't display that silly log10() vertical scale.  It doesn't ... wait for it ... scale!
              bool     isAvg;
@@ -137,7 +142,7 @@ class MdlSa {
 
 static const char    *cbxVrtMode[];
 
-             bool     isLogX;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
+             bool     isLogF;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
              bool     isDelNfreq;
 
              llong    smpVana;      //!<Samples in the time domain lead to this spectrum?
@@ -148,13 +153,15 @@ static const char    *cbxVrtMode[];
 
              eFrqUnt  grdDom;
              double   grdVscrX;
+             double   grdZero;   // Distance in F between the fStart and the immediately next grid
              double   freqVgrdX; // This will be constrained to the ancient and venerable 1/2/5
              double   pxlVgrdX;
 
-             eAnch    anchX;
-             double   fMin;
-             double   fCen;
-             double   fMax;
+             eAnch    anchF;
+             double   fStart;
+             double   fCen;      // A bit of a misnomer since it can be pushed to any percentage of span.
+             double   fCenLoc;   // And here is that center-anchor location relative to span.  0.0 is stupid since it is at fStart, likewise 1.0 is at fStop.
+             double   fStop;
 
     static   MdlSa   *mdSa;
   };

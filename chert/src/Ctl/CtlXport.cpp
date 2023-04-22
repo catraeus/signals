@@ -48,13 +48,13 @@ void      CtlXport::BuildSetup  ( void ) {
 }
 void      CtlXport::Connect     ( void ) {
 
-                        MRU_XpStop = new CbT<CtlXport>();
-                        MRU_XpStop->SetCallback(this, &CtlXport::OnStop);
-  ctMd->MSU_XpStop    = MRU_XpStop;
+                          CbHn_XportStop = new CbT<CtlXport>();
+                          CbHn_XportStop->SetCallback(this, &CtlXport::OnStop);
+  ctMd->CtHn_XportStop  = CbHn_XportStop;
 
-                        MRU_RshTime = new CbT<CtlXport>();
-                        MRU_RshTime->SetCallback(this, &CtlXport::OnStop);
-  ctMd->MSU_XpRshTime = MRU_RshTime;
+                          CbHn_RshTime = new CbT<CtlXport>();
+                          CbHn_RshTime->SetCallback(this, &CtlXport::OnStop);
+  ctMd->CtHn_XptRshTime =  CbHn_RshTime;
   return;
 }
 bool      CtlXport::OnRshTime   ( void *i_d ) {

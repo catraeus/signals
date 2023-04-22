@@ -28,17 +28,18 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
 
             MdlSa::MdlSa        ( void        ) {
 
+  FS             =     1.0;
   isCplx         = false;
-  isLogX         = false;
+  isLogF         = false;
   isLogY         = true;
   pxlVscrX       = EK_PXL_X_NOM;
   pxlVscrY       = EK_PXL_Y_NOM;
   smpVana        = EK_PXL_X_NOM;
   frqVana        = EK_PXL_X_NOM;
-  anchX          = EA_F_ST;
-  fMin           =     0.0;
-  fCen           = 12000.0;
-  fMax           = 24000.0;
+  anchF          = EA_F_ST;
+  fStart         =     0.0;
+  fCen           = FS / 2.0;
+  fStop          = FS;
   vMax           =     1.0;
   vMin           =     1.0 / C_RANGE_Y_NOM;
   isDelNfreq     = false;
@@ -51,6 +52,8 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
   grdVscrX       =  20.0;
   freqVgrdX      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
   pxlVgrdX       = 100.0;
+  grdZero        =   0.0;
+  fCenLoc        =   0.5;
   grdDom         = EF_F_ABS;
 
 //  gak            = 1234;
@@ -64,6 +67,22 @@ MdlSa      *MdlSa::GetInstance  ( void        ) {
   if(mdSa == NULL)
     mdSa = new MdlSa();
   return mdSa;
+}
+
+void        MdlSa::SetFS        ( double  i_f ) {
+  double oldFS;
+  double ratio;
+  // Assume that someone else is informing everyone of this catastrophic change.
+  // Assume that before we were called, that the FS was validated.
+  // IMPORTANT This is called before any refreshes can happen.
+
+  oldFS   = FS;
+  FS      = i_f;
+  ratio   = FS / oldFS;
+  fStart *= ratio;
+  fCen   *= ratio;
+  fStop  *= ratio;
+  return;
 }
 
 void        MdlSa::SetPxlVscrX  ( double  i_p ) {
@@ -223,9 +242,9 @@ const char *MdlSa::GetVrtModeStr( ullong  i_n ) {
   return cbxVrtMode[i_n];
 }
 
-void        MdlSa::SetLogX      ( bool    i_l ) {
-  isLogX = i_l;
-  if(isLogX) {
+void        MdlSa::SetLogF      ( bool    i_l ) {
+  isLogF = i_l;
+  if(isLogF) {
     SetFmin(1.0);
     SetFmax(1.0e+5);
   }
@@ -236,26 +255,37 @@ void        MdlSa::SetLogX      ( bool    i_l ) {
   return;
 }
 void        MdlSa::SetAnchX     ( eAnch   i_a ) {
-  fprintf(stderr, "Way down in the model, the anchor was dropped.\n");fflush(stderr);
-  anchX = i_a;
+
+  anchF = i_a;
   return;
 }
 void        MdlSa::SetFmin      ( double  i_f ) {
   double ss;
-  if(isLogX) {
-    ss = dmax(C_FREQ_MIN, i_f);
-    ss = dmin(ss, C_FREQ_MAX / 10.0 );
-    ss = dmin(ss, fMax / 10.0 );
+  double tFS;
+
+  if(isLogF) {
+    ss = dmax(    C_FREQ_MIN,         i_f);
+    ss = dmin(ss, C_FREQ_MAX / 10.0      );
+    ss = dmin(ss, fStop       / 10.0      );
     ss = log10(ss);
     ss = floor(ss);
     ss = pow10(ss);
     }
   else {
-    ss = dmax(-C_FREQ_MAX, i_f);
-    ss = dmin(ss, C_FREQ_MAX - 1.0);
-    ss = dmin(ss, fMax - 1.0);
+    switch (anchF) {
+      case EA_F_ST:
+        ss     = fStop;
+        ss    -= fStart;
+        fStop  = i_f + ss;
+        fStart = i_f;
+        break;
+      case EA_F_CN:
+        break;
+      case EA_F_SP:
+        break;
     }
-  fMin = ss;
+  }
+  fStart = ss;
   return;
   }
 void        MdlSa::SetFcen      ( double  i_f ) {
@@ -263,10 +293,10 @@ void        MdlSa::SetFcen      ( double  i_f ) {
 }
 void        MdlSa::SetFmax      ( double  i_f ) {
   double ss;
-  if(isLogX) {
+  if(isLogF) {
     ss = dmax(C_FREQ_MIN * 10.0, i_f);
     ss = dmin(ss, C_FREQ_MAX);
-    ss = dmax(ss, fMin * 10.0);
+    ss = dmax(ss, fStart * 10.0);
     ss = log10(ss);
     ss = floor(ss);
     ss = pow10(ss);
@@ -274,9 +304,9 @@ void        MdlSa::SetFmax      ( double  i_f ) {
   else {
     ss = dmin(C_FREQ_MAX, i_f);
     ss = dmax(C_FREQ_MIN, i_f);
-    ss = dmax(fMin + 1.0, i_f);
+    ss = dmax(fStart + 1.0, i_f);
     }
-  fMax = ss;
+  fStop = ss;
   return;
   }
 void        MdlSa::SetSpan      ( double  i_span ) {

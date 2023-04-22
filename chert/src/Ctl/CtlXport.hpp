@@ -62,8 +62,8 @@ class CtlXport {
            void               BuildEnv      ( void   );
            void               BuildSetup    ( void   );
            void               Connect       ( void   );
-           CbT<CtlXport>     *MRU_XpStop;
-           CbT<CtlXport>     *MRU_RshTime;
+           CbT<CtlXport>     *CbHn_XportStop;
+           CbT<CtlXport>     *CbHn_RshTime;
            bool               OnRshTime     ( void *i_d );
   public:
 

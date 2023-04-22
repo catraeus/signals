@@ -267,12 +267,12 @@ bool   FrmSaHor::SaHorRshAll          ( void *i_d ) {
 
   d  = sig   ->GetFS       ();  EngString    (s, d, 4, (char *)"Hz");  txtFS       ->set_text   (s);
   d /= mdSa  ->GetSmpVana  ();  EngString    (s, d, 4, (char *)"Hz");  txtDelFreq   .set_text   (s);
-  b  = mdSa  ->IsLogX      ();                                         btLog        .set_active (b);
+  b  = mdSa  ->IsLogF      ();                                         btLog        .set_active (b);
   d  = mdSa  ->GetFmin     ();  EngString    (s, d, 4, (char *)"Hz");  txtFstart    .set_text   (s);
   d  = mdSa  ->GetFmax     ();  EngString    (s, d, 4, (char *)"Hz");  txtFstop     .set_text   (s);
   l  = mdSa  ->GetSmpVana  ();  IntWithComma (s, l                 );  txtNtime     .set_text   (s);
   l  = mdSa  ->GetFrqVana  ();  IntWithComma (s, l                 );  txtNfreq     .set_text   (s);
-  if(vwSaDrw != NULL) vwSaDrw->ReGrid();
+  if(vwSaDrw != NULL) vwSaDrw->OnReGrid();
   rshHoldOff = false;
   return false;
 }
