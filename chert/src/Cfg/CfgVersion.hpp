@@ -10,7 +10,7 @@
 //
 //=================================================================================================
 
-#define GIT_MARK     769
+#define GIT_MARK     770
 #define VER_MAIN       0
 #define VER_POINT      1
 #define APP_NAME      "chert"

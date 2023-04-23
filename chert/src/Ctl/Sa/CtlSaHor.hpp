@@ -66,6 +66,7 @@ class CtlSaHor {
             //Screen and Horiz Settings only, no signal dependency
             void      SetScrSize      ( uint   i_w, uint i_h );
 
+
             void      SetLog          ( void           );
             void      SetLin          ( void           );
             //=====================================================================================================================
@@ -94,13 +95,14 @@ class CtlSaHor {
            MdlSa           *mdSa;
            bool             lastAvg;
            CtlRsmp         *ctRsmp;
+           Signal          *sig;
 
            CtlMsgDspch     *ctMd;
            CbT<CtlSaHor>   *emit_SaHorReBase;
-           bool                 SaHorReBase     ( void *d              ); //!< Assume that the Signal and all screen parameters are valid.  Now what?
+           bool       CtHn_ReBase     ( void *d              ); //!< Assume that the Signal and all screen parameters are valid.  Now what?
 
 
-    static CtlSaHor     *ctSaHor;
+    static CtlSaHor        *ctSaHor;
   };
 
 #endif // __CTL_SA_HOR_HPP_

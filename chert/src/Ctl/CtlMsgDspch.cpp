@@ -108,7 +108,7 @@ void         CtlMsgDspch::MRD_SaHorNumerics       ( void          ) { // Simple 
   MRD_TraceDataHit();
   return;
 }
-void         CtlMsgDspch::CtEm_SaFrqReGrid       ( void          ) {
+void         CtlMsgDspch::CtEm_SaFrqReGrid        ( void          ) {
   if(CtHn_SaFrqReGrid    != NULL)    CtHn_SaFrqReGrid      ->Execute(NULL);
   return;
 };

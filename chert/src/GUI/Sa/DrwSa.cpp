@@ -72,15 +72,15 @@ void    DrwSa::Connect    ( void ) {
 
 
 void    DrwSa::OnReGrid       ( void ) {
-  double xStart;
-  double xStop;
-  double yStart;
-  double yStop;
+  double fStart;
+  double fStop;
+  double aTop;
+  double aBot;
 
-  xStop = get_allocated_width();
-  yStop = get_allocated_height();
-  mdSa->SetPxlVscrX(xStop);
-  mdSa->SetPxlVscrY(yStop);
+  fStop = get_allocated_width();
+  aBot  = get_allocated_height();
+  mdSa->SetPxlVscrX(fStop);
+  mdSa->SetPxlVscrY(aBot);
   m_line_width = 0.3267;
   cis_grid->set_device_offset(0, 0);
 
@@ -91,17 +91,17 @@ void    DrwSa::OnReGrid       ( void ) {
   cd->paint();
   cd->set_source_rgba(1.0, 1.0, 1.0, 1.0); // white of the grid line
     // draw 9 horiz lines
-  xStart = 0.0;
-  xStop  = mdSa->GetPxlVscrX() * 0.9999;
-  yStart = mdSa->GetPxlVdivX();
-  yStop  = mdSa->GetPxlVscrY() * 0.9999;
+  fStart = 0.0;
+  fStop  = mdSa->GetPxlVscrX() * 0.9999;
+  aTop   = mdSa->GetPxlVdivX(); // Well, this is actually the horizontal line location in the first iteration.
+  aBot   = mdSa->GetPxlVscrY() * 0.9999;
   cd->set_line_width(m_line_width * 2);
-  for(double y = yStart; y < yStop; y += mdSa->GetPxlVdivX()) {
-    cd->move_to(round(xStart) + 0.5, round(y) + 0.5);
-    cd->line_to(round(xStop)  + 0.5, round(y) + 0.5);
+  for(double y = aTop; y < aBot; y += mdSa->GetPxlVdivX()) {
+    cd->move_to(round(fStart) + 0.5, round(y) + 0.5);
+    cd->line_to(round(fStop)  + 0.5, round(y) + 0.5);
     cd->stroke();
     }
-  yStart = 0.00;
+  aTop = 0.00;
   if(mdSa->IsLogF()) {
     double decadeWidth;
     double numDecades;
@@ -122,20 +122,20 @@ void    DrwSa::OnReGrid       ( void ) {
           cd->set_line_width(0.6534);
         else
           cd->set_line_width(0.2327);
-        cd->move_to(round(x) + 0.5, round(yStart) + 0.5);
-        cd->line_to(round(x) + 0.5, round(yStop) + 0.5);
+        cd->move_to(round(x) + 0.5, round(aTop) + 0.5);
+        cd->line_to(round(x) + 0.5, round(aBot) + 0.5);
         cd->stroke();
         }
       }
     }
   else { // Linear Grid Maker
     // draw N vert lines
-    xStart = mdSa->GetPxlVdivX();
-    xStop  = mdSa->GetPxlVscrX()* 0.99999;
+    fStart = mdSa->GetPxlVdivX();
+    fStop  = mdSa->GetPxlVscrX()* 0.99999;
     cd->set_line_width(0.6534);
-   for(double x = xStart; x < xStop; x += xStart) {
-      cd->move_to(round(x) + 0.5, round(yStart) + 0.5);
-      cd->line_to(round(x) + 0.5, round(yStop) + 0.5);
+   for(double x = fStart; x < fStop; x += fStart) {
+      cd->move_to(round(x) + 0.5, round(aTop) + 0.5);
+      cd->line_to(round(x) + 0.5, round(aBot) + 0.5);
       cd->stroke();
       }
     }

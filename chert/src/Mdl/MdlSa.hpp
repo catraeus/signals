@@ -77,15 +77,16 @@ class MdlSa {
              void     SetFS        ( double i_f );
 
              double   GetPxlVdivX  ( void       ) {                      return  pxlVscrY * 0.1              ;};
+             double   GetAPxlFirst ( void       ) {                      return  APxlTop                   ;};
              void     SetPxlVscrX  ( double i_p );
-             double   GetPxlVscrX  ( void       ) {                      return  pxlVscrX                    ;};
-             llong   *GetSmpVanaP  ( void       ) {                      return &smpVana                     ;}; //P meaning pointer, provided to allow the
+             double   GetPxlVscrX  ( void       ) {                      return  FScrPxlCount                    ;};
+             llong   *GetSmpVanaP  ( void       ) {                      return &TSmpAna                     ;}; //P meaning pointer, provided to allow the
                                                                          // OScope controller to know when to stop without
                                                                          // having the whole SpecAn in it.  The CtlOs does have this model.
              void     SetSmpVana   ( llong i_s );
-             llong    GetSmpVana   ( void       ) {                      return  smpVana                     ;};
+             llong    GetSmpVana   ( void       ) {                      return  TSmpAna                     ;};
              void     SetFrqVana   ( llong i_f );
-             llong    GetFrqVana   ( void       ) {                      return  frqVana                     ;};
+             llong    GetFrqVana   ( void       ) {                      return  FSmpAna                     ;};
 
              void     JustifyN     ( void       );
 
@@ -116,17 +117,17 @@ class MdlSa {
              void     SetAnchS     ( void       ) { SetAnchX(EA_F_ST);   return                              ;};
              void     SetAnchC     ( void       ) { SetAnchX(EA_F_CN);   return                              ;};
              void     SetAnchP     ( void       ) { SetAnchX(EA_F_SP);   return                              ;};
-             bool     GetAnchX     ( void       ) {                      return anchF                        ;};
+             bool     GetAnchX     ( void       ) {                      return Fanch                        ;};
              void     SetGainF     ( bool   i_l );
              bool     GetGainF     ( void       );
              void     SetFmin      ( double i_s );
-             double   GetFmin      ( void       ) {                      return fStart                       ;};
+             double   GetFmin      ( void       ) {                      return FStart                       ;};
              void     SetFcen      ( double i_s );
-             double   GetFcen      ( void       ) {                      return fCen                         ;};
+             double   GetFcen      ( void       ) {                      return FCen                         ;};
              void     SetFmax      ( double i_s );
-             double   GetFmax      ( void       ) {                      return fStop                        ;};
+             double   GetFmax      ( void       ) {                      return FStop                        ;};
              void     SetSpan      ( double i_s );
-             double   GetSpan      ( void       ) {                      return fStop - fStart               ;};
+             double   GetSpan      ( void       ) {                      return FStop - FStart               ;};
              void     SetCenter    ( double i_c );
              double   GetCenter    ( void       ) {                      return GetSpan() * 0.5 + GetFmin()  ;};
   private:
@@ -143,25 +144,28 @@ class MdlSa {
 static const char    *cbxVrtMode[];
 
              bool     isLogF;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
-             bool     isDelNfreq;
 
-             llong    smpVana;      //!<Samples in the time domain lead to this spectrum?
-             llong    frqVana;
-             llong    smpVanaLast;
-             llong    frqVanaLast;
-             double   pxlVscrX;
+             llong    TSmpAna;      // Samples in the time domain lead to this spectrum
+             llong    FSmpAna;      // How many frequencies will we ask the transform to get back to us.
+             llong    TSmpAna_prv;
+             llong    FSmpAna_prv;
 
-             eFrqUnt  grdDom;
-             double   grdVscrX;
-             double   grdZero;   // Distance in F between the fStart and the immediately next grid
-             double   freqVgrdX; // This will be constrained to the ancient and venerable 1/2/5
-             double   pxlVgrdX;
+             double   FScrPxlCount; // How many pixels wide is the draw screen supposed to be.
+             double   APxlTop;
 
-             eAnch    anchF;
-             double   fStart;
-             double   fCen;      // A bit of a misnomer since it can be pushed to any percentage of span.
-             double   fCenLoc;   // And here is that center-anchor location relative to span.  0.0 is stupid since it is at fStart, likewise 1.0 is at fStop.
-             double   fStop;
+             eFrqUnt  FUnits;        // TODO  Some day the user will be able to work in % of FS as well as absolute frequency.
+             double   FGrdScrCount;  // How many lines show up in the image?
+
+             eAnch    Fanch;         // What Anchor Mode will the Frequency be bound by?
+             double   FStart;        // Start is ancient SpecAn terminology since the "IF Oscillator" would sweep from a start to a stop frequency.
+             double   FCen;          // A bit of a misnomer since it can be pushed to any percentage of span.
+             double   FCenLoc;       // And here is that center-anchor location relative to span.  0.0 is stupid since it is at FStart, likewise 1.0 is at FStop.
+             double   FStop;
+
+             double   FGrdFirst;     // Distance in F between the FStart and the immediately next grid
+             double   FGrdSpacing;   // This will be constrained to the ancient and venerable 1/2/5
+             double   FGrdPxlSpacing;
+
 
     static   MdlSa   *mdSa;
   };

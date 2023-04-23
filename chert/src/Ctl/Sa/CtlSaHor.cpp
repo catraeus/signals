@@ -24,7 +24,7 @@ CtlSaHor *CtlSaHor::ctSaHor = NULL;
   lastAvg = false;
   mdSa->SetSmpVana(2048);
 }
-          CtlSaHor::~CtlSaHor       ( void ) {
+          CtlSaHor::~CtlSaHor       ( void          ) {
 }
 CtlSaHor *CtlSaHor::GetInstance     ( Signal *i_sig ) {
   if(ctSaHor == NULL)
@@ -33,12 +33,13 @@ CtlSaHor *CtlSaHor::GetInstance     ( Signal *i_sig ) {
 }
 
 void      CtlSaHor::BuildEnv        ( Signal *i_sig ) {
+  sig            =                           i_sig;
   mdSa           = MdlSa       ::GetInstance();
   ctMd           = CtlMsgDspch ::GetInstance();
-  ctRsmp         = CtlRsmp     ::GetInstance(i_sig);
+  ctRsmp         = CtlRsmp     ::GetInstance(sig);
 
   emit_SaHorReBase = new CbT<CtlSaHor>();
-  emit_SaHorReBase->SetCallback(this, &CtlSaHor::SaHorReBase);
+  emit_SaHorReBase->SetCallback(this, &CtlSaHor::CtHn_ReBase);
   ctMd->CtHn_SaHorReBase = emit_SaHorReBase;
   return;
 }
@@ -48,12 +49,15 @@ void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
   ctRsmp->ReScale();
   return;
   }
-void      CtlSaHor::SetLog          ( void       ) {
+
+
+
+void      CtlSaHor::SetLog          ( void          ) {
   mdSa->SetLogF(true );
   ctMd->MRD_SaHorNumerics();
   return;
 }
-void      CtlSaHor::SetLin          ( void       ) {
+void      CtlSaHor::SetLin          ( void          ) {
   mdSa->SetLogF(false);
   ctMd->MRD_SaHorNumerics();
   return;
@@ -120,8 +124,9 @@ void      CtlSaHor::SetDelFreq      ( double i_f ) {
   return;
 }
 
-bool      CtlSaHor::SaHorReBase     ( void *d    ) {
+bool      CtlSaHor::CtHn_ReBase     ( void *d    ) {
   ctRsmp->ReScale();
+  mdSa->SetFS(sig->GetFS() * 0.5D);
   ctMd->MRD_SaHorNumerics();
   return false;
 }

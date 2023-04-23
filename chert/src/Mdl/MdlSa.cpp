@@ -27,39 +27,46 @@ const double MdlSa::C_DEC_MAX      = 7.0e+00;
 const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
 
             MdlSa::MdlSa        ( void        ) {
-
-  FS             =     1.0;
+//====  Amplitude Stuff
   isCplx         = false;
-  isLogF         = false;
   isLogY         = true;
-  pxlVscrX       = EK_PXL_X_NOM;
-  pxlVscrY       = EK_PXL_Y_NOM;
-  smpVana        = EK_PXL_X_NOM;
-  frqVana        = EK_PXL_X_NOM;
-  anchF          = EA_F_ST;
-  fStart         =     0.0;
-  fCen           = FS / 2.0;
-  fStop          = FS;
   vMax           =     1.0;
   vMin           =     1.0 / C_RANGE_Y_NOM;
-  isDelNfreq     = false;
   isAvg          = false;
-  smpVana        = 800;
-  frqVana        = 800;
-  smpVanaLast    =   0;
-  frqVanaLast    =   0;
+//---- Pixel Domain
+  pxlVscrY       = EK_PXL_Y_NOM;
+  APxlTop        = 0.1;
 
-  grdVscrX       =  20.0;
-  freqVgrdX      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
-  pxlVgrdX       = 100.0;
-  grdZero        =   0.0;
-  fCenLoc        =   0.5;
-  grdDom         = EF_F_ABS;
 
-//  gak            = 1234;
-//if(__sync_bool_compare_and_swap (&gak, 1234, 5678)) {fprintf(stderr, "ho  ho  ho\n" ); fflush(stderr);}
-//else                                                {fprintf(stderr, "boo hoo hoo\n"); fflush(stderr);}
 
+
+//==== Frequency Stuff
+  FS             =     1.0;
+  isLogF         = false;
+  FSmpAna        = EK_PXL_X_NOM;
+  FSmpAna        = 800;
+  FSmpAna_prv    =   0;
+  Fanch          = EA_F_ST;
+  FStart         =     0.0;
+  FCen           = FS / 2.0;
+  FStop          = FS;
+//---- Pixel Domain
+  FScrPxlCount   = EK_PXL_X_NOM;
+//==== Grid Stuff
+  FUnits         = EF_F_ABS;
+//---- Pixel and Grid
+  FGrdScrCount   =  20.0;
+  FGrdPxlSpacing = 100.0;
+//---- Freq and Grid
+  FGrdSpacing      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
+  FGrdFirst      =   0.0;
+  FCenLoc        =   0.5;
+
+//==== Time Domain Stuff, since it will interact with FFT version of analyzer.
+  TSmpAna        = EK_PXL_X_NOM;
+  TSmpAna        = 800;
+  TSmpAna_prv    =   0;
+  return;
 }
             MdlSa::~MdlSa       ( void        ) {
   }
@@ -79,20 +86,22 @@ void        MdlSa::SetFS        ( double  i_f ) {
   oldFS   = FS;
   FS      = i_f;
   ratio   = FS / oldFS;
-  fStart *= ratio;
-  fCen   *= ratio;
-  fStop  *= ratio;
+  FStart *= ratio;
+  FCen   *= ratio;
+  FStop  *= ratio;
   return;
 }
 
 void        MdlSa::SetPxlVscrX  ( double  i_p ) {
-  pxlVscrX = i_p;
+  FScrPxlCount = i_p;
   return;
 }
 void        MdlSa::SetPxlVscrY  ( double  i_p ) {
   pxlVscrY = i_p;
   return;
 }
+
+//====  Analyzer Stuff
 void        MdlSa::SetSmpVana   ( llong   i_s ) {
   llong n;
   n = i_s;
@@ -102,8 +111,8 @@ void        MdlSa::SetSmpVana   ( llong   i_s ) {
     n = NextPowTwo(n);
   else if(n > EK_AN_MAX)
     n = EK_AN_MAX;
-  smpVana = n;
-  fprintf(stderr, "    b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, smpVana, smpVanaLast, frqVana, frqVanaLast); fflush(stderr);
+  TSmpAna = n;
+  fprintf(stderr, "    b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   JustifyN();
   return;
 }
@@ -116,8 +125,8 @@ void        MdlSa::SetFrqVana   ( llong   i_s ) {
     n = NextPowTwo(n);
   else if(n > EK_AN_MAX)
     n = EK_AN_MAX;
-  frqVana = n;
-  fprintf(stderr, "    b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, smpVana, smpVanaLast, frqVana, frqVanaLast); fflush(stderr);
+  FSmpAna = n;
+  fprintf(stderr, "    b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   JustifyN();
   return;
 }
@@ -125,10 +134,10 @@ void        MdlSa::JustifyN     ( void        ) {
   llong ll = 0;
   enum eLoHi {LO, HI};
   eLoHi wsT, isT, wsF, isF;
-  if(smpVana     <= EK_AN_DFT)   isT = LO;  else isT = HI;
-  if(smpVanaLast <= EK_AN_DFT)   wsT = LO;  else wsT = HI;
-  if(frqVana     <= EK_AN_DFT)   isF = LO;  else isF = HI;
-  if(frqVanaLast <= EK_AN_DFT)   wsF = LO;  else wsF = HI;
+  if(TSmpAna     <= EK_AN_DFT)   isT = LO;  else isT = HI;
+  if(TSmpAna_prv <= EK_AN_DFT)   wsT = LO;  else wsT = HI;
+  if(FSmpAna     <= EK_AN_DFT)   isF = LO;  else isF = HI;
+  if(FSmpAna_prv <= EK_AN_DFT)   wsF = LO;  else wsF = HI;
   // wsT  isT  wsF  IsF   action
   // lo   lo   lo   lo    nothing but accept and move on
   // hi   hi   hi   hi    harmonize to changed one
@@ -146,30 +155,30 @@ void        MdlSa::JustifyN     ( void        ) {
   // lo   hi   hi   lo    impossible - both change
   // hi   lo   lo   hi    impossible - both change
   // hi   lo   hi   lo    impossible - both change
-  fprintf(stderr, "   c1: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, smpVana, smpVanaLast, frqVana, frqVanaLast); fflush(stderr);
+  fprintf(stderr, "   c1: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   if     ((isT == LO) && (wsT == LO) && (isF == LO) && (wsF == LO)) { // Everyone was and is staying low
     fprintf(stderr, "ll ");
   }
   else if     ((isT == HI) && (wsT == HI) && (isF == HI) && (wsF == HI)) { // Everyone was and is staying high ... but force unchanged to track changed
     fprintf(stderr, "hh ");
-    if(smpVana == smpVanaLast)    smpVana = frqVana;
-    else                          frqVana = smpVana;
+    if(TSmpAna == TSmpAna_prv)    TSmpAna = FSmpAna;
+    else                          FSmpAna = TSmpAna;
   }
   else if((isT != isF) && (wsT == wsF)) { // Moving one or the other across the boundary
     fprintf(stderr, "du ");
-    if     ((wsT == LO) && (isT == HI))      frqVana = smpVana;
-    else if((wsF == LO) && (isF == HI))      smpVana = frqVana;
-    else if((wsT == HI) && (isT == LO))      frqVana = EK_AN_DFT;
-    else if((wsF == HI) && (isF == LO))      smpVana = EK_AN_DFT;
+    if     ((wsT == LO) && (isT == HI))      FSmpAna = TSmpAna;
+    else if((wsF == LO) && (isF == HI))      TSmpAna = FSmpAna;
+    else if((wsT == HI) && (isT == LO))      FSmpAna = EK_AN_DFT;
+    else if((wsF == HI) && (isF == LO))      TSmpAna = EK_AN_DFT;
   }
   else {  //  Impossible cases, just honk to EK_AN_DFT
     fprintf(stderr, "xx ");
-    frqVana = EK_AN_DFT;
-    smpVana = EK_AN_DFT;
+    FSmpAna = EK_AN_DFT;
+    TSmpAna = EK_AN_DFT;
   }
-  fprintf(stderr, "c2: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, smpVana, smpVanaLast, frqVana, frqVanaLast); fflush(stderr);
-  smpVanaLast = smpVana;
-  frqVanaLast = frqVana;
+  fprintf(stderr, "c2: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
+  TSmpAna_prv = TSmpAna;
+  FSmpAna_prv = FSmpAna;
   return;
 }
 void        MdlSa::SetLogY      ( bool    i_l ) {
@@ -256,7 +265,7 @@ void        MdlSa::SetLogF      ( bool    i_l ) {
 }
 void        MdlSa::SetAnchX     ( eAnch   i_a ) {
 
-  anchF = i_a;
+  Fanch = i_a;
   return;
 }
 void        MdlSa::SetFmin      ( double  i_f ) {
@@ -266,18 +275,18 @@ void        MdlSa::SetFmin      ( double  i_f ) {
   if(isLogF) {
     ss = dmax(    C_FREQ_MIN,         i_f);
     ss = dmin(ss, C_FREQ_MAX / 10.0      );
-    ss = dmin(ss, fStop       / 10.0      );
+    ss = dmin(ss, FStop       / 10.0      );
     ss = log10(ss);
     ss = floor(ss);
     ss = pow10(ss);
     }
   else {
-    switch (anchF) {
+    switch (Fanch) {
       case EA_F_ST:
-        ss     = fStop;
-        ss    -= fStart;
-        fStop  = i_f + ss;
-        fStart = i_f;
+        ss     = FStop;
+        ss    -= FStart;
+        FStop  = i_f + ss;
+        FStart = i_f;
         break;
       case EA_F_CN:
         break;
@@ -285,7 +294,7 @@ void        MdlSa::SetFmin      ( double  i_f ) {
         break;
     }
   }
-  fStart = ss;
+  FStart = ss;
   return;
   }
 void        MdlSa::SetFcen      ( double  i_f ) {
@@ -296,7 +305,7 @@ void        MdlSa::SetFmax      ( double  i_f ) {
   if(isLogF) {
     ss = dmax(C_FREQ_MIN * 10.0, i_f);
     ss = dmin(ss, C_FREQ_MAX);
-    ss = dmax(ss, fStart * 10.0);
+    ss = dmax(ss, FStart * 10.0);
     ss = log10(ss);
     ss = floor(ss);
     ss = pow10(ss);
@@ -304,9 +313,9 @@ void        MdlSa::SetFmax      ( double  i_f ) {
   else {
     ss = dmin(C_FREQ_MAX, i_f);
     ss = dmax(C_FREQ_MIN, i_f);
-    ss = dmax(fStart + 1.0, i_f);
+    ss = dmax(FStart + 1.0, i_f);
     }
-  fStop = ss;
+  FStop = ss;
   return;
   }
 void        MdlSa::SetSpan      ( double  i_span ) {
