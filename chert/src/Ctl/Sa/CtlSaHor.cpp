@@ -63,25 +63,6 @@ void      CtlSaHor::SetLin          ( void          ) {
   return;
 }
 
-void      CtlSaHor::SetModeAvg      ( void       ) {
-  mdSa->SetAvg(true);
-  if(!lastAvg) {
-    fprintf(stdout, "ToAvg\n"); fflush(stdout);
-    ctRsmp->CalcSpecAvg();
-  }
-  lastAvg = true;
-  ctMd->MRD_SaHorNumerics();
-  return;
-}
-void      CtlSaHor::SetModeTrack    ( void       ) {
-  mdSa->SetAvg(false);
-  if(lastAvg) {
-    fprintf(stdout, "ToTrack\n"); fflush(stdout);
-  }
-  lastAvg = false;
-  ctMd->MRD_SaHorNumerics();
-  return;
-}
 
 /*
    Anchor can be start, center, stop  ... really, center is at an anchor point at a percentage of a screen

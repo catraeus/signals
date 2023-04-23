@@ -61,6 +61,10 @@ class MdlSa {
       EA_F_CN,     // Is the center frequency
       EA_F_SP      // Is the stop   frequency
     } eAnch;
+    typedef enum eFftDft_e {
+      EX_F_FFT,    // Don't you hate booleans that don't actually mention what the "not" version is.
+      EX_F_DFT     // So I didn't make a bool isDFT (where the FFT is the "obvious" other state.)
+    } eFftDt;
   public:
   private:
     static const double C_FREQ_MIN;
@@ -90,9 +94,6 @@ class MdlSa {
 
              void     JustifyN     ( void       );
 
-             void     SetAvg       ( bool   i_a ) { isAvg = i_a;         return                              ;};
-             bool     GetAvg       ( void       ) {                      return  isAvg                       ;};
-
              void     SetPxlVscrY  ( double i_p );
              double   GetPxlVscrY  ( void       ) {                      return pxlVscrY                     ;};
 
@@ -121,23 +122,29 @@ class MdlSa {
              void     SetGainF     ( bool   i_l );
              bool     GetGainF     ( void       );
              void     SetFmin      ( double i_s );
-             double   GetFmin      ( void       ) {                      return FStart                       ;};
+             double   GetFmin      ( void       ) {                      return FFStart                       ;};
              void     SetFcen      ( double i_s );
-             double   GetFcen      ( void       ) {                      return FCen                         ;};
+             double   GetFcen      ( void       ) {                      return FFCen                         ;};
              void     SetFmax      ( double i_s );
-             double   GetFmax      ( void       ) {                      return FStop                        ;};
+             double   GetFmax      ( void       ) {                      return FFStop                        ;};
              void     SetSpan      ( double i_s );
-             double   GetSpan      ( void       ) {                      return FStop - FStart               ;};
+             double   GetSpan      ( void       ) {                      return FFStop - FFStart               ;};
              void     SetCenter    ( double i_c );
              double   GetCenter    ( void       ) {                      return GetSpan() * 0.5 + GetFmin()  ;};
   private:
              double   FS;
 
+             llong    TSmpAna;      // Samples in the time domain lead to this spectrum
+             llong    FSmpAna;      // How many frequencies will we ask the transform to get back to us.
+             llong    TSmpAna_prv;  // Previous value for FFT/DFT transition logic
+             llong    FSmpAna_prv;  // Previous value for FFT/DFT transition logic
+             eFftDt   isFftDft;     // So we can forcibly ask for sub-ranging start/stop frequency interior locations.
+
              bool     isCplx;       //!<vs. Real - Display forced to pos-only if Real, because of the complex-conjugate thing. Deadhead for now.
              bool     isLogY;       //!<vs. Lin - Display vertical is Db based, we won't display that silly log10() vertical scale.  It doesn't ... wait for it ... scale!
-             bool     isAvg;
 
              double   pxlVscrY;
+             double   APxlTop;
              double   vMax;
              double   vMin;
 
@@ -145,26 +152,26 @@ static const char    *cbxVrtMode[];
 
              bool     isLogF;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
 
-             llong    TSmpAna;      // Samples in the time domain lead to this spectrum
-             llong    FSmpAna;      // How many frequencies will we ask the transform to get back to us.
-             llong    TSmpAna_prv;
-             llong    FSmpAna_prv;
-
              double   FScrPxlCount; // How many pixels wide is the draw screen supposed to be.
-             double   APxlTop;
 
              eFrqUnt  FUnits;        // TODO  Some day the user will be able to work in % of FS as well as absolute frequency.
-             double   FGrdScrCount;  // How many lines show up in the image?
-
              eAnch    Fanch;         // What Anchor Mode will the Frequency be bound by?
-             double   FStart;        // Start is ancient SpecAn terminology since the "IF Oscillator" would sweep from a start to a stop frequency.
-             double   FCen;          // A bit of a misnomer since it can be pushed to any percentage of span.
-             double   FCenLoc;       // And here is that center-anchor location relative to span.  0.0 is stupid since it is at FStart, likewise 1.0 is at FStop.
-             double   FStop;
 
-             double   FGrdFirst;     // Distance in F between the FStart and the immediately next grid
-             double   FGrdSpacing;   // This will be constrained to the ancient and venerable 1/2/5
-             double   FGrdPxlSpacing;
+             double   FGrdScrCount;  // How many lines show up in the image?
+             bool     gridAnchLock;  // Shall we force the gridding to always be snapped to the anchor position?
+             double   FFAncLoc;      // Distance in F   from FFStart      to the (dimmerly drawn) anchor marker.
+             double   FPAncLoc;      // Distance in Pix from Screen Left to the (dimmerly drawn) anchor marker.
+             double   FFGrdFirst;    // Distance in F   between the FFStart and the immediately next grid.  This is true irrespective of Anchoring.
+             double   FPGrdFirst;    // Distance in Pix between the FFStart and the immediately next grid.  This is true irrespective of Anchoring.
+             double   FFGrdSpacing;  // Grid Spacing in Hertz.  This will be constrained to the ancient and venerable 1/2/5 sometimes
+             double   FPGrdSpacing;  // Grid Spacing in Pixels
+
+             double   FFStart;       // Start is ancient SpecAn terminology since the "IF Oscillator" would sweep from a start to a stop frequency.
+             double   FFCen;         // A bit of a misnomer since it can be pushed to any percentage of span by FCenRel.
+             double   FPCen;         // Should always be FScrPxlCount * FCenRel.
+             double   FCenRel;       // And here is that center-anchor location relative to span.  0.0 is stupid since it is at FFStart, likewise 1.0 is at FFStop.
+             double   FFStop;        // Stop Frequency.  FPStop is actually being called FScrPxlCount
+
 
 
     static   MdlSa   *mdSa;

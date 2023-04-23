@@ -32,7 +32,6 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
   isLogY         = true;
   vMax           =     1.0;
   vMin           =     1.0 / C_RANGE_Y_NOM;
-  isAvg          = false;
 //---- Pixel Domain
   pxlVscrY       = EK_PXL_Y_NOM;
   APxlTop        = 0.1;
@@ -47,20 +46,20 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
   FSmpAna        = 800;
   FSmpAna_prv    =   0;
   Fanch          = EA_F_ST;
-  FStart         =     0.0;
-  FCen           = FS / 2.0;
-  FStop          = FS;
+  FFStart         =     0.0;
+  FFCen           = FS / 2.0;
+  FFStop          = FS;
 //---- Pixel Domain
   FScrPxlCount   = EK_PXL_X_NOM;
 //==== Grid Stuff
   FUnits         = EF_F_ABS;
 //---- Pixel and Grid
   FGrdScrCount   =  20.0;
-  FGrdPxlSpacing = 100.0;
+  FPGrdSpacing = 100.0;
 //---- Freq and Grid
-  FGrdSpacing      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
-  FGrdFirst      =   0.0;
-  FCenLoc        =   0.5;
+  FFGrdSpacing      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
+  FFGrdFirst      =   0.0;
+  FCenRel        =   0.5;
 
 //==== Time Domain Stuff, since it will interact with FFT version of analyzer.
   TSmpAna        = EK_PXL_X_NOM;
@@ -86,9 +85,9 @@ void        MdlSa::SetFS        ( double  i_f ) {
   oldFS   = FS;
   FS      = i_f;
   ratio   = FS / oldFS;
-  FStart *= ratio;
-  FCen   *= ratio;
-  FStop  *= ratio;
+  FFStart *= ratio;
+  FFCen   *= ratio;
+  FFStop  *= ratio;
   return;
 }
 
@@ -275,7 +274,7 @@ void        MdlSa::SetFmin      ( double  i_f ) {
   if(isLogF) {
     ss = dmax(    C_FREQ_MIN,         i_f);
     ss = dmin(ss, C_FREQ_MAX / 10.0      );
-    ss = dmin(ss, FStop       / 10.0      );
+    ss = dmin(ss, FFStop       / 10.0      );
     ss = log10(ss);
     ss = floor(ss);
     ss = pow10(ss);
@@ -283,10 +282,10 @@ void        MdlSa::SetFmin      ( double  i_f ) {
   else {
     switch (Fanch) {
       case EA_F_ST:
-        ss     = FStop;
-        ss    -= FStart;
-        FStop  = i_f + ss;
-        FStart = i_f;
+        ss     = FFStop;
+        ss    -= FFStart;
+        FFStop  = i_f + ss;
+        FFStart = i_f;
         break;
       case EA_F_CN:
         break;
@@ -294,7 +293,7 @@ void        MdlSa::SetFmin      ( double  i_f ) {
         break;
     }
   }
-  FStart = ss;
+  FFStart = ss;
   return;
   }
 void        MdlSa::SetFcen      ( double  i_f ) {
@@ -305,7 +304,7 @@ void        MdlSa::SetFmax      ( double  i_f ) {
   if(isLogF) {
     ss = dmax(C_FREQ_MIN * 10.0, i_f);
     ss = dmin(ss, C_FREQ_MAX);
-    ss = dmax(ss, FStart * 10.0);
+    ss = dmax(ss, FFStart * 10.0);
     ss = log10(ss);
     ss = floor(ss);
     ss = pow10(ss);
@@ -313,9 +312,9 @@ void        MdlSa::SetFmax      ( double  i_f ) {
   else {
     ss = dmin(C_FREQ_MAX, i_f);
     ss = dmax(C_FREQ_MIN, i_f);
-    ss = dmax(FStart + 1.0, i_f);
+    ss = dmax(FFStart + 1.0, i_f);
     }
-  FStop = ss;
+  FFStop = ss;
   return;
   }
 void        MdlSa::SetSpan      ( double  i_span ) {

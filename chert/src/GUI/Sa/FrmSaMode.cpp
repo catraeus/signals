@@ -57,11 +57,6 @@ void FrmSaMode::Connect(void) {
   return;
 }
 void FrmSaMode::ChangedMode(void) {
-  fprintf(stderr, ".\n"); fflush(stderr);
-  if(rbModeTrack->get_active())
-    ctSaHor->SetModeTrack();
-  else
-    ctSaHor->SetModeAvg();
   return;
   }
 void FrmSaMode::MRU_ModeRsh(void) {

@@ -71,9 +71,6 @@ class CtlSaHor {
             void      SetLin          ( void           );
             //=====================================================================================================================
 
-            void      SetModeAvg      ( void           );
-            void      SetModeTrack    ( void           );
-
             void      SetFmin         ( double i_f     );
             void      SetFcen         ( double i_f     );
             void      SetFmax         ( double i_f     );

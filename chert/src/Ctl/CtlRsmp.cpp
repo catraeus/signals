@@ -204,15 +204,10 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
   numSa   = mdSa->GetPxlVscrX();
   FS      = sig->GetFS();
 
-  if(mdSa->GetAvg()) {
-    pFreAvg = pFav;
-  }
-  else {
-    pFreAvg = pFre;
-   for(uint chDex=0; chDex < numCh; chDex++)
-     apod->DoIt(pSig[chDex], pTre[chDex]);
-   xfrm->DFTrPS();
-  }
+  pFreAvg = pFre;
+  for(uint chDex=0; chDex < numCh; chDex++)
+    apod->DoIt(pSig[chDex], pTre[chDex]);
+  xfrm->DFTrPS();
   for(llong cc=0; cc<numCh;   cc++)
     for(llong ii=0; ii<numFreq; ii++)
       pFwork[cc][ii] = pFreAvg[cc][ii];
