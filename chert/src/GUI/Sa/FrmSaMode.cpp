@@ -26,7 +26,6 @@
   }
 
 void FrmSaMode::BuildEnv (Signal *i_sig) {
-  ctSaHor   = CtlSaHor    ::GetInstance( i_sig );
   ctMd      = CtlMsgDspch ::GetInstance(       );
   return;
 }

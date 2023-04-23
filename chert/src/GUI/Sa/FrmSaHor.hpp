@@ -51,38 +51,46 @@ class FrmSaHor : public Gtk::Frame {
             void    InterConnect     ( void      );
 
             void    OnLogLin         ( void      );
+            void    OnFftDft         ( void      );
             void    OnAnchor         ( void      );
-            bool    OnFaScale        (GdkEventKey   *i_v, Gtk::Entry *i_x);
+            void    OnAnchGrid       ( void      );
 
-            bool    SaHorRshAll      ( void *i_d );
+            bool    OnFaScale        ( GdkEventKey   *i_v, Gtk::Entry *i_x );
+
+            bool    OnRshAll         ( void *i_d );
   public:
   private:
 // | Horizontal
     Gtk::Box                vbxCtlHoriz;
-// | 0 Signal: Frame Rate & basic screen presentation log/lin
-    Gtk::Box                hbxCtlH0;
+// | 0 Config: Frame Rate & basic screen presentation log/lin
+    Gtk::Box                hbx0Config;
     Gtk::Label              lblFS;
     Gtk::Entry             *txtFS;
-    Gtk::CheckButton        btLog;
-
+    Gtk::CheckButton        btLogLin;
+    Gtk::CheckButton        btFftDft;
+// | 1 Gridding: Anchor, grid-alignment
+    Gtk::Box                hbx1Gridng;
     Gtk::Frame              frmAnchor;
     Gtk::Box                hbxAnchor;
     Gtk::RadioButtonGroup   grpRbHorAnch;
     Gtk::RadioButton        rbtAnchStrt;
     Gtk::RadioButton        rbtAnchCntr;
     Gtk::RadioButton        rbtAnchStop;
-// | 2 Interpolation
-    Gtk::Box                hbxTerp;
-    Gtk::Label              lblTerp;
-    Gtk::ComboBoxText      *txtTerp;
-// | 1 Continuity
-    Gtk::Grid               grdHorizContn;
+    Gtk::CheckButton        btAnchGrid;
+    Gtk::Label              lblCenPos;
+    Gtk::Entry              txtCenPos;
+// | 2 Freq Scale
+    Gtk::Box                hbx2FScale;
     Gtk::Label              lblFstart;
     Gtk::Entry              txtFstart;
-    Gtk::Label              lblFcenter;
-    Gtk::Entry              txtFcenter;
+    Gtk::Label              lblFCen;
+    Gtk::Entry              txtFCen;
     Gtk::Label              lblFstop;
     Gtk::Entry              txtFstop;
+// | 3 Interpolation
+    Gtk::Box                hbx3Rsmp;
+    Gtk::Label              lblRsmp;
+    Gtk::ComboBoxText      *txtRsmp;
 // | 3 Times and Frames per display unit
     Gtk::Grid               grdHorizNums;
     Gtk::Label              lblNtime;
@@ -93,23 +101,23 @@ class FrmSaHor : public Gtk::Frame {
     Gtk::Entry              txtNfreq;
 
 
-    Gtk::Label         lblHNBlank;
-    Gtk::Label         lblHNDiv;
-    Gtk::Label         lblHNScr;
-    Gtk::Label         lblHNFrame;
-    Gtk::Entry         txtHNsecPerScr;
-    Gtk::Entry         txtHNfrmPerPxl;
-    Gtk::Entry         txtHNfrmPerDiv;
-    Gtk::Entry         txtHNfrmPerScr;
+    Gtk::Label              lblHNBlank;
+    Gtk::Label              lblHNDiv;
+    Gtk::Label              lblHNScr;
+    Gtk::Label              lblHNFrame;
+    Gtk::Entry              txtHNsecPerScr;
+    Gtk::Entry              txtHNfrmPerPxl;
+    Gtk::Entry              txtHNfrmPerDiv;
+    Gtk::Entry              txtHNfrmPerScr;
 
-    CtlSaHor          *ctSaHor;
-    MdlSa             *mdSa;
-    DrwSa             *vwSaDrw;
-    Signal            *sig;
+    CtlSaHor               *ctSaHor;
+    MdlSa                  *mdSa;
+    DrwSa                  *vwSaDrw;
+    Signal                 *sig;
 
-    CtlMsgDspch       *ctMd;
-    CbT<FrmSaHor>      *MRU_SaHorRshAll;
-    bool                rshHoldOff;
+    CtlMsgDspch            *ctMd;
+    CbT<FrmSaHor>          *CbHn_RshAll;
+    bool                    rshHoldOff;
 
   };
 

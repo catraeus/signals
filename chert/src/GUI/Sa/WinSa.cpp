@@ -198,7 +198,7 @@ void  WinSa::on_size_allocate    ( Gtk::Allocation& i_allocation) {
   sprintf(cmsg, "width: %lld", l);
   stbMain->pop();
   stbMain->push(cmsg);
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   Gtk::Window::on_size_allocate(i_allocation);
   return;
   }

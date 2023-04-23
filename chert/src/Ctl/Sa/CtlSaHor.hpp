@@ -72,7 +72,7 @@ class CtlSaHor {
             //=====================================================================================================================
 
             void      SetFmin         ( double i_f     );
-            void      SetFcen         ( double i_f     );
+            void      SetFCen         ( double i_f     );
             void      SetFmax         ( double i_f     );
             void      SetFspan        ( double i_f     );
 

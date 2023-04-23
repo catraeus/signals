@@ -102,7 +102,7 @@ void FrmSaAp::OnShape(void) {
   }
 void FrmSaAp::ExecuteChange(void) {
   apod->BuildWindow();
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
   }
 void FrmSaAp::ChangedAlpha(void) {

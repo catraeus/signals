@@ -54,12 +54,12 @@ void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
 
 void      CtlSaHor::SetLog          ( void          ) {
   mdSa->SetLogF(true );
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetLin          ( void          ) {
   mdSa->SetLogF(false);
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
 }
 
@@ -71,17 +71,17 @@ void      CtlSaHor::SetLin          ( void          ) {
 */
 void      CtlSaHor::SetFmin         ( double i_f ) {
   mdSa->SetFmin(i_f);
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
 }
-void      CtlSaHor::SetFcen         ( double i_f ) {
-  mdSa->SetFcen(i_f);
-  ctMd->MRD_SaHorNumerics();
+void      CtlSaHor::SetFCen         ( double i_f ) {
+  mdSa->SetFCen(i_f);
+  ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetFmax         ( double i_f ) {
   mdSa->SetFmax(i_f);
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetFspan        ( double i_f ) {
@@ -90,24 +90,24 @@ void      CtlSaHor::SetFspan        ( double i_f ) {
 void      CtlSaHor::SetNtime        ( ullong i_t ) {
   mdSa->SetSmpVana(i_t);
   ctRsmp->ReScale();
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetNfreq        ( ullong i_f ) {
   mdSa->SetFrqVana(i_f);
   ctRsmp->ReScale();
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetDelFreq      ( double i_f ) {
   //mdSa->SetDelFreq(i_f);
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return;
 }
 
 bool      CtlSaHor::CtHn_ReBase     ( void *d    ) {
   ctRsmp->ReScale();
   mdSa->SetFS(sig->GetFS() * 0.5D);
-  ctMd->MRD_SaHorNumerics();
+  ctMd->CtEm_SaReScale();
   return false;
 }

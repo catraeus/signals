@@ -115,9 +115,9 @@ class CtlMsgDspch {
 
                CbV *MSU_OsDrwTrace;
 
-            void                 MRD_SaHorNumerics     ( void             );
+            void                 CtEm_SaReScale        ( void             );
                CbV *CtHn_SaHorReBase;
-               CbV *MSU_SaHorRshAll;
+               CbV *CtHn_SaHorRshAll;
 
             void                 CtEm_SaFrqReGrid      ( void             );
                CbV *CtHn_SaFrqReGrid;

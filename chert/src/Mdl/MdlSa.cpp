@@ -17,8 +17,8 @@
 #include <math.h>
 
       MdlSa *MdlSa::mdSa = NULL;
-//      Ampl Range mode  (top,bot=TB) | (top,scale=TK) | (top,span=TN) | (center,span=CN) | (center,scale=CK) }
-const char  *MdlSa::cbxVrtMode[] = {"Top.Bottom", "Top.Scale", "Top.Span", "Center.Span", "Center.Scale"};
+//      Ampl Range mode             top,bot=TB    top,scale=TK  top,span=TN center,span=CN  center,scale=CK
+const char  *MdlSa::cbxVrtMode[] = {"Top.Bottom", "Top.Scale", "Top.Span",  "Center.Span",  "Center.Scale"};
 
 const double MdlSa::C_FREQ_MIN     = 1.0e-00;
 const double MdlSa::C_FREQ_MAX     = 1.0e+05;
@@ -27,44 +27,49 @@ const double MdlSa::C_DEC_MAX      = 7.0e+00;
 const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
 
             MdlSa::MdlSa        ( void        ) {
-//====  Amplitude Stuff
-  isCplx         = false;
-  isLogY         = true;
-  vMax           =     1.0;
-  vMin           =     1.0 / C_RANGE_Y_NOM;
-//---- Pixel Domain
-  pxlVscrY       = EK_PXL_Y_NOM;
-  APxlTop        = 0.1;
 
-
-
-
-//==== Frequency Stuff
-  FS             =     1.0;
-  isLogF         = false;
-  FSmpAna        = EK_PXL_X_NOM;
-  FSmpAna        = 800;
-  FSmpAna_prv    =   0;
-  Fanch          = EA_F_ST;
-  FFStart         =     0.0;
-  FFCen           = FS / 2.0;
-  FFStop          = FS;
-//---- Pixel Domain
-  FScrPxlCount   = EK_PXL_X_NOM;
-//==== Grid Stuff
-  FUnits         = EF_F_ABS;
-//---- Pixel and Grid
-  FGrdScrCount   =  20.0;
-  FPGrdSpacing = 100.0;
-//---- Freq and Grid
-  FFGrdSpacing      =   1.0; // This will be constrained to the ancient and venerable 1/2/5
-  FFGrdFirst      =   0.0;
-  FCenRel        =   0.5;
-
-//==== Time Domain Stuff, since it will interact with FFT version of analyzer.
+//==== Analyzer Stuff.
   TSmpAna        = EK_PXL_X_NOM;
   TSmpAna        = 800;
   TSmpAna_prv    =   0;
+
+  isFftDft       = EX_F_DFT;
+
+  FSmpAna        = EK_PXL_X_NOM;
+  FSmpAna        = 800;
+  FSmpAna_prv    =   0;
+
+
+//====  Amplitude Stuff
+  ACplx           = false;
+  ALogLin         = true;
+  AATop           =     1.0;
+  AABot           =     1.0 / C_RANGE_Y_NOM;
+//---- Pixel Domain
+  AScrPxlCount    = EK_PXL_Y_NOM;
+
+
+  FS              =     1.0;
+  FLogLin         = false;
+
+  FScrPxlCount    = EK_PXL_X_NOM;
+
+  FUnits          = EF_F_ABS;
+  Fanch           = EA_F_ST;
+  anchGrid        = false;
+  FGrdScrCount    =  20.0;
+
+  FFGrdFirst      =     0.0;
+  FPGrdFirst      =     0.0;
+  FFGrdSpace      =     1.0; // This will be constrained to the ancient and venerable 1/2/5
+  FPGrdSpace      =   100.0;
+
+  FFStart         =     0.0;
+  FFStop          = FS;
+  FCenPos         =     0.5;
+  FFCen           = FFStop       * FCenPos;
+  FPCen           = FScrPxlCount * FCenPos;
+
   return;
 }
             MdlSa::~MdlSa       ( void        ) {
@@ -96,7 +101,7 @@ void        MdlSa::SetPxlVscrX  ( double  i_p ) {
   return;
 }
 void        MdlSa::SetPxlVscrY  ( double  i_p ) {
-  pxlVscrY = i_p;
+  AScrPxlCount = i_p;
   return;
 }
 
@@ -180,68 +185,74 @@ void        MdlSa::JustifyN     ( void        ) {
   FSmpAna_prv = FSmpAna;
   return;
 }
+
+
+//=================================================================================================
+//=================================================================================================
+//  Amplitude Stuff
+//
 void        MdlSa::SetLogY      ( bool    i_l ) {
   double v;
   llong k;
   if(!i_l) {
-    if(isLogY) { // we're changing - we're going to linear.  Take the top and leave it there.  Put the bottom to 0.0
-      vMin = 0.0;
+    if(ALogLin) { // we're changing - we're going to linear.  Take the top and leave it there.  Put the bottom to 0.0
+      AABot = 0.0;
     } // the else represents no change
   }
   else {
-    if(!isLogY) { // we're changing - we're going to log.  Take the top and make it reasonable even if it's currently negative.  Likewise the bottom
-      if(vMax <= 0.0)
-        vMax = 1.0;
-      v = log10(vMax);
+    if(!ALogLin) { // we're changing - we're going to log.  Take the top and make it reasonable even if it's currently negative.  Likewise the bottom
+      if(AATop <= 0.0)
+        AATop = 1.0;
+      v = log10(AATop);
       v = ceil(v - DBL_EPS); // If you're really really close but just over, then be forgiving
       k = (llong)( v + DBL_EPS); // no room for stupids in the number system.
-      vMax = pow10((double)k); // will be right on for numbers in the known universe.
-      if(vMin <= DBL_EPS) vMin = vMax / C_RANGE_Y_NOM;
-      if(vMin >= vMax   ) vMin = vMax / C_RANGE_Y_NOM;
-      v = log10(vMin);
+      AATop = pow10((double)k); // will be right on for numbers in the known universe.
+      if(AABot <= DBL_EPS) AABot = AATop / C_RANGE_Y_NOM;
+      if(AABot >= AATop   ) AABot = AATop / C_RANGE_Y_NOM;
+      v = log10(AABot);
       v = floor(v + DBL_EPS); // If you're really really close but just under, then be forgiving
       k = (llong)( v + DBL_EPS); // no room for stupids in the number system.
-      vMin = pow10((double)k); // will be right on for numbers in the known universe.
+      AABot = pow10((double)k); // will be right on for numbers in the known universe.
     }
   }
-  isLogY = i_l; // a little redundant, given all the above iffing, but not worth anything else.
+  ALogLin = i_l; // a little redundant, given all the above iffing, but not worth anything else.
   return;
 }
 void        MdlSa::SetVmin      ( double  i_v ) {
   double v;
   llong k;
-  if(isLogY) {
-    if(i_v >= vMax - DBL_EPS)
-      i_v = vMax / C_RANGE_Y_NOM;
+  if(ALogLin) {
+    if(i_v >= AATop - DBL_EPS)
+      i_v = AATop / C_RANGE_Y_NOM;
     else {
       v = log10(i_v * 0.9999); // arbitrary for now FIXME make this a better studied fixer-upper
       v = floor(v + DBL_EPS); // If you're really really close but just under, then be forgiving
       k = (llong)( v + DBL_EPS); // no room for stupids in the number system.
-      vMin = pow10((double)k); // will be right on for numbers in the known universe.
+      AABot = pow10((double)k); // will be right on for numbers in the known universe.
     }
   }
   else {
-    if(i_v > vMax - DBL_EPS * 10.0) // another FIXME
-      i_v = vMax - 1.0; // and yet another FIXME
+    if(i_v > AATop - DBL_EPS * 10.0) // another FIXME
+      i_v = AATop - 1.0; // and yet another FIXME
   }
-  vMin = i_v;
+  AABot = i_v;
   return;
 }
 void        MdlSa::SetVmax      ( double  i_v ) {
   double v;
 
-  if(isLogY) {
-    if(i_v <= vMin + DBL_EPS)
-      i_v = vMax / C_RANGE_Y_NOM;
+  if(ALogLin) {
+    if(i_v <= AABot + DBL_EPS)
+      i_v = AATop / C_RANGE_Y_NOM;
     else {
       v = log10(i_v);            //Convert to log
       v = ceil(v - DBL_EPS);     //Put it to an integer decade
-      vMax = exp10(v);   // will be right on for numbers in the known universe.
+      AATop = exp10(v);   // will be right on for numbers in the known universe.
     }
   }
   else {
-    if(i_v < (vMin + DBL_EPS * 10.0)) // another FIXME
-      i_v = vMax + 1.0; // and yet another FIXME
+    if(i_v < (AABot + DBL_EPS * 10.0)) // another FIXME
+      i_v = AATop + 1.0; // and yet another FIXME
   }
   return;
 }
@@ -250,9 +261,13 @@ const char *MdlSa::GetVrtModeStr( ullong  i_n ) {
   return cbxVrtMode[i_n];
 }
 
+//=================================================================================================
+//=================================================================================================
+//  Frequency Stuff
+//
 void        MdlSa::SetLogF      ( bool    i_l ) {
-  isLogF = i_l;
-  if(isLogF) {
+  FLogLin = i_l;
+  if(FLogLin) {
     SetFmin(1.0);
     SetFmax(1.0e+5);
   }
@@ -271,7 +286,7 @@ void        MdlSa::SetFmin      ( double  i_f ) {
   double ss;
   double tFS;
 
-  if(isLogF) {
+  if(FLogLin) {
     ss = dmax(    C_FREQ_MIN,         i_f);
     ss = dmin(ss, C_FREQ_MAX / 10.0      );
     ss = dmin(ss, FFStop       / 10.0      );
@@ -296,12 +311,12 @@ void        MdlSa::SetFmin      ( double  i_f ) {
   FFStart = ss;
   return;
   }
-void        MdlSa::SetFcen      ( double  i_f ) {
+void        MdlSa::SetFCen      ( double  i_f ) {
   return;
 }
 void        MdlSa::SetFmax      ( double  i_f ) {
   double ss;
-  if(isLogF) {
+  if(FLogLin) {
     ss = dmax(C_FREQ_MIN * 10.0, i_f);
     ss = dmin(ss, C_FREQ_MAX);
     ss = dmax(ss, FFStart * 10.0);
@@ -320,7 +335,10 @@ void        MdlSa::SetFmax      ( double  i_f ) {
 void        MdlSa::SetSpan      ( double  i_span ) {
   return;
   }
-
+void        MdlSa::SetCenPos    ( double  i_r ) {
+  FCenPos = i_r;
+  return;
+}
 void        MdlSa::SetCenter    ( double  i_center ) {
   return;
   }

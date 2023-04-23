@@ -37,7 +37,7 @@ CtlMsgDspch *CtlMsgDspch::ctMd = NULL;
 
   CtHn_SaHorReBase         = NULL; // CtlSaHor & CtlSaVrt
 
-  MSU_SaHorRshAll          = NULL; // FrmSaHor
+  CtHn_SaHorRshAll         = NULL; // FrmSaHor
   CtHn_SaFrqReGrid         = NULL;
 
   MSU_SaVrtRshAll          = NULL; // nowhere yet
@@ -56,7 +56,7 @@ CtlMsgDspch* CtlMsgDspch::GetInstance             ( void          ) {
 }
 
 // The whole damned file structure underneath
-void         CtlMsgDspch::CtEm_FileReStart         ( void          ) {
+void         CtlMsgDspch::CtEm_FileReStart        ( void          ) {
   if(CtHn_XportStop      != NULL)     CtHn_XportStop     ->Execute(NULL);
   if(MSU_OsHorReBase     != NULL)     MSU_OsHorReBase    ->Execute(NULL);
   if(CtHn_SaHorReBase    != NULL)     CtHn_SaHorReBase   ->Execute(NULL);
@@ -102,8 +102,8 @@ void         CtlMsgDspch::MRD_OsNewColors         ( void          ) {
 }
 
 // SpecAn Horizontal kinds of things
-void         CtlMsgDspch::MRD_SaHorNumerics       ( void          ) { // Simple reflection action, no real data.
-  if(MSU_SaHorRshAll     != NULL)    MSU_SaHorRshAll    ->Execute(NULL);
+void         CtlMsgDspch::CtEm_SaReScale          ( void          ) { // Simple reflection action, no real data.
+  if(CtHn_SaHorRshAll    != NULL)    CtHn_SaHorRshAll   ->Execute(NULL);
   if(MSU_RsmpSaAcq       != NULL)    MSU_RsmpSaAcq      ->Execute(NULL);
   MRD_TraceDataHit();
   return;

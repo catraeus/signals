@@ -18,7 +18,6 @@
 
 #include <caes/AudioFile/Signal.hpp>
 
-#include "../../Ctl/Sa/CtlSaHor.hpp"
 #include "../../Ctl/CtlMsgDspch.hpp"
 
 class FrmSaMode: public Gtk::Frame {
@@ -35,7 +34,6 @@ class FrmSaMode: public Gtk::Frame {
             void    MRU_ModeRsh    ( void );
   private:
   public:
-//    CbV *CbSomethingChanged;
   protected:
     //====================
     // Spec row
@@ -49,7 +47,6 @@ class FrmSaMode: public Gtk::Frame {
     // Vector text box
 
   private:
-    CtlSaHor            *ctSaHor;
 
     CtlMsgDspch         *ctMd;
   };

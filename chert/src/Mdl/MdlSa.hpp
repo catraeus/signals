@@ -80,8 +80,7 @@ class MdlSa {
 
              void     SetFS        ( double i_f );
 
-             double   GetPxlVdivX  ( void       ) {                      return  pxlVscrY * 0.1              ;};
-             double   GetAPxlFirst ( void       ) {                      return  APxlTop                   ;};
+             double   GetPxlVdivX  ( void       ) {                      return  AScrPxlCount * 0.1              ;};
              void     SetPxlVscrX  ( double i_p );
              double   GetPxlVscrX  ( void       ) {                      return  FScrPxlCount                    ;};
              llong   *GetSmpVanaP  ( void       ) {                      return &TSmpAna                     ;}; //P meaning pointer, provided to allow the
@@ -95,36 +94,45 @@ class MdlSa {
              void     JustifyN     ( void       );
 
              void     SetPxlVscrY  ( double i_p );
-             double   GetPxlVscrY  ( void       ) {                      return pxlVscrY                     ;};
+             double   GetPxlVscrY  ( void       ) {                      return AScrPxlCount                     ;};
 
              void     SetLogY      ( void       ) { SetLogY(true );      return                              ;};
              void     SetLinY      ( void       ) { SetLogY(false);      return                              ;};
              void     SetLogY      ( bool   i_l );
-             bool     IsLogY       ( void       ) {                      return  isLogY                      ;};
-             bool     IsLinY       ( void       ) {                      return !isLogY                      ;};
+             bool     IsLogY       ( void       ) {                      return  ALogLin                      ;};
+             bool     IsLinY       ( void       ) {                      return !ALogLin                      ;};
              void     SetVmin      ( double i_v );
-             double   GetVmin      ( void       ) {                      return vMin                         ;};
+             double   GetVmin      ( void       ) {                      return AABot                         ;};
              void     SetVmax      ( double i_v );
-             double   GetVmax      ( void       ) {                      return vMax                         ;};
+             double   GetVmax      ( void       ) {                      return AATop                         ;};
              ullong   GetVrtModeN  ( void       ) {                      return ESAM_COUNT                   ;};
        const char    *GetVrtModeStr( ullong i_n );
 
              void     SetLogF      ( void       ) { SetLogF(true );      return                              ;};
              void     SetLinF      ( void       ) { SetLogF(false);      return                              ;};
              void     SetLogF      ( bool   i_l );
-             bool     IsLogF       ( void       ) {                      return  isLogF                      ;};
-             bool     IsLinF       ( void       ) {                      return !isLogF                      ;};
+             bool     IsLogF       ( void       ) {                      return  FLogLin                      ;};
+             bool     IsLinF       ( void       ) {                      return !FLogLin                      ;};
+             void     SetFFT       ( void       ) { isFftDft = EX_F_FFT; return                               ;};
+             void     SetDFT       ( void       ) { isFftDft = EX_F_DFT; return                               ;};
+             bool     GetFFT       ( void       ) {                      return isFftDft == EX_F_FFT          ;};
+             bool     GetDFT       ( void       ) {                      return isFftDft == EX_F_DFT          ;};
+
              void     SetAnchX     ( eAnch  i_a );
              void     SetAnchS     ( void       ) { SetAnchX(EA_F_ST);   return                              ;};
              void     SetAnchC     ( void       ) { SetAnchX(EA_F_CN);   return                              ;};
              void     SetAnchP     ( void       ) { SetAnchX(EA_F_SP);   return                              ;};
              bool     GetAnchX     ( void       ) {                      return Fanch                        ;};
+             void     SetAnchGrid  ( bool   i_a ) { anchGrid = i_a;      return                              ;};
+             void     SetCenPos    ( double i_a );
+             double   GetCenPos    ( void       ) {                      return FCenPos                      ;};
+
              void     SetGainF     ( bool   i_l );
              bool     GetGainF     ( void       );
              void     SetFmin      ( double i_s );
              double   GetFmin      ( void       ) {                      return FFStart                       ;};
-             void     SetFcen      ( double i_s );
-             double   GetFcen      ( void       ) {                      return FFCen                         ;};
+             void     SetFCen      ( double i_s );
+             double   GetFCen      ( void       ) {                      return FFCen                         ;};
              void     SetFmax      ( double i_s );
              double   GetFmax      ( void       ) {                      return FFStop                        ;};
              void     SetSpan      ( double i_s );
@@ -132,44 +140,44 @@ class MdlSa {
              void     SetCenter    ( double i_c );
              double   GetCenter    ( void       ) {                      return GetSpan() * 0.5 + GetFmin()  ;};
   private:
-             double   FS;
-
+//==== Analyzer Stuff
              llong    TSmpAna;      // Samples in the time domain lead to this spectrum
-             llong    FSmpAna;      // How many frequencies will we ask the transform to get back to us.
              llong    TSmpAna_prv;  // Previous value for FFT/DFT transition logic
-             llong    FSmpAna_prv;  // Previous value for FFT/DFT transition logic
+
              eFftDt   isFftDft;     // So we can forcibly ask for sub-ranging start/stop frequency interior locations.
 
-             bool     isCplx;       //!<vs. Real - Display forced to pos-only if Real, because of the complex-conjugate thing. Deadhead for now.
-             bool     isLogY;       //!<vs. Lin - Display vertical is Db based, we won't display that silly log10() vertical scale.  It doesn't ... wait for it ... scale!
+             llong    FSmpAna;      // How many frequencies will we ask the transform to get back to us.
+             llong    FSmpAna_prv;  // Previous value for FFT/DFT transition logic
 
-             double   pxlVscrY;
-             double   APxlTop;
-             double   vMax;
-             double   vMin;
+//==== Amplitude Stuff
+             bool     ACplx;       // vs. Real - Display forced to pos-only if Real, because of the complex-conjugate thing. Deadhead for now.
+             bool     ALogLin;      // vs. Lin - Display vertical is Db based, we won't display that silly log10() vertical scale.  It doesn't ... wait for it ... scale!
 
-static const char    *cbxVrtMode[];
+             double   AScrPxlCount;
+             double   AATop;
+             double   AABot;
 
-             bool     isLogF;       //!<vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
+static const char    *cbxVrtMode[]; // FIXME GUI stuff shouldn't be down here!
+
+             double   FS;
+             bool     FLogLin;       // vs. Lin - Display is log frequency, positive-only therefore, essentially start-pinned.
 
              double   FScrPxlCount; // How many pixels wide is the draw screen supposed to be.
 
              eFrqUnt  FUnits;        // TODO  Some day the user will be able to work in % of FS as well as absolute frequency.
              eAnch    Fanch;         // What Anchor Mode will the Frequency be bound by?
+             bool     anchGrid;      // The anchor and the grid will be the same vertical line.  Frequencies on grid on the axis labels will be relative to anchor.
+             double   FGrdScrCount;  // How many lines show up in the image?  Convenience, could be derived at any time.
 
-             double   FGrdScrCount;  // How many lines show up in the image?
-             bool     gridAnchLock;  // Shall we force the gridding to always be snapped to the anchor position?
-             double   FFAncLoc;      // Distance in F   from FFStart      to the (dimmerly drawn) anchor marker.
-             double   FPAncLoc;      // Distance in Pix from Screen Left to the (dimmerly drawn) anchor marker.
              double   FFGrdFirst;    // Distance in F   between the FFStart and the immediately next grid.  This is true irrespective of Anchoring.
              double   FPGrdFirst;    // Distance in Pix between the FFStart and the immediately next grid.  This is true irrespective of Anchoring.
-             double   FFGrdSpacing;  // Grid Spacing in Hertz.  This will be constrained to the ancient and venerable 1/2/5 sometimes
-             double   FPGrdSpacing;  // Grid Spacing in Pixels
+             double   FFGrdSpace;    // Grid Spacing in Hertz.  This will be constrained to the ancient and venerable 1/2/5 sometimes
+             double   FPGrdSpace;    // Grid Spacing in Pixels
 
              double   FFStart;       // Start is ancient SpecAn terminology since the "IF Oscillator" would sweep from a start to a stop frequency.
-             double   FFCen;         // A bit of a misnomer since it can be pushed to any percentage of span by FCenRel.
-             double   FPCen;         // Should always be FScrPxlCount * FCenRel.
-             double   FCenRel;       // And here is that center-anchor location relative to span.  0.0 is stupid since it is at FFStart, likewise 1.0 is at FFStop.
+             double   FCenPos;       // And here is that center-anchor location relative to span.  0.0 is stupid since it is at FFStart, likewise 1.0 is at FFStop.
+             double   FFCen;         // A bit of a misnomer since it can be pushed to any percentage of span by FCenPos.
+             double   FPCen;         // Should always be FScrPxlCount * FCenPos.
              double   FFStop;        // Stop Frequency.  FPStop is actually being called FScrPxlCount
 
 
