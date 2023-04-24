@@ -22,7 +22,7 @@ CtlSaHor *CtlSaHor::ctSaHor = NULL;
           CtlSaHor::CtlSaHor        ( Signal *i_sig ) {
   BuildEnv(i_sig);
   lastAvg = false;
-  mdSa->SetSmpVana(2048);
+  mdSa->SetTvAna(2048);
 }
           CtlSaHor::~CtlSaHor       ( void          ) {
 }
@@ -44,7 +44,7 @@ void      CtlSaHor::BuildEnv        ( Signal *i_sig ) {
   return;
 }
 void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
-  mdSa->SetPxlVscrY(i_h);
+  mdSa->SetAPvScr(i_h);
   mdSa->SetFPvScr(i_w);
   ctRsmp->ReScale();
   return;
@@ -53,12 +53,12 @@ void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
 
 
 void      CtlSaHor::SetLog          ( void          ) {
-  mdSa->SetLogF();
+  mdSa->SetFLog();
   ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetLin          ( void          ) {
-  mdSa->SetLinF();
+  mdSa->SetFLin();
   ctMd->CtEm_SaReScale();
   return;
 }
@@ -70,7 +70,7 @@ void      CtlSaHor::SetLin          ( void          ) {
    GridSpacing
 */
 void      CtlSaHor::SetFmin         ( double i_f ) {
-  mdSa->SetFmin(i_f);
+  mdSa->SetFStart(i_f);
   ctMd->CtEm_SaReScale();
   return;
 }
@@ -79,8 +79,8 @@ void      CtlSaHor::SetFCen         ( double i_f ) {
   ctMd->CtEm_SaReScale();
   return;
 }
-void      CtlSaHor::SetFmax         ( double i_f ) {
-  mdSa->SetFmax(i_f);
+void      CtlSaHor::SetFStop        ( double i_f ) {
+  mdSa->SetFStop(i_f);
   ctMd->CtEm_SaReScale();
   return;
 }
@@ -88,13 +88,13 @@ void      CtlSaHor::SetFspan        ( double i_f ) {
   return;
 }
 void      CtlSaHor::SetNtime        ( ullong i_t ) {
-  mdSa->SetSmpVana(i_t);
+  mdSa->SetTvAna(i_t);
   ctRsmp->ReScale();
   ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetNfreq        ( ullong i_f ) {
-  mdSa->SetFrqVana(i_f);
+  mdSa->SetFvAna(i_f);
   ctRsmp->ReScale();
   ctMd->CtEm_SaReScale();
   return;

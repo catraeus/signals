@@ -73,12 +73,12 @@ class CtlSaHor {
 
             void      SetFmin         ( double i_f     );
             void      SetFCen         ( double i_f     );
-            void      SetFmax         ( double i_f     );
+            void      SetFStop        ( double i_f     );
             void      SetFspan        ( double i_f     );
 
-            void      SetAnchS        ( void           ) {mdSa->SetAnchS(); return;};
-            void      SetAnchC        ( void           ) {mdSa->SetAnchC(); return;};
-            void      SetAnchP        ( void           ) {mdSa->SetAnchP(); return;};
+            void      SetAnchS        ( void           ) {mdSa->SetFAnchS(); return;};
+            void      SetAnchC        ( void           ) {mdSa->SetFAnchC(); return;};
+            void      SetAnchP        ( void           ) {mdSa->SetFAnchP(); return;};
 
             void      SetNtime        ( ullong i_t     );
             void      SetNfreq        ( ullong i_f     );

@@ -117,9 +117,9 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
   hn     = (int)floor(hs / vs * 10.0) + 1;// First try, let's see how many get made like this.
                                        // FIXME The grid back in the draw needs to be coordinated.
 
-  hfz    = mdSa->GetFmin();
-  hfs    = mdSa->GetFmax();
-  isLogF = mdSa->IsLogF();
+  hfz    = mdSa->GetFStart();
+  hfs    = mdSa->GetFStop();
+  isLogF = mdSa->IsFLog();
 
   double nG;
   double fG;

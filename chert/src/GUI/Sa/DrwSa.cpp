@@ -80,7 +80,7 @@ void    DrwSa::OnReGrid       ( void ) {
   fStop = get_allocated_width();
   aBot  = get_allocated_height();
   mdSa->SetFPvScr(fStop);
-  mdSa->SetPxlVscrY(aBot);
+  mdSa->SetAPvScr(aBot);
   m_line_width = 0.3267;
   cis_grid->set_device_offset(0, 0);
 
@@ -94,7 +94,7 @@ void    DrwSa::OnReGrid       ( void ) {
   fStart = 0.0;
   fStop  = mdSa->GetFPvScr() * 0.9999;
   aTop   = mdSa->GetFPvDiv(); // Well, this is actually the horizontal line location in the first iteration.
-  aBot   = mdSa->GetPxlVscrY() * 0.9999;
+  aBot   = mdSa->GetAPvScr() * 0.9999;
   cd->set_line_width(m_line_width * 2);
   for(double y = aTop; y < aBot; y += mdSa->GetFPvDiv()) {
     cd->move_to(round(fStart) + 0.5, round(y) + 0.5);
@@ -102,12 +102,12 @@ void    DrwSa::OnReGrid       ( void ) {
     cd->stroke();
     }
   aTop = 0.00;
-  if(mdSa->IsLogF()) {
+  if(mdSa->IsFLog()) {
     double decadeWidth;
     double numDecades;
     double fMin;
-    numDecades  = mdSa->GetFmax();
-    fMin = mdSa->GetFmin();
+    numDecades  = mdSa->GetFStop();
+    fMin = mdSa->GetFStart();
     if(fMin < .001) fMin = numDecades / 100000.0;
     numDecades /= fMin;
     numDecades  = log10(numDecades);
@@ -151,7 +151,7 @@ void    DrwSa::CheckResize  ( void ) {
   Gtk::Allocation allocation = get_allocation();
   int width  = allocation.get_width();
   int height = allocation.get_height();
-  if((width != mdSa->GetFPvScr()) || (height != mdSa->GetPxlVscrY())) {
+  if((width != mdSa->GetFPvScr()) || (height != mdSa->GetAPvScr())) {
     ctSaHor->SetScrSize(width, height);
     OnReGrid();
     }
@@ -180,7 +180,7 @@ bool    DrwSa::on_draw      ( const Cairo::RefPtr<Cairo::Context>& cr ) {
 
   cr->set_source_rgba(1.0, 1.0, 0.0, 1.0); // Orange
   cr->set_line_width(0.707);
-  cr->move_to(0.0, mdSa->GetPxlVscrY() / 2.0);
+  cr->move_to(0.0, mdSa->GetAPvScr() / 2.0);
   scaleF = 1.0;
   numSa  = (ullong)mdSa->GetFPvScr();
   pAry   = ff[0];

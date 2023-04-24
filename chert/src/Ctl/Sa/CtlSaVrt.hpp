@@ -66,8 +66,8 @@ class CtlSaVrt {
             //=====================================================================================================================
             //Screen and Horiz Settings only, no signal dependency
             void      SetScrSize      ( uint   i_w, uint i_h );
-            void      SetLog          ( void        ) { mdSa->SetLogA();  return;};
-            void      SetLin          ( void        ) { mdSa->SetLinA(); return;};
+            void      SetLog          ( void        ) { mdSa->SetALog();  return;};
+            void      SetLin          ( void        ) { mdSa->SetAlin(); return;};
             //=====================================================================================================================
             void      SetVmax         ( double  i_v );
 

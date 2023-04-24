@@ -218,17 +218,20 @@ void   FrmSaHor::OnFftDft             ( void      ) {
 }
 
 void   FrmSaHor::OnAnchor             ( void      ) {
-       if(rbtAnchStrt.get_active())    mdSa->SetAnchS();
-  else if(rbtAnchCntr.get_active())    mdSa->SetAnchC();
-  else                                 mdSa->SetAnchP();
+       if(rbtAnchStrt.get_active())    mdSa->SetFAnchS();
+  else if(rbtAnchCntr.get_active())    mdSa->SetFAnchC();
+  else                                 mdSa->SetFAnchP();
   return;
 }
 void   FrmSaHor::OnAnchGrid           ( void      ) {
-  mdSa->SetAnchGrid(btAnchGrid.get_active());
+  mdSa->SetFAnchGrid(btAnchGrid.get_active());
   return;
 }
 
 bool   FrmSaHor::OnFaScale            (GdkEventKey   *i_v, Gtk::Entry *i_x) {
+  if(rshHoldOff)
+    return false;
+  rshHoldOff = true;
   if(i_v != 0) {
     if((i_v->keyval != GDK_KEY_Return) && (i_v->keyval != GDK_KEY_Tab))
       return false;
@@ -240,21 +243,21 @@ bool   FrmSaHor::OnFaScale            (GdkEventKey   *i_v, Gtk::Entry *i_x) {
    StringEng(s, &d);
    fprintf(stdout, "    s: %6s    d: %lf\n", s, d); fflush(stdout);
    u = (ullong) (d + DBL_EPS);
-   if     (i_x ==                NULL       ) {                               return false;  }
-   else if(i_x ==               &txtCenPos  ) {    mdSa   ->SetCenPos (d);    return false;  }
-   else if(i_x ==               &txtFstart  ) {    mdSa   ->SetFmin   (d);    return false;  }
-   else if(i_x ==               &txtFCen    ) {    mdSa   ->SetFCen   (d);    return false;  }
-   else if(i_x ==               &txtFstop   ) {    mdSa   ->SetFmax   (d);    return false;  }
-   else if(i_x ==               &txtNtime   ) {    ctSaHor->SetNtime  (u);    return false;  }
-   else if(i_x ==               &txtNfreq   ) {    ctSaHor->SetNfreq  (u);    return false;  }
-   else                                       {                               return false;  }
-                                                                              return false;
+   if     (i_x ==                NULL       ) {                             rshHoldOff = false;   return false;  }
+   else if(i_x ==               &txtCenPos  ) {    mdSa   ->SetFCenPos (d); rshHoldOff = false;   return false;  }
+   else if(i_x ==               &txtFstart  ) {    mdSa   ->SetFStart  (d); rshHoldOff = false;   return false;  }
+   else if(i_x ==               &txtFCen    ) {    mdSa   ->SetFCen    (d); rshHoldOff = false;   return false;  }
+   else if(i_x ==               &txtFstop   ) {    ctSaHor->SetFStop   (d); rshHoldOff = false;   return false;  }
+   else if(i_x ==               &txtNtime   ) {    ctSaHor->SetNtime   (u); rshHoldOff = false;   return false;  }
+   else if(i_x ==               &txtNfreq   ) {    ctSaHor->SetNfreq   (u); rshHoldOff = false;   return false;  }
+   else                                       {                             rshHoldOff = false;   return false;  }
+                                                                            rshHoldOff = false;   return false;
 }
 
 
 
 
-bool   FrmSaHor::OnRshAll          ( void *i_d ) {
+bool   FrmSaHor::OnRshAll             ( void *i_d ) {
   rshHoldOff = true;
   char   s[256];
   double d;
@@ -262,18 +265,18 @@ bool   FrmSaHor::OnRshAll          ( void *i_d ) {
   bool   b;
 
   d  = sig   ->GetFS       ();  EngString    (s, d, 4, (char *)"Hz");  txtFS       ->set_text         (s);
-  d /= mdSa  ->GetSmpVana  ();  EngString    (s, d, 4, (char *)"Hz");  txtDelFreq   .set_text         (s);
-  b  = mdSa  ->IsLogF      ();                                         btLogLin     .set_active       (b);
-  d  = mdSa  ->GetCenPos   ();  EngString    (s, d, 4, (char *)"Hz");  txtCenPos    .set_text         (s);
+  d /= mdSa  ->GetTvAna    ();  EngString    (s, d, 4, (char *)"Hz");  txtDelFreq   .set_text         (s);
+  b  = mdSa  ->IsFLog      ();                                         btLogLin     .set_active       (b);
+  d  = mdSa  ->GetFCenPos  ();  EngString    (s, d, 4, (char *)"Hz");  txtCenPos    .set_text         (s);
                                 sprintf      (s,       "%15.11e", d);  txtCenPos    .set_tooltip_text (s);
-  d  = mdSa  ->GetFmin     ();  EngString    (s, d, 4, (char *)"Hz");  txtFstart    .set_text         (s);
+  d  = mdSa  ->GetFStart   ();  EngString    (s, d, 4, (char *)"Hz");  txtFstart    .set_text         (s);
                                 sprintf      (s,       "%15.11e", d);  txtFstart    .set_tooltip_text (s);
   d  = mdSa  ->GetFCen     ();  EngString    (s, d, 4, (char *)"Hz");  txtFCen      .set_text         (s);
                                 sprintf      (s,       "%15.11e", d);  txtFCen      .set_tooltip_text (s);
-  d  = mdSa  ->GetFmax     ();  EngString    (s, d, 4, (char *)"Hz");  txtFstop     .set_text         (s);
+  d  = mdSa  ->GetFStop    ();  EngString    (s, d, 4, (char *)"Hz");  txtFstop     .set_text         (s);
                                 sprintf      (s,       "%15.11e", d);  txtFstop     .set_tooltip_text (s);
-  l  = mdSa  ->GetSmpVana  ();  IntWithComma (s, l                 );  txtNtime     .set_text         (s);
-  l  = mdSa  ->GetFrqVana  ();  IntWithComma (s, l                 );  txtNfreq     .set_text         (s);
+  l  = mdSa  ->GetTvAna    ();  IntWithComma (s, l                 );  txtNtime     .set_text         (s);
+  l  = mdSa  ->GetFvAna    ();  IntWithComma (s, l                 );  txtNfreq     .set_text         (s);
   if(vwSaDrw != NULL) vwSaDrw->OnReGrid();
   rshHoldOff = false;
   return false;

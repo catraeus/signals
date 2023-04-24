@@ -74,10 +74,10 @@ void     CtlRsmp::Connect             ( void              ) {
   return;
 }
 void     CtlRsmp::ReScale             ( void              ) {
-  apod->SetN(mdSa->GetSmpVana());
+  apod->SetN(mdSa->GetTvAna());
   apod->SetNormRMS();
   apod->BuildWindow();
-  xfrm->Resize(mdOs->GetSmpVana(), mdSa->GetFrqVana());
+  xfrm->Resize(mdOs->GetSmpVana(), mdSa->GetFvAna());
   return;
 }
 
@@ -200,7 +200,7 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
 
   numCh   = sig->GetCh();
   //fprintf(stderr, ".");fflush(stderr);
-  numFreq = mdSa->GetFrqVana();
+  numFreq = mdSa->GetFvAna();
   numSa   = mdSa->GetFPvScr();
   FS      = sig->GetFS();
 
@@ -212,8 +212,8 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
     for(llong ii=0; ii<numFreq; ii++)
       pFwork[cc][ii] = pFreAvg[cc][ii];
 
-  isLogX  = mdSa->IsLogF();
-  isLogY  = mdSa->IsLogY();
+  isLogX  = mdSa->IsFLog();
+  isLogY  = mdSa->IsALog();
 
 
   fMinXf = 0.0;
@@ -222,8 +222,8 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
   if(numFreq <= EK_DIV_FFT)
     fDelXf *= 0.5;
 
-  fMinSa = mdSa->GetFmin();
-  fMaxSa = mdSa->GetFmax();
+  fMinSa = mdSa->GetFStart();
+  fMaxSa = mdSa->GetFStop();
   fStopSa = fMaxSa < (FS * 0.5) ? fMaxSa : (FS * 0.5);
   if(isLogX) {
     fMinSa = log10(fMinSa);
@@ -233,9 +233,9 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
 
   //  ==== Figure out the vertical scale.
     y2 = 0.0;                   // since the top of the screen is 0.0
-    y1 = mdSa->GetPxlVscrY();   // since the low is at the maximum pixel count.  Thank you mr. Farnsworth and your tractor for that one.
-    x2 = mdSa->GetVmax();       // This is straight, no chaser
-    x1 = mdSa->GetVmin();       // likewise
+    y1 = mdSa->GetAPvScr();   // since the low is at the maximum pixel count.  Thank you mr. Farnsworth and your tractor for that one.
+    x2 = mdSa->GetAATop();       // This is straight, no chaser
+    x1 = mdSa->GetAABot();       // likewise
     if(isLogY) {
       for(chDex = 0; chDex < numCh; chDex++) {
         for(freqDex = 0; freqDex < numFreq; freqDex++) {
@@ -322,7 +322,7 @@ void     CtlRsmp::CalcSpecAvg         ( void                ) {
   char     ss[32768];
 
   fprintf(stdout, "CtlRsmp::CalcSpecAvg()\n"); fflush(stdout);
-  numFreq = mdSa->GetSmpVana();
+  numFreq = mdSa->GetTvAna();
   N       = sig->GetN();
   fred = new double[numFreq];
   ary = sig->GetAry();

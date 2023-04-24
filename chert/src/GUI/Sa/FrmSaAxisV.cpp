@@ -79,9 +79,9 @@ bool     FrmSaAxisV::OnRshAll        ( void *i_d   ) {
   frmAxisV   .set_size_request (EWOC_AX_V_X, (int)pxSize + 2 * EWOC_DS_B_V);
   pxDel  = pxSize / 10.0;// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
   gridN = 11;
-  vStart = mdSa->GetVmax();
+  vStart = mdSa->GetAATop();
   vStart = 20.0 * log10(vStart);
-  vDel   = (mdSa->GetVmin() - mdSa->GetVmax()) / 10.0;// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
+  vDel   = (mdSa->GetAABot() - mdSa->GetAATop()) / 10.0;// FIXME because I say so. This will eventually become a constant somewhere in user or global settings
   vDel   = -20.0;
   for( gridDex = 0; gridDex < gridN; gridDex++) {
     pxThis = (int)((double)gridDex * pxDel);

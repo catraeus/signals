@@ -158,8 +158,8 @@ bool  WinSa::OnReSize            ( void   *i_N  ) {
   char   cmsg[256];
   ll = (ullong)(*((double *)i_N));
 
-  bb = mdSa->GetFrqVana();
-  tt = mdSa->GetSmpVana();
+  bb = mdSa->GetFvAna();
+  tt = mdSa->GetTvAna();
   sprintf(cmsg, "SA width: %lld      bins: %lld     samples: %lld", ll, bb, tt);
   stbMain->pop();
   stbMain->push(cmsg);

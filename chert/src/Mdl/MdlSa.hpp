@@ -36,6 +36,8 @@ class MdlSa {
     ESAM_COUNT = 5
   };
   private:
+  friend class CtlSaHor;
+//  friend class FrmSaHor;
     enum eConst {
       EK_PXL_X_MIN =     400,
       EK_PXL_X_NOM =    2048,
@@ -79,65 +81,64 @@ class MdlSa {
     static   MdlSa   *GetInstance  ( void       );
 //==== Analyzer Stuff
              void     SetFS        ( double i_f );
-//====Frequency  Stuff
-             double   GetFPvDiv    ( void       ) {                      return  AScrPxlCount * 0.1              ;};
-             void     SetFPvScr    ( double i_p );
-             double   GetFPvScr    ( void       ) {                      return  FScrPxlCount                    ;};
-             llong   *GetSmpVanaP  ( void       ) {                      return &TSmpAna                     ;}; //P meaning pointer, provided to allow the
+             llong   *GetpTvAna    ( void       ) {                      return &TSmpAna                     ;}; //p meaning pointer, provided to allow the
                                                                          // OScope controller to know when to stop without
-                                                                         // having the whole SpecAn in it.  The CtlOs does have this model.
-             void     SetSmpVana   ( llong i_s );
-             llong    GetSmpVana   ( void       ) {                      return  TSmpAna                     ;};
-             void     SetFrqVana   ( llong i_f );
-             llong    GetFrqVana   ( void       ) {                      return  FSmpAna                     ;};
-             void     SetPxlVscrY  ( double i_p );
-             double   GetPxlVscrY  ( void       ) {                      return AScrPxlCount                     ;};
-
-             void     SetLogA      ( void       ) { SetLogA(true );      return                              ;};
-             void     SetLinA      ( void       ) { SetLogA(false);      return                              ;};
-             bool     IsLogY       ( void       ) {                      return  ALogLin                      ;};
-             bool     IsLinY       ( void       ) {                      return !ALogLin                      ;};
-             void     SetVmin      ( double i_v );
-             double   GetVmin      ( void       ) {                      return AABot                         ;};
-             void     SetVmax      ( double i_v );
-             double   GetVmax      ( void       ) {                      return AATop                         ;};
-             ullong   GetVrtModeN  ( void       ) {                      return ESAM_COUNT                   ;};
-       const char    *GetVrtModeStr( ullong i_n );
-
-             void     SetLogF      ( void       ) { SetLogF(true );      return                              ;};
-             void     SetLinF      ( void       ) { SetLogF(false);      return                              ;};
-             bool     IsLogF       ( void       ) {                      return  FLogLin                      ;};
-             bool     IsLinF       ( void       ) {                      return !FLogLin                      ;};
+                                                                         // having the whole SpecAn in it.  The CtlOs has this model.
+             void     SetTvAna     ( llong i_s );
+             llong    GetTvAna     ( void       ) {                      return  TSmpAna                     ;};
+             void     SetFvAna     ( llong i_f );
+             llong    GetFvAna     ( void       ) {                      return  FSmpAna                     ;};
              void     SetFFT       ( void       ) { isFftDft = EX_F_FFT; return                               ;};
              void     SetDFT       ( void       ) { isFftDft = EX_F_DFT; return                               ;};
              bool     GetFFT       ( void       ) {                      return isFftDft == EX_F_FFT          ;};
              bool     GetDFT       ( void       ) {                      return isFftDft == EX_F_DFT          ;};
 
-             void     SetAnchX     ( eAnch  i_a );
-             void     SetAnchS     ( void       ) { SetAnchX(EA_F_ST);   return                              ;};
-             void     SetAnchC     ( void       ) { SetAnchX(EA_F_CN);   return                              ;};
-             void     SetAnchP     ( void       ) { SetAnchX(EA_F_SP);   return                              ;};
-             bool     GetAnchX     ( void       ) {                      return Fanch                        ;};
-             void     SetAnchGrid  ( bool   i_a ) { anchGrid = i_a;      return                              ;};
-             void     SetCenPos    ( double i_a );
-             double   GetCenPos    ( void       ) {                      return FCenPos                      ;};
+//==== Frequency  Stuff
+             double   GetFPvDiv    ( void       ) {                      return  AScrPxlCount * 0.1              ;};
+             void     SetFPvScr    ( double i_p );
+             double   GetFPvScr    ( void       ) {                      return  FScrPxlCount                    ;};
+             void     SetFLog      ( void       ) { SetFLog(true );      return                              ;};
+             void     SetFLin      ( void       ) { SetFLog(false);      return                              ;};
+             bool     IsFLog       ( void       ) {                      return  FLogLin                      ;};
+             bool     IsFLin       ( void       ) {                      return !FLogLin                      ;};
 
-             void     SetGainF     ( bool   i_l );
-             bool     GetGainF     ( void       );
-             void     SetFmin      ( double i_s );
-             double   GetFmin      ( void       ) {                      return FFStart                       ;};
-             void     SetFCen      ( double i_s );
-             double   GetFCen      ( void       ) {                      return FFCen                         ;};
-             void     SetFmax      ( double i_s );
-             double   GetFmax      ( void       ) {                      return FFStop                        ;};
-             void     SetSpan      ( double i_s );
-             double   GetSpan      ( void       ) {                      return FFStop - FFStart               ;};
-             void     SetCenter    ( double i_c );
-             double   GetCenter    ( void       ) {                      return GetSpan() * 0.5 + GetFmin()  ;};
+             void     SetFAnchS    ( void       ) { SetFAnchX(EA_F_ST);  return                              ;};
+             void     SetFAnchC    ( void       ) { SetFAnchX(EA_F_CN);  return                              ;};
+             void     SetFAnchP    ( void       ) { SetFAnchX(EA_F_SP);  return                              ;};
+             bool     GetFAnchX    ( void       ) {                      return Fanch                        ;};
+             void     SetFAnchGrid ( bool   i_a ) { anchGrid = i_a;      return                              ;};
+             void     SetFCenPos   ( double i_a );
+             double   GetFCenPos   ( void       ) {                      return FCenPos                      ;};
+
+             void     SetFStart    ( double i_s );
+             double   GetFStart    ( void       ) {                      return FFStart                       ;};
+             double   GetFStop     ( void       ) {                      return FFStop                        ;};
+             void     SetFSpan     ( double i_s );
+             double   GetFSpan     ( void       ) {                      return FFStop - FFStart               ;};
+             void     SetFCen      ( double i_c );
+             double   GetFCen      ( void       ) {                      return GetFSpan() * 0.5 + GetFStart()  ;};
+//==== Amplitude Stuff
+             void     SetAPvScr    ( double i_p );
+             double   GetAPvScr    ( void       ) {                      return  AScrPxlCount                     ;};
+
+             void     SetALog      ( void       ) { SetALog(true );      return                              ;};
+             void     SetAlin      ( void       ) { SetALog(false);      return                              ;};
+             bool     IsALog       ( void       ) {                      return  ALogLin                      ;};
+             bool     IsALin       ( void       ) {                      return !ALogLin                      ;};
+             void     SetAABot     ( double i_v );
+             double   GetAABot     ( void       ) {                      return AABot                         ;};
+             void     SetAATop     ( double i_v );
+             double   GetAATop     ( void       ) {                      return AATop                         ;};
+             ullong   GetVrtModeN  ( void       ) {                      return ESAM_COUNT                   ;};
+       const char    *GetVrtModeStr( ullong i_n );
+  protected:
+             void     SetFStop     ( double i_s );
+
   private:
              void     JustifyN     ( void       );
-             void     SetLogF      ( bool   i_l );
-             void     SetLogA      ( bool   i_l );
+             void     SetFLog      ( bool   i_l );
+             void     SetALog      ( bool   i_l );
+             void     SetFAnchX    ( eAnch  i_a );
   public:
   private:
 //==== Analyzer Stuff

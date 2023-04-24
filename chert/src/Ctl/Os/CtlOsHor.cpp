@@ -38,7 +38,7 @@ void      CtlOsHor::BuildEnv        (Signal *i_sig) {
   ctMd           = CtlMsgDspch ::GetInstance(       );
   ctRsmp         = CtlRsmp     ::GetInstance( i_sig );
   llong *pD;
-  pD = mdSa->GetSmpVanaP();
+  pD = mdSa->GetpTvAna();
        mdOs->SetSmpVanaP(pD);
 
   MRU_OsHorReBase = new CbT<CtlOsHor>();

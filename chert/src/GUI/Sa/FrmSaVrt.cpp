@@ -126,7 +126,7 @@ bool    FrmSaVrt::SaVrtRshAll     ( void *i_d  ) {
   //    lb[i].override_background_color(ctSaVrt->GetCol(i), Gtk::STATE_FLAG_NORMAL);
   //
   bool bb;
-  bb = mdSa->IsLogY();
+  bb = mdSa->IsALog();
   btLog.set_active(bb);
   rshHoldOff = false;
   return true;
@@ -138,7 +138,7 @@ bool    FrmSaVrt::OnVoltTop       ( GdkEventFocus* gdk_event) {
   if(IsDoubleFixed(ss))
     sscanf(ss, "%lf", &dd);
   else
-    dd = mdSa->GetVmax();
+    dd = mdSa->GetAATop();
   ctSaVrt->SetVmax(dd);
   return false;
 }

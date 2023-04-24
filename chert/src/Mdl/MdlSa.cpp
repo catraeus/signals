@@ -100,27 +100,35 @@ void        MdlSa::SetFPvScr    ( double  i_p ) {
   FScrPxlCount = i_p;
   return;
 }
-void        MdlSa::SetPxlVscrY  ( double  i_p ) {
+
+
+
+
+
+
+
+//=================================================================================================
+//=================================================================================================
+//  Amplitude Stuff
+//
+
+void        MdlSa::SetAPvScr    ( double  i_p ) {
   AScrPxlCount = i_p;
   return;
 }
 
 //====  Analyzer Stuff
-void        MdlSa::SetSmpVana   ( llong   i_s ) {
-  llong n;
-  n = i_s;
-  if(n < EK_AN_MIN)
-    n = EK_AN_MIN;
-  else if(n > EK_AN_DFT)
-    n = NextPowTwo(n);
-  else if(n > EK_AN_MAX)
-    n = EK_AN_MAX;
+void        MdlSa::SetTvAna     ( llong   i_s ) {
+  llong n = i_s;
+       if(n < EK_AN_MIN)    n = EK_AN_MIN;
+  else if(n > EK_AN_DFT)    n = NextPowTwo(n);
+  else if(n > EK_AN_MAX)    n = EK_AN_MAX;
   TSmpAna = n;
   fprintf(stderr, "    b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   JustifyN();
   return;
 }
-void        MdlSa::SetFrqVana   ( llong   i_s ) {
+void        MdlSa::SetFvAna     ( llong   i_s ) {
   llong n;
   n = i_s;
   if(n < EK_AN_MIN)
@@ -191,7 +199,7 @@ void        MdlSa::JustifyN     ( void        ) {
 //=================================================================================================
 //  Amplitude Stuff
 //
-void        MdlSa::SetLogA      ( bool    i_l ) {
+void        MdlSa::SetALog      ( bool    i_l ) {
   double v;
   llong k;
   if(!i_l) {
@@ -218,7 +226,7 @@ void        MdlSa::SetLogA      ( bool    i_l ) {
   ALogLin = i_l; // a little redundant, given all the above iffing, but not worth anything else.
   return;
 }
-void        MdlSa::SetVmin      ( double  i_v ) {
+void        MdlSa::SetAABot     ( double  i_v ) {
   double v;
   llong k;
   if(ALogLin) {
@@ -238,7 +246,7 @@ void        MdlSa::SetVmin      ( double  i_v ) {
   AABot = i_v;
   return;
 }
-void        MdlSa::SetVmax      ( double  i_v ) {
+void        MdlSa::SetAATop     ( double  i_v ) {
   double v;
 
   if(ALogLin) {
@@ -265,18 +273,18 @@ const char *MdlSa::GetVrtModeStr( ullong  i_n ) {
 //=================================================================================================
 //  Frequency Stuff
 //
-void        MdlSa::SetLogF      ( bool    i_l ) {
+void        MdlSa::SetFLog      ( bool    i_l ) {
   FLogLin = i_l;
-  if(FLogLin) { SetFmin(1.0    ); SetFmax(1.0e+5); }
-  else        { SetFmin(FFStart); SetFmax(FFStop); }
+  if(FLogLin) { SetFStart(1.0    ); SetFStop(1.0e+5); }
+  else        { SetFStart(FFStart); SetFStop(FFStop); }
   return;
 }
-void        MdlSa::SetAnchX     ( eAnch   i_a ) {
+void        MdlSa::SetFAnchX     ( eAnch   i_a ) {
 
   Fanch = i_a;
   return;
 }
-void        MdlSa::SetFmin      ( double  i_f ) {
+void        MdlSa::SetFStart     ( double  i_f ) {
   double ss;
 
   if(FLogLin) {
@@ -307,7 +315,7 @@ void        MdlSa::SetFmin      ( double  i_f ) {
 void        MdlSa::SetFCen      ( double  i_f ) {
   return;
 }
-void        MdlSa::SetFmax      ( double  i_f ) {
+void        MdlSa::SetFStop     ( double  i_f ) {
   double ss;
   if(FLogLin) {
     ss = dmax(C_FREQ_MIN * 10.0, i_f);
@@ -325,13 +333,10 @@ void        MdlSa::SetFmax      ( double  i_f ) {
   FFStop = ss;
   return;
   }
-void        MdlSa::SetSpan      ( double  i_span ) {
+void        MdlSa::SetFSpan     ( double  i_span ) {
   return;
   }
-void        MdlSa::SetCenPos    ( double  i_r ) {
+void        MdlSa::SetFCenPos   ( double  i_r ) {
   FCenPos = i_r;
   return;
 }
-void        MdlSa::SetCenter    ( double  i_center ) {
-  return;
-  }
