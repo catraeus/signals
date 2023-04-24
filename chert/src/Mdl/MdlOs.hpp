@@ -126,7 +126,7 @@ class MdlOs {
             double    GetSmpVsrd      ( void ) { return smpVsrd                           ;};
 
             double    GetPxlVdiv      ( void ) { return pxlVdiv                           ;};
-            double    GetPxlVscrX     ( void ) { return pxlVscrX                          ;};
+            double    GetTPvScr     ( void ) { return pxlVscrX                          ;};
 
             double    GetPxlVscrY     ( void ) { return pxlVscrY                          ;};
 

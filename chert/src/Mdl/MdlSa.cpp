@@ -96,7 +96,7 @@ void        MdlSa::SetFS        ( double  i_f ) {
   return;
 }
 
-void        MdlSa::SetPxlVscrX  ( double  i_p ) {
+void        MdlSa::SetFPvScr    ( double  i_p ) {
   FScrPxlCount = i_p;
   return;
 }
@@ -191,7 +191,7 @@ void        MdlSa::JustifyN     ( void        ) {
 //=================================================================================================
 //  Amplitude Stuff
 //
-void        MdlSa::SetLogY      ( bool    i_l ) {
+void        MdlSa::SetLogA      ( bool    i_l ) {
   double v;
   llong k;
   if(!i_l) {
@@ -267,14 +267,8 @@ const char *MdlSa::GetVrtModeStr( ullong  i_n ) {
 //
 void        MdlSa::SetLogF      ( bool    i_l ) {
   FLogLin = i_l;
-  if(FLogLin) {
-    SetFmin(1.0);
-    SetFmax(1.0e+5);
-  }
-  else {
-    SetFmin(0.0);
-    SetFmax(2.4e+4);
-  }
+  if(FLogLin) { SetFmin(1.0    ); SetFmax(1.0e+5); }
+  else        { SetFmin(FFStart); SetFmax(FFStop); }
   return;
 }
 void        MdlSa::SetAnchX     ( eAnch   i_a ) {
@@ -284,7 +278,6 @@ void        MdlSa::SetAnchX     ( eAnch   i_a ) {
 }
 void        MdlSa::SetFmin      ( double  i_f ) {
   double ss;
-  double tFS;
 
   if(FLogLin) {
     ss = dmax(    C_FREQ_MIN,         i_f);

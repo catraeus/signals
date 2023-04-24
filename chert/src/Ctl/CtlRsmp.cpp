@@ -127,7 +127,7 @@ bool     CtlRsmp::RsmpOsAcq           ( void    *d        ) {
   numSmps = mdOs->GetSmpVscr();
   if(sig->GetN() < numSmps)
     numSmps = sig->GetN();
-  numDots  = mdOs->GetPxlVscrX();
+  numDots  = mdOs->GetTPvScr();
   ratio  = (double)numSmps / (double)numDots;
   if(pSig == 0)
     return false;
@@ -201,7 +201,7 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
   numCh   = sig->GetCh();
   //fprintf(stderr, ".");fflush(stderr);
   numFreq = mdSa->GetFrqVana();
-  numSa   = mdSa->GetPxlVscrX();
+  numSa   = mdSa->GetFPvScr();
   FS      = sig->GetFS();
 
   pFreAvg = pFre;

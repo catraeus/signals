@@ -45,7 +45,7 @@ void      CtlSaHor::BuildEnv        ( Signal *i_sig ) {
 }
 void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
   mdSa->SetPxlVscrY(i_h);
-  mdSa->SetPxlVscrX(i_w);
+  mdSa->SetFPvScr(i_w);
   ctRsmp->ReScale();
   return;
   }
@@ -53,12 +53,12 @@ void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
 
 
 void      CtlSaHor::SetLog          ( void          ) {
-  mdSa->SetLogF(true );
+  mdSa->SetLogF();
   ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetLin          ( void          ) {
-  mdSa->SetLogF(false);
+  mdSa->SetLinF();
   ctMd->CtEm_SaReScale();
   return;
 }

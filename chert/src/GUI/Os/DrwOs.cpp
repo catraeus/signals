@@ -168,7 +168,7 @@ bool   DrwOs::on_draw ( const Cairo::RefPtr<Cairo::Context>& i_cr) {
   double xStop;
   yMidScr   = mdOs->GetPxlVscrY();
   yMidScr  *=  0.5;
-  xStop   = mdOs->GetPxlVscrX() * 0.9999999;
+  xStop   = mdOs->GetTPvScr() * 0.9999999;
   i_cr->set_line_width(traceLineWidth);
   for(uint chDex=0; chDex<NUM_CH; chDex++) {
     if(ctOsVrt->GetEn(chDex)) { //Per Channel

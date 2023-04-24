@@ -195,7 +195,7 @@ void   MdlOs::SetHeight     ( uint   i_height  ) {
 void   MdlOs::SetTimVpxl(double i_t) {
   double tt;
   tt = i_t;            // time per pixel
-  tt *= GetPxlVscrX(); // time per screen
+  tt *= GetTPvScr(); // time per screen
   tt *= sig->GetFS();  // samples per screen
   smpVscr = tt;
   if(smpVscr <= 0.0)
@@ -213,7 +213,7 @@ void   MdlOs::SetTimVdiv(double i_t) {
   double tt;
   tt = i_t;            // time per division
   tt /= GetPxlVdiv();  // time per pixel
-  tt *= GetPxlVscrX(); // time per screen
+  tt *= GetTPvScr(); // time per screen
   tt *= sig->GetFS();  // samples per screen
   smpVscr = tt;
   if(smpVscr <= 0.0)
@@ -234,7 +234,7 @@ void   MdlOs::SetTimVscr(double i_t) {
 void   MdlOs::SetSmpVpxl( double i_s ) {
   double tt;
   tt  = i_s;            // smp per pixel
-  tt *= GetPxlVscrX();  // smp per screen
+  tt *= GetTPvScr();  // smp per screen
   smpVscr = tt;
   if(smpVscr <= 0.0)
     smpVscr = 1.0;
@@ -251,7 +251,7 @@ void   MdlOs::SetSmpVdiv( double i_s ) {
   double tt;
   tt  = i_s;            // smp per division
   tt /= GetPxlVdiv();   // smp per pixel
-  tt *= GetPxlVscrX();  // smp per screen
+  tt *= GetTPvScr();  // smp per screen
   smpVscr = tt;
   if(smpVscr <= 0.0)
     smpVscr = 1.0;

@@ -137,7 +137,7 @@ void   WinOs::on_size_allocate        ( Gtk::Allocation& i_allocation) {
   frmAxisH->OnSizeAlloc();
   ullong l;
   l = 0;
-  if(mdOs != NULL) l = mdOs->GetPxlVscrX();
+  if(mdOs != NULL) l = mdOs->GetTPvScr();
   char cmsg[32768];
   sprintf(cmsg, "width: %lld", l);
   stbMain->pop();

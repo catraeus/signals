@@ -77,12 +77,12 @@ class MdlSa {
     virtual          ~MdlSa        ( void       );
   public:
     static   MdlSa   *GetInstance  ( void       );
-
+//==== Analyzer Stuff
              void     SetFS        ( double i_f );
-
-             double   GetPxlVdivX  ( void       ) {                      return  AScrPxlCount * 0.1              ;};
-             void     SetPxlVscrX  ( double i_p );
-             double   GetPxlVscrX  ( void       ) {                      return  FScrPxlCount                    ;};
+//====Frequency  Stuff
+             double   GetFPvDiv    ( void       ) {                      return  AScrPxlCount * 0.1              ;};
+             void     SetFPvScr    ( double i_p );
+             double   GetFPvScr    ( void       ) {                      return  FScrPxlCount                    ;};
              llong   *GetSmpVanaP  ( void       ) {                      return &TSmpAna                     ;}; //P meaning pointer, provided to allow the
                                                                          // OScope controller to know when to stop without
                                                                          // having the whole SpecAn in it.  The CtlOs does have this model.
@@ -90,15 +90,11 @@ class MdlSa {
              llong    GetSmpVana   ( void       ) {                      return  TSmpAna                     ;};
              void     SetFrqVana   ( llong i_f );
              llong    GetFrqVana   ( void       ) {                      return  FSmpAna                     ;};
-
-             void     JustifyN     ( void       );
-
              void     SetPxlVscrY  ( double i_p );
              double   GetPxlVscrY  ( void       ) {                      return AScrPxlCount                     ;};
 
-             void     SetLogY      ( void       ) { SetLogY(true );      return                              ;};
-             void     SetLinY      ( void       ) { SetLogY(false);      return                              ;};
-             void     SetLogY      ( bool   i_l );
+             void     SetLogA      ( void       ) { SetLogA(true );      return                              ;};
+             void     SetLinA      ( void       ) { SetLogA(false);      return                              ;};
              bool     IsLogY       ( void       ) {                      return  ALogLin                      ;};
              bool     IsLinY       ( void       ) {                      return !ALogLin                      ;};
              void     SetVmin      ( double i_v );
@@ -110,7 +106,6 @@ class MdlSa {
 
              void     SetLogF      ( void       ) { SetLogF(true );      return                              ;};
              void     SetLinF      ( void       ) { SetLogF(false);      return                              ;};
-             void     SetLogF      ( bool   i_l );
              bool     IsLogF       ( void       ) {                      return  FLogLin                      ;};
              bool     IsLinF       ( void       ) {                      return !FLogLin                      ;};
              void     SetFFT       ( void       ) { isFftDft = EX_F_FFT; return                               ;};
@@ -139,6 +134,11 @@ class MdlSa {
              double   GetSpan      ( void       ) {                      return FFStop - FFStart               ;};
              void     SetCenter    ( double i_c );
              double   GetCenter    ( void       ) {                      return GetSpan() * 0.5 + GetFmin()  ;};
+  private:
+             void     JustifyN     ( void       );
+             void     SetLogF      ( bool   i_l );
+             void     SetLogA      ( bool   i_l );
+  public:
   private:
 //==== Analyzer Stuff
              llong    TSmpAna;      // Samples in the time domain lead to this spectrum

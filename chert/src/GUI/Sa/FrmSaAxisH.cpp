@@ -123,7 +123,6 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
 
   double nG;
   double fG;
-  double tT;
   double tGn;
   fG  = Gridder125(hfs - hfz, 36, false);
   nG  = fG * 1.000000000000001;
@@ -135,7 +134,6 @@ void     FrmSaAxisH::OnSizeAlloc   ( void      ) {
     nG *= 0.5;
   else
     nG *= 0.5;
-  tT  = (hfs - hfz) / nG / 10.0;
 
   EngString(ss, hfz, 3, (char *)"Hz");
   sprintf(markup, "%s%s%s", pmkuLblFP, ss, pmkuLblFS);

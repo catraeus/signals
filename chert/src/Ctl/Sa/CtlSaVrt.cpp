@@ -39,13 +39,13 @@ void      CtlSaVrt::BuildEnv        ( Signal *i_sig ) {
   return;
 }
 void      CtlSaVrt::BuildSetup      ( void        ) {
-  mdSa->SetLogY();
+  mdSa->SetLogA();
   ctMd->MRD_SaVrtNumerics();
   return;
 }
 void      CtlSaVrt::SetScrSize      ( uint    i_w, uint i_h) {
   mdSa->SetPxlVscrY(i_h);
-  mdSa->SetPxlVscrX(i_w);
+  mdSa->SetFPvScr(i_w);
   ctRsmp->ReScale();
   return;
   }

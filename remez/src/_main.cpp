@@ -69,25 +69,25 @@ int main(int argc, char *argv[]) {
   doNorm     =    true;
 
 #else
-  FIRlen     =  1922;
-  bandCount  =     3;
+  FIRlen     =  1997;
+  bandCount  =     2;
 
-  desired[0] =     0.0;
-  desired[1] =     1.0;
+  desired[0] =     1.0;
+  desired[1] =     0.0;
   desired[2] =     0.0;
   desired[3] =     0.0;
   desired[4] =     0.0;
 
-  weights[0] =   703.0;
-  weights[1] =     1.0;
-  weights[2] =   703.0;
+  weights[0] =     1.0;
+  weights[1] =   633.0;
+  weights[2] =     1.0;
   weights[3] =     1.0;
   weights[4] =     1.0;
 
   bands[0]   =                  0.0;
   bands[1]   =    ((ldouble)  500.0) / ((ldouble)48000.0);
-  bands[2]   =    ((ldouble)  573.0) / ((ldouble)48000.0);
-  bands[3]   =    ((ldouble) 1427.0) / ((ldouble)48000.0);
+  bands[2]   =    ((ldouble)  571.2) / ((ldouble)48000.0);
+  bands[3]   =    ((ldouble)24000.0) / ((ldouble)48000.0);
   bands[4]   =    ((ldouble) 1500.0) / ((ldouble)48000.0);
   bands[5]   =    ((ldouble)24000.0) / ((ldouble)48000.0);
   bands[6]   =    0.50000;

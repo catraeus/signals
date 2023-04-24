@@ -79,7 +79,7 @@ void    DrwSa::OnReGrid       ( void ) {
 
   fStop = get_allocated_width();
   aBot  = get_allocated_height();
-  mdSa->SetPxlVscrX(fStop);
+  mdSa->SetFPvScr(fStop);
   mdSa->SetPxlVscrY(aBot);
   m_line_width = 0.3267;
   cis_grid->set_device_offset(0, 0);
@@ -92,11 +92,11 @@ void    DrwSa::OnReGrid       ( void ) {
   cd->set_source_rgba(1.0, 1.0, 1.0, 1.0); // white of the grid line
     // draw 9 horiz lines
   fStart = 0.0;
-  fStop  = mdSa->GetPxlVscrX() * 0.9999;
-  aTop   = mdSa->GetPxlVdivX(); // Well, this is actually the horizontal line location in the first iteration.
+  fStop  = mdSa->GetFPvScr() * 0.9999;
+  aTop   = mdSa->GetFPvDiv(); // Well, this is actually the horizontal line location in the first iteration.
   aBot   = mdSa->GetPxlVscrY() * 0.9999;
   cd->set_line_width(m_line_width * 2);
-  for(double y = aTop; y < aBot; y += mdSa->GetPxlVdivX()) {
+  for(double y = aTop; y < aBot; y += mdSa->GetFPvDiv()) {
     cd->move_to(round(fStart) + 0.5, round(y) + 0.5);
     cd->line_to(round(fStop)  + 0.5, round(y) + 0.5);
     cd->stroke();
@@ -112,7 +112,7 @@ void    DrwSa::OnReGrid       ( void ) {
     numDecades /= fMin;
     numDecades  = log10(numDecades);
     decadeWidth  = 1.0 / numDecades;
-    decadeWidth = mdSa->GetPxlVscrX() * decadeWidth;
+    decadeWidth = mdSa->GetFPvScr() * decadeWidth;
 
     for(double decadeBase = 0.0; decadeBase < numDecades; decadeBase += 1.0) {
       for(int i=1; i<10; i++) {
@@ -130,8 +130,8 @@ void    DrwSa::OnReGrid       ( void ) {
     }
   else { // Linear Grid Maker
     // draw N vert lines
-    fStart = mdSa->GetPxlVdivX();
-    fStop  = mdSa->GetPxlVscrX()* 0.99999;
+    fStart = mdSa->GetFPvDiv();
+    fStop  = mdSa->GetFPvScr()* 0.99999;
     cd->set_line_width(0.6534);
    for(double x = fStart; x < fStop; x += fStart) {
       cd->move_to(round(x) + 0.5, round(aTop) + 0.5);
@@ -141,7 +141,7 @@ void    DrwSa::OnReGrid       ( void ) {
     }
   //cd->restore();
   double tB;
-  tB = mdSa->GetPxlVscrX();
+  tB = mdSa->GetFPvScr();
   if(MSU_SaReSize != 0) {
     MSU_SaReSize->Execute(&tB);
     }
@@ -151,7 +151,7 @@ void    DrwSa::CheckResize  ( void ) {
   Gtk::Allocation allocation = get_allocation();
   int width  = allocation.get_width();
   int height = allocation.get_height();
-  if((width != mdSa->GetPxlVscrX()) || (height != mdSa->GetPxlVscrY())) {
+  if((width != mdSa->GetFPvScr()) || (height != mdSa->GetPxlVscrY())) {
     ctSaHor->SetScrSize(width, height);
     OnReGrid();
     }
@@ -182,7 +182,7 @@ bool    DrwSa::on_draw      ( const Cairo::RefPtr<Cairo::Context>& cr ) {
   cr->set_line_width(0.707);
   cr->move_to(0.0, mdSa->GetPxlVscrY() / 2.0);
   scaleF = 1.0;
-  numSa  = (ullong)mdSa->GetPxlVscrX();
+  numSa  = (ullong)mdSa->GetFPvScr();
   pAry   = ff[0];
   for (ullong ii=0; ii < numSa; ii++) {
     fC = (double)ii * scaleF;

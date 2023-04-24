@@ -193,7 +193,7 @@ void  WinSa::on_size_allocate    ( Gtk::Allocation& i_allocation) {
   frmAxisH->OnSizeAlloc();
   ullong l;
   l = 0;
-  if(mdSa != NULL) l = mdSa->GetPxlVscrX();
+  if(mdSa != NULL) l = mdSa->GetFPvScr();
   char cmsg[32768];
   sprintf(cmsg, "width: %lld", l);
   stbMain->pop();
