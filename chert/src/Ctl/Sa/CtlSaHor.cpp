@@ -69,7 +69,7 @@ void      CtlSaHor::SetLin          ( void          ) {
    All this stuff needs grid binning coordinated with drawing the grid in the SaDraw
    GridSpacing
 */
-void      CtlSaHor::SetFmin         ( double i_f ) {
+void      CtlSaHor::SetFStart       ( double i_f ) {
   mdSa->SetFStart(i_f);
   ctMd->CtEm_SaReScale();
   return;
@@ -80,7 +80,21 @@ void      CtlSaHor::SetFCen         ( double i_f ) {
   return;
 }
 void      CtlSaHor::SetFStop        ( double i_f ) {
-  mdSa->SetFStop(i_f);
+  double ss;
+  if(mdSa->FLogLin) {
+    ss = dmax(mdSa->C_FREQ_MIN * 10.0, i_f);
+    ss = dmin(ss, mdSa->C_FREQ_MAX);
+    ss = dmax(ss, mdSa->FFStart * 10.0);
+    ss = log10(ss);
+    ss = floor(ss);
+    ss = pow10(ss);
+  }
+  else {
+    ss = dmin(mdSa->C_FREQ_MAX, i_f);
+    ss = dmax(mdSa->C_FREQ_MIN, i_f);
+    ss = dmax(mdSa->FFStart + 1.0, i_f);
+    }
+  mdSa->FFStop = ss;
   ctMd->CtEm_SaReScale();
   return;
 }

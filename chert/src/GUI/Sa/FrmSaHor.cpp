@@ -245,7 +245,7 @@ bool   FrmSaHor::OnFaScale            (GdkEventKey   *i_v, Gtk::Entry *i_x) {
    u = (ullong) (d + DBL_EPS);
    if     (i_x ==                NULL       ) {                             rshHoldOff = false;   return false;  }
    else if(i_x ==               &txtCenPos  ) {    mdSa   ->SetFCenPos (d); rshHoldOff = false;   return false;  }
-   else if(i_x ==               &txtFstart  ) {    mdSa   ->SetFStart  (d); rshHoldOff = false;   return false;  }
+   else if(i_x ==               &txtFstart  ) {    ctSaHor->SetFStart  (d); rshHoldOff = false;   return false;  }
    else if(i_x ==               &txtFCen    ) {    mdSa   ->SetFCen    (d); rshHoldOff = false;   return false;  }
    else if(i_x ==               &txtFstop   ) {    ctSaHor->SetFStop   (d); rshHoldOff = false;   return false;  }
    else if(i_x ==               &txtNtime   ) {    ctSaHor->SetNtime   (u); rshHoldOff = false;   return false;  }

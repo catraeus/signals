@@ -110,12 +110,12 @@ class MdlSa {
              void     SetFCenPos   ( double i_a );
              double   GetFCenPos   ( void       ) {                      return FCenPos                      ;};
 
-             void     SetFStart    ( double i_s );
+             void     SetFStart    ( double i_f );
              double   GetFStart    ( void       ) {                      return FFStart                       ;};
              double   GetFStop     ( void       ) {                      return FFStop                        ;};
-             void     SetFSpan     ( double i_s );
+             void     SetFSpan     ( double i_f );
              double   GetFSpan     ( void       ) {                      return FFStop - FFStart               ;};
-             void     SetFCen      ( double i_c );
+             void     SetFCen      ( double i_f );
              double   GetFCen      ( void       ) {                      return GetFSpan() * 0.5 + GetFStart()  ;};
 //==== Amplitude Stuff
              void     SetAPvScr    ( double i_p );

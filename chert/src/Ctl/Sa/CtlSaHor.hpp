@@ -71,7 +71,7 @@ class CtlSaHor {
             void      SetLin          ( void           );
             //=====================================================================================================================
 
-            void      SetFmin         ( double i_f     );
+            void      SetFStart       ( double i_f     );
             void      SetFCen         ( double i_f     );
             void      SetFStop        ( double i_f     );
             void      SetFspan        ( double i_f     );
