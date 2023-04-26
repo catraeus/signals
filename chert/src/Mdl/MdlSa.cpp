@@ -64,9 +64,9 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
   FFGrdSpace      =     1.0; // This will be constrained to the ancient and venerable 1/2/5
   FPGrdSpace      =   100.0;
 
-  FFStart         =     0.0;
-  FFStop          = FS;
-  FCenPos         =     0.5;
+  FFStart         =      0.0D;
+  FFStop          = FS * 0.5D;
+  FCenPos         =      0.5D;
   FFCen           = FFStop       * FCenPos;
   FPCen           = FScrPxlCount * FCenPos;
 
@@ -86,7 +86,7 @@ void        MdlSa::SetFS        ( double  i_f ) {
   // Assume that someone else is informing everyone of this catastrophic change.
   // Assume that before we were called, that the FS was validated.
   // IMPORTANT This is called before any refreshes can happen.
-
+  fprintf(stderr, "    MdlSa::SetFS(%lf);\n", i_f);fflush(stderr);
   oldFS   = FS;
   FS      = i_f;
   ratio   = FS / oldFS;
@@ -303,10 +303,10 @@ void        MdlSa::SetFStart    ( double  i_f ) {
   else {
     if(tStart < 0.0D)                      // FIXME, when we are not just a power spectrum we will want negative frequencies.
       tStart = 0.0D;
-    if(tStart > FFStop - fEps)             // MAGICK FIXME this is a tiny frequency near FFStop, hope it works. IMPORTANT Assume FFStop <= FS;
-      tStart = FFStop - fEps;              // Not a pretty picture but hey I can cure ignorant ... I can't cure stupid.
     switch (Fanch) {
       case EA_F_ST:                        //==== This case just slews the screen left or right unless stop would become off-screen.
+        if(tStart > fNyq - fEps)               // MAGICK FIXME this is a tiny frequency near FFStop, hope it works. IMPORTANT Assume FFStop <= FS;
+          tStart = fNyq - fEps;                // Not a pretty picture but hey I can cure ignorant ... I can't cure stupid.
         tSpan = FFStop - FFStart;          // IMPORTANT calc this from old FFStart & FFStop first.
         tStop = tStart + tSpan;            // Make a try at slewing.
         if(tStop > fNyq)                   // Just honk it to Nyqvist and not let the start go higher.

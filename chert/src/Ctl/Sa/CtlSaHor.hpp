@@ -73,6 +73,7 @@ class CtlSaHor {
 
             void      SetFStart       ( double i_f     );
             void      SetFCen         ( double i_f     );
+            void      SetFCenPos      ( double i_f     );
             void      SetFStop        ( double i_f     );
             void      SetFspan        ( double i_f     );
 

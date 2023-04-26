@@ -79,6 +79,11 @@ void      CtlSaHor::SetFCen         ( double i_f ) {
   ctMd->CtEm_SaReScale();
   return;
 }
+void      CtlSaHor::SetFCenPos       ( double i_f ) {
+  mdSa->SetFCenPos(i_f);
+  ctMd->CtEm_SaReScale();
+  return;
+}
 void      CtlSaHor::SetFStop        ( double i_f ) {
   double ss;
   if(mdSa->FLogLin) {
@@ -121,7 +126,7 @@ void      CtlSaHor::SetDelFreq      ( double i_f ) {
 
 bool      CtlSaHor::CtHn_ReBase     ( void *d    ) {
   ctRsmp->ReScale();
-  mdSa->SetFS(sig->GetFS() * 0.5D);
+  mdSa->SetFS(sig->GetFS());
   ctMd->CtEm_SaReScale();
   return false;
 }

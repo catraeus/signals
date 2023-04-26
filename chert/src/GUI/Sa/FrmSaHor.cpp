@@ -233,25 +233,26 @@ bool   FrmSaHor::OnFaScale            (GdkEventKey   *i_v, Gtk::Entry *i_x) {
     return false;
   rshHoldOff = true;
   if(i_v != 0) {
-    if((i_v->keyval != GDK_KEY_Return) && (i_v->keyval != GDK_KEY_Tab))
+    if((i_v->keyval != GDK_KEY_Return) && (i_v->keyval != GDK_KEY_Tab)) {
       return false;
     }
+  }
   char   s[256];
   double d;
   ullong u;
-   strcpy(s, i_x->get_text().c_str());
-   StringEng(s, &d);
-   fprintf(stdout, "    s: %6s    d: %lf\n", s, d); fflush(stdout);
-   u = (ullong) (d + DBL_EPS);
-   if     (i_x ==                NULL       ) {                             rshHoldOff = false;   return false;  }
-   else if(i_x ==               &txtCenPos  ) {    mdSa   ->SetFCenPos (d); rshHoldOff = false;   return false;  }
-   else if(i_x ==               &txtFstart  ) {    ctSaHor->SetFStart  (d); rshHoldOff = false;   return false;  }
-   else if(i_x ==               &txtFCen    ) {    mdSa   ->SetFCen    (d); rshHoldOff = false;   return false;  }
-   else if(i_x ==               &txtFstop   ) {    ctSaHor->SetFStop   (d); rshHoldOff = false;   return false;  }
-   else if(i_x ==               &txtNtime   ) {    ctSaHor->SetNtime   (u); rshHoldOff = false;   return false;  }
-   else if(i_x ==               &txtNfreq   ) {    ctSaHor->SetNfreq   (u); rshHoldOff = false;   return false;  }
-   else                                       {                             rshHoldOff = false;   return false;  }
-                                                                            rshHoldOff = false;   return false;
+  strcpy(s, i_x->get_text().c_str());
+  StringEng(s, &d);
+  u = (ullong) (d + DBL_EPS);
+  if     (i_x ==                NULL       ) {                             rshHoldOff = false;   return false;  }
+  else if(i_x ==               &txtCenPos  ) {    ctSaHor->SetFCenPos (d); rshHoldOff = false;   return false;  }
+  else if(i_x ==               &txtFstart  ) {    ctSaHor->SetFStart  (d); rshHoldOff = false;   return false;  }
+  else if(i_x ==               &txtFCen    ) {    ctSaHor->SetFCen    (d); rshHoldOff = false;   return false;  }
+  else if(i_x ==               &txtFstop   ) {    ctSaHor->SetFStop   (d); rshHoldOff = false;   return false;  }
+
+  else if(i_x ==               &txtNtime   ) {    ctSaHor->SetNtime   (u); rshHoldOff = false;   return false;  }
+  else if(i_x ==               &txtNfreq   ) {    ctSaHor->SetNfreq   (u); rshHoldOff = false;   return false;  }
+  else                                       {                             rshHoldOff = false;   return false;  }
+                                                                           rshHoldOff = false;   return false;
 }
 
 
@@ -267,7 +268,7 @@ bool   FrmSaHor::OnRshAll             ( void *i_d ) {
   d  = sig   ->GetFS       ();  EngString    (s, d, 4, (char *)"Hz");  txtFS       ->set_text         (s);
   d /= mdSa  ->GetTvAna    ();  EngString    (s, d, 4, (char *)"Hz");  txtDelFreq   .set_text         (s);
   b  = mdSa  ->IsFLog      ();                                         btLogLin     .set_active       (b);
-  d  = mdSa  ->GetFCenPos  ();  EngString    (s, d, 4, (char *)"Hz");  txtCenPos    .set_text         (s);
+  d  = mdSa  ->GetFCenPos  ();  sprintf      (s,       "%1.4f",   d);  txtCenPos    .set_text         (s);
                                 sprintf      (s,       "%15.11e", d);  txtCenPos    .set_tooltip_text (s);
   d  = mdSa  ->GetFStart   ();  EngString    (s, d, 4, (char *)"Hz");  txtFstart    .set_text         (s);
                                 sprintf      (s,       "%15.11e", d);  txtFstart    .set_tooltip_text (s);

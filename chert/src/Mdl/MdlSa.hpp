@@ -110,12 +110,10 @@ class MdlSa {
              void     SetFCenPos   ( double i_a );
              double   GetFCenPos   ( void       ) {                      return FCenPos                      ;};
 
-             void     SetFStart    ( double i_f );
              double   GetFStart    ( void       ) {                      return FFStart                       ;};
              double   GetFStop     ( void       ) {                      return FFStop                        ;};
              void     SetFSpan     ( double i_f );
              double   GetFSpan     ( void       ) {                      return FFStop - FFStart               ;};
-             void     SetFCen      ( double i_f );
              double   GetFCen      ( void       ) {                      return GetFSpan() * 0.5 + GetFStart()  ;};
 //==== Amplitude Stuff
              void     SetAPvScr    ( double i_p );
@@ -132,6 +130,8 @@ class MdlSa {
              ullong   GetVrtModeN  ( void       ) {                      return ESAM_COUNT                   ;};
        const char    *GetVrtModeStr( ullong i_n );
   protected:
+             void     SetFStart    ( double i_f );
+             void     SetFCen      ( double i_f );
              void     SetFStop     ( double i_s );
 
   private:
