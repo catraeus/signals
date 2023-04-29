@@ -311,8 +311,8 @@ void        MdlSa::SetFStart    ( double  i_f ) {
         tStop = tStart + tSpan;            // Make a try at slewing.
         if(tStop > fNyq)                   // Just honk it to Nyqvist and not let the start go higher.
           tStop  = fNyq;
-        tStart = tStop - tSpan;
-        tCen  = FFStart + FCenPos + tSpan; // Keep the absolute FFCen frequency at the relative center location.
+        tSpan = tStop - tStart;
+        tCen  = tStart + FCenPos * tSpan; // Keep the absolute FFCen frequency at the relative center location.
                                            // WARNING seems like a good idea at the time.
                                            // Alternative-To would be to change FFCen, but that fails when new FFStart is past old FFCen
         break;                             // IMPORTANT tStart, tCen and tStop all have accurate values
