@@ -350,7 +350,7 @@ bool      CtlXport::OnXpDataHit(void) {
   ctRsmp->GrabHere();
   ctRsmp->RsmpOsAcq(NULL);
   ctRsmp->RsmpSaAcq(NULL);
-  ctMd->MRD_XpTimN();
-  ctMd->MRD_TraceDataHit();
+  ctMd->Emit_XpTimAdv();
+  ctMd->Emit_XportHit();
   return true;
   }

@@ -97,8 +97,8 @@ class WinXport: public Gtk::Window {
     //==================================================================
     // Connect down and up to get things done
     CtlMsgDspch           *ctMd;
-    CbT<WinXport>         *MRU_XpTimN;
-    bool                   XpTimN                 (void *i_dummy);
+    CbT<WinXport>         *CbHn_XpTimAdv;
+    bool                   OnXpTimAdv           (void *i_dummy);
     CbT<WinXport>         *MRU_XpButSet;
     bool                   XpButSet             (void *i_butAry);
 

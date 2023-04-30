@@ -30,11 +30,11 @@ class FrmAp: public Gtk::Frame {
             void    BuildSetup     ( void );
             void    Connect        ( void );
 
-            void    ChangedShape   ( void );
-            void    ChangedAlpha   ( void );
+            void    OnChangeShape  ( void );
+            void    OnChangeAlpha  ( void );
             void    ExecuteChange  ( void );
             bool    AlphaSigFocOut ( GdkEventFocus* event);
-            void    AlphaSigAct    ( void );
+
   private:
   public:
 //    CbV *CbSomethingChanged;

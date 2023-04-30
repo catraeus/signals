@@ -40,7 +40,7 @@ void      CtlSaVrt::BuildEnv        ( Signal *i_sig ) {
 }
 void      CtlSaVrt::BuildSetup      ( void        ) {
   mdSa->SetALog();
-  ctMd->MRD_SaVrtNumerics();
+  ctMd->Emit_SaVrtNumerics();
   return;
 }
 void      CtlSaVrt::SetScrSize      ( uint    i_w, uint i_h) {
@@ -51,13 +51,6 @@ void      CtlSaVrt::SetScrSize      ( uint    i_w, uint i_h) {
   }
 void      CtlSaVrt::SetVmax         ( double  i_v ) {
   mdSa->SetAATop(i_v);
-  ctMd->MRD_SaVrtNumerics();
+  ctMd->Emit_SaVrtNumerics();
   return;
-}
-
-
-bool      CtlSaVrt::IpcSaVrtReCalc     ( void   *i_d ) {
-  ctRsmp->ReScale();
-  ctMd->MRD_SaVrtNumerics();
-  return false;
 }

@@ -82,7 +82,6 @@ class CtlSaVrt {
            CtlRsmp         *ctRsmp;
 
            CtlMsgDspch     *ctMd;
-           bool             IpcSaVrtReCalc     ( void *d              ); //!< Something changed, Flood Everything Back to Right
 
 
     static CtlSaVrt     *ctSaHor;

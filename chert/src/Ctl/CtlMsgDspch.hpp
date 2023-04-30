@@ -95,8 +95,8 @@ class CtlMsgDspch {
 
             void                 MRD_XpButSet          ( uint *i_butMask  );
                CbV *MSU_XpButSet;
-            void                 MRD_XpTimN            ( void             );
-               CbV *MSU_XpTimN;
+            void                 Emit_XpTimAdv         ( void             );
+               CbV *CtHn_XpTimAdv;
 
                CbV *CtHn_XportStop;   // Handle a need to stop the transport.
                CbV *CtHn_XptRshTime;  // Handle the fact that the controller moved time forward.
@@ -122,7 +122,7 @@ class CtlMsgDspch {
             void                 CtEm_SaFrqReGrid      ( void             );
                CbV *CtHn_SaFrqReGrid;
 
-            void                 MRD_SaVrtNumerics     ( void             );
+            void                 Emit_SaVrtNumerics     ( void             );
                CbV *MSU_SaVrtRshAll;
                CbV *MSU_SaVrtRshAxis;
 
@@ -132,11 +132,11 @@ class CtlMsgDspch {
                CbV *MSU_SaStatMsg;
 
 
-            void                 MRD_TraceDataHit      ( void             );
+            void                 Emit_XportHit         ( void             );
 
 
                CbV *MSU_RsmpOsAcq;
-               CbV *MSU_RsmpSaAcq;
+               CbV *CtHn_RsmpSa;
 
   private:
   public:

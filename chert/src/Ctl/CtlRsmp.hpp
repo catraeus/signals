@@ -175,7 +175,7 @@ class CtlRsmp {
            SpecTran     *xfrm;
 
            CtlMsgDspch  *ctMd;
-           CbT<CtlRsmp> *MRU_RsmpSaAcq;
+           CbT<CtlRsmp> *CbHn_RsmpSa;
            CbT<CtlRsmp> *MRU_RsmpOsAcq;
 
     static CtlRsmp  *ctRsmp;

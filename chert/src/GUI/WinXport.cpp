@@ -153,7 +153,7 @@ void   WinXport::BuildTimeSlider (void) {
 void   WinXport::BuildSetup      (void) {
   running       = false;
   sliderHoldOff = false;
-  XpTimN(NULL);
+  OnXpTimAdv(NULL);
   return;
 }
 void   WinXport::Connect         (void) {
@@ -169,9 +169,9 @@ void   WinXport::Connect         (void) {
         MRU_XpButSet->SetCallback(this, &WinXport::XpButSet);
   ctMd->MSU_XpButSet =                         MRU_XpButSet;
 
-        MRU_XpTimN     = new CbT<WinXport>();
-        MRU_XpTimN    ->SetCallback(this, &WinXport::XpTimN);
-  ctMd->MSU_XpTimN     =                         MRU_XpTimN;
+        CbHn_XpTimAdv     = new CbT<WinXport>();
+        CbHn_XpTimAdv    ->SetCallback(this, &WinXport::OnXpTimAdv);
+  ctMd->CtHn_XpTimAdv     =                         CbHn_XpTimAdv;
   return;
 }
 
@@ -190,7 +190,7 @@ bool   WinXport::XpButSet        (void *i_dummy) {
   ctXp->LiveButtons();
   return false;
 }
-bool   WinXport::XpTimN          (void *i_dummy) {
+bool   WinXport::OnXpTimAdv      (void *i_dummy) {
   char   a[256];
   char   b[256];
   double N;

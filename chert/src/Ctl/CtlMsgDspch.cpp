@@ -20,7 +20,7 @@ CtlMsgDspch *CtlMsgDspch::ctMd = NULL;
              CtlMsgDspch::CtlMsgDspch             (               ) {
 
   MSU_XpButSet             = NULL; // WinXport
-  MSU_XpTimN               = NULL; // WinXport
+  CtHn_XpTimAdv            = NULL; // WinXport
   CtHn_XportStop           = NULL; // WinXport
   CtHn_XptRshTime          = NULL; // WinXport
 
@@ -44,7 +44,7 @@ CtlMsgDspch *CtlMsgDspch::ctMd = NULL;
   MSU_SaVrtRshAxis         = NULL;
   MSU_SaStatMsg            = NULL;
 
-  MSU_RsmpSaAcq            = NULL;
+  CtHn_RsmpSa              = NULL;
   MSU_SaDrwTrace           = NULL; // DrwSa
 
 }
@@ -61,8 +61,8 @@ void         CtlMsgDspch::CtEm_FileReStart        ( void          ) {
   if(MSU_OsHorReBase     != NULL)     MSU_OsHorReBase    ->Execute(NULL);
   if(CtHn_SaHorReBase    != NULL)     CtHn_SaHorReBase   ->Execute(NULL);
   if(MSU_RsmpOsAcq       != NULL)     MSU_RsmpOsAcq      ->Execute(NULL);
-  if(MSU_RsmpSaAcq       != NULL)     MSU_RsmpSaAcq      ->Execute(NULL);
-  MRD_TraceDataHit();
+  if(CtHn_RsmpSa       != NULL)     CtHn_RsmpSa      ->Execute(NULL);
+  Emit_XportHit();
   return;
 }
 
@@ -71,8 +71,8 @@ void         CtlMsgDspch::MRD_XpButSet            ( uint *i_m     ) {
   if(MSU_XpButSet != NULL)  MSU_XpButSet->Execute((void *)i_m);
   return;
 }
-void         CtlMsgDspch::MRD_XpTimN              ( void          ) {
-  if(MSU_XpTimN   != NULL)    MSU_XpTimN  ->Execute(NULL);
+void         CtlMsgDspch::Emit_XpTimAdv              ( void          ) {
+  if(CtHn_XpTimAdv   != NULL)    CtHn_XpTimAdv  ->Execute(NULL);
   return;
 }
 
@@ -80,8 +80,8 @@ void         CtlMsgDspch::MRD_XpTimN              ( void          ) {
 void         CtlMsgDspch::MRD_OsHorNumerics       ( void          ) {
   if(MSU_OsHorRshAll     != NULL)    MSU_OsHorRshAll    ->Execute(NULL);
   if(MSU_RsmpOsAcq       != NULL)    MSU_RsmpOsAcq      ->Execute(NULL);
-  if(MSU_XpTimN          != NULL)    MSU_XpTimN         ->Execute(NULL);
-  MRD_TraceDataHit();
+  if(CtHn_XpTimAdv       != NULL)    CtHn_XpTimAdv         ->Execute(NULL);
+  Emit_XportHit();
   return;
 }
 
@@ -104,8 +104,8 @@ void         CtlMsgDspch::MRD_OsNewColors         ( void          ) {
 // SpecAn Horizontal kinds of things
 void         CtlMsgDspch::CtEm_SaReScale          ( void          ) { // Simple reflection action, no real data.
   if(CtHn_SaHorRshAll    != NULL)    CtHn_SaHorRshAll   ->Execute(NULL);
-  if(MSU_RsmpSaAcq       != NULL)    MSU_RsmpSaAcq      ->Execute(NULL);
-  MRD_TraceDataHit();
+  if(CtHn_RsmpSa       != NULL)    CtHn_RsmpSa      ->Execute(NULL);
+  Emit_XportHit();
   return;
 }
 void         CtlMsgDspch::CtEm_SaFrqReGrid        ( void          ) {
@@ -114,7 +114,7 @@ void         CtlMsgDspch::CtEm_SaFrqReGrid        ( void          ) {
 };
 
 // SpecAn Vertical kinds of things
-void         CtlMsgDspch::MRD_SaVrtNumerics      ( void          ) { // Please refill all vertical info
+void         CtlMsgDspch::Emit_SaVrtNumerics      ( void          ) { // Please refill all vertical info
   if(MSU_SaVrtRshAll     != NULL)    MSU_SaVrtRshAll    ->Execute(NULL);
   if(MSU_SaVrtRshAxis    != NULL)    MSU_SaVrtRshAxis   ->Execute(NULL);
   if(MSU_SaDrwTrace      != NULL)    MSU_SaDrwTrace     ->Execute(NULL);
@@ -130,7 +130,7 @@ void         CtlMsgDspch::MRD_SaStatMsg          ( char   *i_s   ) {
 
 
 // The whole damned machine needs to repaint its screens
-void         CtlMsgDspch::MRD_TraceDataHit        ( void          ) {
+void         CtlMsgDspch::Emit_XportHit        ( void          ) {
   if(MSU_OsDrwTrace      != NULL)    MSU_OsDrwTrace     ->Execute(NULL);
   if(MSU_SaDrwTrace      != NULL)    MSU_SaDrwTrace     ->Execute(NULL);
   return;

@@ -67,12 +67,12 @@ void FrmAp::BuildMain(void) {
   return;
 }
 void FrmAp::Connect(void) {
-  cbxShape->signal_changed().connect( sigc::mem_fun(*this, &FrmAp::ChangedShape) );
-  txtAlpha->signal_activate().connect( sigc::mem_fun(*this, &FrmAp::AlphaSigAct) );
+  cbxShape->signal_changed        ().connect( sigc::mem_fun(*this, &FrmAp::OnChangeShape) );
+  txtAlpha->signal_activate       ().connect( sigc::mem_fun(*this, &FrmAp::OnChangeAlpha) );
   txtAlpha->signal_focus_out_event().connect( sigc::mem_fun(*this, &FrmAp::AlphaSigFocOut) );
   return;
 }
-void FrmAp::ChangedShape(void) {
+void FrmAp::OnChangeShape(void) {
   char   ss[32768];
   double dd;
 
@@ -98,10 +98,10 @@ void FrmAp::ChangedShape(void) {
   }
 void FrmAp::ExecuteChange(void) {
   apod->BuildWindow();
-  ctMd->MRD_TraceDataHit();
+  ctMd->Emit_XportHit();
   return;
   }
-void FrmAp::ChangedAlpha(void) {
+void FrmAp::OnChangeAlpha(void) {
   char   s[256];
   double t;
 
@@ -118,10 +118,6 @@ void FrmAp::ChangedAlpha(void) {
   return;
   }
 bool FrmAp::AlphaSigFocOut(GdkEventFocus* i_event) {
-  ChangedAlpha();
+  OnChangeAlpha();
   return true;
-  }
-void FrmAp::AlphaSigAct(void) {
-  ChangedAlpha();
-  return;
   }

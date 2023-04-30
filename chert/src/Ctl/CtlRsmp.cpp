@@ -68,9 +68,9 @@ void     CtlRsmp::Connect             ( void              ) {
   MRU_RsmpOsAcq->SetCallback(this, &CtlRsmp::RsmpOsAcq);
   ctMd->MSU_RsmpOsAcq = MRU_RsmpOsAcq;
 
-  MRU_RsmpSaAcq = new CbT<CtlRsmp>();
-  MRU_RsmpSaAcq->SetCallback(this, &CtlRsmp::RsmpSaAcq);
-  ctMd->MSU_RsmpSaAcq = MRU_RsmpSaAcq;
+  CbHn_RsmpSa = new CbT<CtlRsmp>();
+  CbHn_RsmpSa->SetCallback(this, &CtlRsmp::RsmpSaAcq);
+  ctMd->CtHn_RsmpSa = CbHn_RsmpSa;
   return;
 }
 void     CtlRsmp::ReScale             ( void              ) {
