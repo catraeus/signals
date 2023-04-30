@@ -207,7 +207,8 @@ bool     CtlRsmp::RsmpSaAcq           ( void  *d            ) {
   pFreAvg = pFre;
   for(uint chDex=0; chDex < numCh; chDex++)
     apod->DoIt(pSig[chDex], pTre[chDex]);
-  xfrm->DFTrPS();
+  xfrm->Calc();
+  xfrm->ToPS();
   for(llong cc=0; cc<numCh;   cc++)
     for(llong ii=0; ii<numFreq; ii++)
       pFwork[cc][ii] = pFreAvg[cc][ii];
@@ -341,7 +342,8 @@ void     CtlRsmp::CalcSpecAvg         ( void                ) {
     sprintf(ss, "avg:  %lf", (double)i / (double)I);
     ctMd->MRD_SaStatMsg(ss);
     apod->DoIt(pS, pTre[0]);
-    xfrm->DFTrPS();
+    xfrm->Calc();
+    xfrm->ToPS();
     for(llong f=0; f<numFreq; f++) {
       pFav[0][f] += fred[f] * fred[f];
     }
