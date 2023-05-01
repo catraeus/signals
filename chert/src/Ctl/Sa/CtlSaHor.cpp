@@ -38,9 +38,9 @@ void      CtlSaHor::BuildEnv        ( Signal *i_sig ) {
   ctMd           = CtlMsgDspch ::GetInstance();
   ctRsmp         = CtlRsmp     ::GetInstance(sig);
 
-  emit_SaHorReBase = new CbT<CtlSaHor>();
-  emit_SaHorReBase->SetCallback(this, &CtlSaHor::CtHn_ReBase);
-  ctMd->CtHn_SaHorReBase = emit_SaHorReBase;
+  CbHn_SaHorReBase = new CbT<CtlSaHor>();
+  CbHn_SaHorReBase->SetCallback(this, &CtlSaHor::HandleReBase);
+  ctMd->CtHn_SaHorReBase = CbHn_SaHorReBase;
   return;
 }
 void      CtlSaHor::SetScrSize      ( uint   i_w, uint i_h) {
@@ -64,11 +64,6 @@ void      CtlSaHor::SetLin          ( void          ) {
 }
 
 
-/*
-   Anchor can be start, center, stop  ... really, center is at an anchor point at a percentage of a screen
-   All this stuff needs grid binning coordinated with drawing the grid in the SaDraw
-   GridSpacing
-*/
 void      CtlSaHor::SetFStart       ( double i_f ) {
   mdSa->SetFStart(i_f);
   ctMd->CtEm_SaReScale();
@@ -79,27 +74,13 @@ void      CtlSaHor::SetFCen         ( double i_f ) {
   ctMd->CtEm_SaReScale();
   return;
 }
-void      CtlSaHor::SetFCenPos       ( double i_f ) {
+void      CtlSaHor::SetFCenPos      ( double i_f ) {
   mdSa->SetFCenPos(i_f);
   ctMd->CtEm_SaReScale();
   return;
 }
 void      CtlSaHor::SetFStop        ( double i_f ) {
-  double ss;
-  if(mdSa->FLogLin) {
-    ss = dmax(mdSa->C_FREQ_MIN * 10.0, i_f);
-    ss = dmin(ss, mdSa->C_FREQ_MAX);
-    ss = dmax(ss, mdSa->FFStart * 10.0);
-    ss = log10(ss);
-    ss = floor(ss);
-    ss = pow10(ss);
-  }
-  else {
-    ss = dmin(mdSa->C_FREQ_MAX, i_f);
-    ss = dmax(mdSa->C_FREQ_MIN, i_f);
-    ss = dmax(mdSa->FFStart + 1.0, i_f);
-    }
-  mdSa->FFStop = ss;
+  mdSa->SetFStop(i_f);
   ctMd->CtEm_SaReScale();
   return;
 }
@@ -124,9 +105,14 @@ void      CtlSaHor::SetDelFreq      ( double i_f ) {
   return;
 }
 
-bool      CtlSaHor::CtHn_ReBase     ( void *d    ) {
+bool      CtlSaHor::HandleReBase    ( void *d    ) {
   ctRsmp->ReScale();
   mdSa->SetFS(sig->GetFS());
+  ullong tTn = sig->GetN();
+  if(tTn > MdlSa::EK_AN_DFT)
+    mdSa->SetTvAna(MdlSa::EK_AN_DFT);
+  else
+    mdSa->SetTvAna(tTn);
   ctMd->CtEm_SaReScale();
   return false;
 }

@@ -26,6 +26,9 @@ const double MdlSa::C_DEC_MIN      = 1.0e+00;
 const double MdlSa::C_DEC_MAX      = 7.0e+00;
 const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
 
+      double MdlSa::fEps   = 0.001D;
+      double MdlSa::fNyq   = 0.500D;
+
             MdlSa::MdlSa        ( void        ) {
 
 //==== Analyzer Stuff.
@@ -93,6 +96,8 @@ void        MdlSa::SetFS        ( double  i_f ) {
   FFStart *= ratio;
   FFCen   *= ratio;
   FFStop  *= ratio;
+  fEps     = FS * 0.00000001D; // FIXME MAGICK this is a fairly small frequency that needs validation
+  fNyq     = FS * 0.5D;
   return;
 }
 
@@ -285,12 +290,10 @@ void        MdlSa::SetFAnchX    ( eAnch   i_a ) {
   return;
 }
 void        MdlSa::SetFStart    ( double  i_f ) {
-         double tSpan;
-         double tStart = i_f;
-         double tCen;
-         double tStop;
-  const  double fEps   = FS * 0.00000001D; // FIXME MAGICK thiis is a fairly small frequency that needs validation
-  const  double fNyq   = FS * 0.5D;
+  double tSpan;
+  double tStart = i_f;
+  double tCen;
+  double tStop;
 
   if(FLogLin) { // TODO ... LOTS of decade-wize thinking
     tStart  = dmax  (tStart,  C_FREQ_MIN          );
@@ -301,7 +304,7 @@ void        MdlSa::SetFStart    ( double  i_f ) {
     tStart  = pow10 (tStart);
   }
   else {
-    if(tStart < 0.0D)                      // FIXME, when we are not just a power spectrum we will want negative frequencies.
+    if(tStart < 0.0D)                      // FIXME, when we are not just a real-input spectrum we will want negative frequencies.
       tStart = 0.0D;
     switch (Fanch) {
       case EA_F_ST:                        //==== This case just slews the screen left or right unless stop would become off-screen.
@@ -322,10 +325,12 @@ void        MdlSa::SetFStart    ( double  i_f ) {
         tSpan  = FFCen - tStart;           // WARNING IMPORTANT This is NOT actually Span, you'll see in a minute.
         tSpan *= 1.0 / FCenPos;            //   Here it is, real span, look carefully at that math.  IMPORTANT, FCenPos must be greater than fEps too
         tStop  = tStart + tSpan;           //   TADA  Real stop
-        if(tStop > fNyq)
-          tStop = fNyq;                    // bear with me, This is self documenting math. As opposed to deriving the equations magically with pen and paper then writing down the whole thing here.
-        tSpan  = tStop - tStart;
-        tStart = FFCen - FCenPos * tSpan;  // So we just didn't let the user make the span so big and corrected their request upward.
+        if(tStop > fNyq) {                 // Oops, the new start asks for the stop to be past the Nyquist, so we'll have to constrain the requested start .
+          tStop  = fNyq;                   // bear with me, This is self documenting math. As opposed to deriving the equations magically with pen and paper then writing down the whole thing here.
+          tSpan  = tStop - FFCen;          // Once again, just a temp calc, not the actual span.
+          tSpan *= 1.0 / (1.0 - FCenPos);  //   Here it is, real span, look carefully at that math.  IMPORTANT, FCenPos must be greater than fEps too
+          tStart = tStop - tSpan;          // So we just didn't let the user make the span so big and corrected their request upward.
+        }
         tCen   = FFCen;                    // Yes, just so the fall-through works.
         break;
       case EA_F_SP:                        //==== This case changes gain/span, but we have to decide whether to keep center as screen-relative or absolute freq.  Screen-rel wins the day
@@ -340,6 +345,7 @@ void        MdlSa::SetFStart    ( double  i_f ) {
   FFStart = tStart;
   FFCen   = tCen;
   FFStop  = tStop;
+  FFSpan  = tSpan;
   return;
 }
 void        MdlSa::SetFCen      ( double  i_f ) {
@@ -348,8 +354,71 @@ void        MdlSa::SetFCen      ( double  i_f ) {
 void        MdlSa::SetFSpan     ( double  i_f ) {
   return;
   }
+
+
+
+
 void        MdlSa::SetFStop     ( double  i_f ) {
-  FFStop = i_f;
+  double tSpan;
+  double tStart;
+  double tCen;
+  double tStop = i_f;
+
+  if(FLogLin) { // TODO ... LOTS of decade-wize thinking
+    tStop  = dmax  (tStop,  C_FREQ_MIN * 10.0   );
+    tStop  = dmin  (tStop,  C_FREQ_MAX          );
+    tStop  = dmin  (tStop,  FFStart    * 10.0   );
+    tStop  = log10 (tStop);
+    tStop  = floor (tStop);
+    tStop  = pow10 (tStop);
+  }
+  else {
+    if(tStop > fNyq)                       // FIXME, when we are not just a real-input spectrum we will want negative frequencies.
+      tStop = fNyq;
+    switch (Fanch) {
+      case EA_F_ST:                        //==== This case changes gain
+        if(tStop < fEps)                   // MAGICK FIXME this is a tiny frequency near zero, hope it works. FIXME Assumes FFStart > 0.0;
+          tStop = fEps;                    // Not a pretty picture but hey I can cure ignorant ... I can't cure stupid.
+        tSpan = FFStop - FFStart;          // IMPORTANT calc this from old FFStart & FFStop first.
+        tStart = tStop - tSpan;            // Make a try at slewing.
+        if(tStart < 0.0D)                  // Just honk it to zero and not let the start go lower.
+          tStart  = 0.0D;
+        tSpan = tStop - tStart;
+        tCen  = tStart + FCenPos * tSpan;  // Keep the absolute FFCen frequency at the relative center location.
+                                           // WARNING seems like a good idea at the time.
+                                           // Alternative-To would be to change FFCen, but that fails when new FFStart is past old FFCen
+        break;                             // IMPORTANT tStart, tCen and tStop all have accurate values
+      case EA_F_CN:                        //==== This case spoinks the gain leaving the center where it was.  Maxing out for 0 and Nyqvist. Never changing the center.
+        if(tStop < FFCen + fEps)           // Is the user trying to set it past Center.
+          tStop = FFCen + fEps;            // This could get ugly.
+        tSpan  = tStop - FFCen;            // WARNING IMPORTANT This is NOT actually Span, you'll see in a minute.
+        tSpan *= 1.0 / (1.0 - FCenPos);    //   Here it is, real span, look carefully at that math.  IMPORTANT, FCenPos must be greater than fEps too
+        tStart = tStop - tSpan;            //   TADA  Real start
+        if(tStart < 0.0D) {                // Oops, the new stop asks for the start to be below zero, so we'll have to constrain the requested stop .
+          tStart = 0.0D;                   // bear with me, This is self documenting math. As opposed to deriving the equations magically with pen and paper then writing down the whole thing here.
+          tSpan  = FFCen - tStart;         // Once again, just a temp calc, not the actual span.
+          tSpan *= 1.0 / FCenPos;          //   Here it is, real span, look carefully at that math.  IMPORTANT, FCenPos must be greater than fEps too
+          tStop = tStart + tSpan;          // So we just didn't let the user make the span so big and corrected their request upward.
+        }
+        tCen   = FFCen;                    // Yes, just so the fall-through works.
+        break;
+      case EA_F_SP:                        //==== This case slews left-right
+        tStart = FFStart;                  // Just for pass-through
+        if(tStop < fEps)
+          tStop =  fEps;                   // Once again, uggles (is that spelled correctly?)
+        tSpan  = FFStop - FFStart;
+        tStart = tStop  - tSpan;
+        if(tStart < 0.0D)
+           tStart = 0.0d;
+        tSpan = tStop - tStart;
+        tCen  = tStart + FCenPos + tSpan; // Keep the absolute FFCen frequency at the relative center location.
+        break;
+    }
+  }
+  FFStart = tStart;
+  FFCen   = tCen;
+  FFStop  = tStop;
+  FFSpan  = tSpan;
   return;
   }
 void        MdlSa::SetFCenPos   ( double  i_r ) {

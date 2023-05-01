@@ -180,7 +180,10 @@ static const char    *cbxVrtMode[]; // FIXME GUI stuff shouldn't be down here!
              double   FFCen;         // A bit of a misnomer since it can be pushed to any percentage of span by FCenPos.
              double   FPCen;         // Should always be FScrPxlCount * FCenPos.
              double   FFStop;        // Stop Frequency.  FPStop is actually being called FScrPxlCount
+             double   FFSpan;        // convenience, can always be gotten from FFStart and FFStop
 
+    static   double   fEps; // FIXME MAGICK thiis is a fairly small frequency that needs validation
+    static   double   fNyq;
 
 
     static   MdlSa   *mdSa;

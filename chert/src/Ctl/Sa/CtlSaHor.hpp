@@ -96,8 +96,8 @@ class CtlSaHor {
            Signal          *sig;
 
            CtlMsgDspch     *ctMd;
-           CbT<CtlSaHor>   *emit_SaHorReBase;
-           bool       CtHn_ReBase     ( void *d              ); //!< Assume that the Signal and all screen parameters are valid.  Now what?
+           CbT<CtlSaHor>   *CbHn_SaHorReBase;
+           bool       HandleReBase     ( void *d              ); //!< Assume that the Signal and all screen parameters are valid.  Now what?
 
 
     static CtlSaHor        *ctSaHor;
