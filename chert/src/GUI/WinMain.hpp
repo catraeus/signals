@@ -66,9 +66,9 @@ class WinMain : public Gtk::Window {
     virtual      ~WinMain        ( void          );
             void  OnQuit         ( void          );
             void  OnScopeButn    ( void          );
-            bool  OnOsWin        ( void *i_tt    );
+            bool  HandleOsWin    ( void *i_tt    );
             void  OnSpecAnButn   ( void          );
-            bool  OnSaWin        ( void *i_tt    );
+            bool  HandleSaWin    ( void *i_tt    );
             bool  OnGrab         ( void *i_iii   );
             void  OnHelpAbout    ( void          );
             void  OnAnalyze      ( void          );
@@ -130,10 +130,10 @@ class WinMain : public Gtk::Window {
     Gtk::ToolButton *tbtn_Scope;
     Gtk::ToolButton *tbtn_HelpAbout;
 
+    Signal         *sig;
 
-
-    bool            shLOscope; // To keep track of window openness
-    bool            shLOspecan; // To keep track of window openness
+    bool            holdoffOsShowing; // To keep track of window openness
+    bool            holdoffSaShowing; // To keep track of window openness
 
 
   };

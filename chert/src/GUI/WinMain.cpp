@@ -41,19 +41,31 @@ void  WinMain::OnQuit          ( void        ) {
   return;
   }
 void  WinMain::OnScopeButn     ( void        ) {
-  shLOscope = true;
-  if(tbtScope->get_active())    vwOsw->show_all();
-  else                          vwOsw->hide();
-  shLOscope = false;
-  return;
+  holdoffOsShowing = true;
+  if(tbtScope->get_active()) {
+    if(sig->IsResident())
+      vwOsw->show_all();
+    else
+      tbtScope->set_active(false);
   }
+  else
+    vwOsw->hide();
+  holdoffOsShowing = false;
+  return;
+}
 void  WinMain::OnSpecAnButn    ( void        ) {
-  shLOspecan = true;
-  if(tbtSpecAn->get_active())  vwSaw->show_all();
-  else                         vwSaw->hide();
-  shLOspecan = false;
-  return;
+  holdoffSaShowing = true;
+  if(tbtSpecAn->get_active()) {
+    if(sig->IsResident())
+      vwSaw->show_all();
+    else
+      tbtSpecAn->set_active(false);
   }
+  else
+    vwSaw->hide();
+  holdoffSaShowing = false;
+  return;
+}
 void  WinMain::OnHelpAbout     ( void        ) {
   char tStr[MAX_LINE_LEN];
 
@@ -76,16 +88,16 @@ void  WinMain::OnHelpAbout     ( void        ) {
 
   return;
   }
-bool  WinMain::OnOsWin         ( void *i_tt  ) {
+bool  WinMain::HandleOsWin         ( void *i_tt  ) {
   bool *pBB = (bool *)i_tt;
-  if(!shLOscope)
+  if(!holdoffOsShowing)
     if(!(*pBB))
       tbtScope->set_active(false);
   return true;
   }
-bool  WinMain::OnSaWin         ( void *i_tt  ) {
+bool  WinMain::HandleSaWin         ( void *i_tt  ) {
   bool *pBB = (bool *)i_tt;
-  if(!shLOspecan)
+  if(!holdoffSaShowing)
     if(!(*pBB))
       tbtSpecAn->set_active(false);
   fflush(stdout);
@@ -101,15 +113,16 @@ void  WinMain::BuildEnv        ( Signal *i_sig ) {
   cp         = CfgParticles ::GetInstance();
   ctMd       = CtlMsgDspch  ::GetInstance();
 
+  sig        = i_sig;
 
-  shLOscope  = false;
-  shLOspecan = false;
+  holdoffOsShowing  = false;
+  holdoffSaShowing = false;
 
 
-  vwSaw    = new WinSa    ( i_sig      );
-  vwOsw    = new WinOs    ( i_sig      );
-  vwXprt   = new WinXport ( i_sig      );  vwXprt->set_keep_above(true);
-  vwFile   = new FrmFile  ( this, i_sig);
+  vwSaw    = new WinSa    ( sig        );
+  vwOsw    = new WinOs    ( sig        );
+  vwXprt   = new WinXport ( sig        );  vwXprt->set_keep_above(true);
+  vwFile   = new FrmFile  ( this, sig  );
 
   return;
 }
@@ -191,11 +204,11 @@ void  WinMain::Connect         ( void        ) {
 
 // Interconnect - Foreign GUI
   MRU_OsWin = new CbT<WinMain>();
-  MRU_OsWin->SetCallback(this, &WinMain::OnOsWin);
+  MRU_OsWin->SetCallback(this, &WinMain::HandleOsWin);
   vwOsw->MSU_OsWin = MRU_OsWin;
 
   MRU_SaWin = new CbT<WinMain>();
-  MRU_SaWin->SetCallback(this, &WinMain::OnSaWin);
+  MRU_SaWin->SetCallback(this, &WinMain::HandleSaWin);
   vwSaw->MSU_SaWin  = MRU_SaWin;
 
 
