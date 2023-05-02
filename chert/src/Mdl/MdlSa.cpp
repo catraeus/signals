@@ -285,11 +285,7 @@ void        MdlSa::SetFLog      ( bool    i_l ) {
   else        { SetFStart(FFStart); SetFStop(FFStop); }
   return;
 }
-void        MdlSa::SetFAnchX    ( eAnch   i_a ) {
 
-  Fanch = i_a;
-  return;
-}
 void        MdlSa::SetFStart    ( double  i_f ) {
   double tSpan;
   double tStart = i_f;
@@ -350,15 +346,57 @@ void        MdlSa::SetFStart    ( double  i_f ) {
   return;
 }
 void        MdlSa::SetFCen      ( double  i_f ) {
+  double tSpan;
+  double tStart;
+  double tCen = i_f;
+  double tStop;
+
+  switch (Fanch) {
+    case EA_F_ST:                         //==== Slide the gain as needed, BUT stop with the FFCen if fStop goes past fNyq
+      tStart = FFStart;
+           if(tCen < tStart + fEps)        tCen = tStart + fEps; // First check for ridiculous numbers compared to FFStart and nyquist
+      else if(tCen > fNyq   - fEps)        tCen = fNyq   - fEps;
+      tSpan  = tCen - tStart;             // Here is that math thing, look elsewhere for clues
+      tSpan /= FCenPos;
+      tStop  = tStart + tSpan;
+      if(tStop > fNyq) {                  // Just honk it to Nyqvist and not let the FFCen go higher.
+        tStop  = fNyq;
+        tSpan  = tStop - tStart;
+        tCen   = tStart + tSpan * FCenPos; // Sorry charlie, you can only get to this tCen to hold the relative and the start ancnor.
+      }
+      break;                             // IMPORTANT tStart, tCen and tStop all have accurate values
+    case EA_F_CN:                        //==== Just slew around BUT stop if asking to have fStart below zero or fStop above fNyq
+      tSpan  = FFSpan;
+      tStart = tCen - tSpan *        FCenPos ;
+      tStop  = tCen + tSpan * (1.0 - FCenPos);
+           if(tStart < 0.0D) {           // Is the user trying to get FFStart below zero.
+        tStart = 0.0D;
+        tStop  = tSpan;
+        tCen   = tSpan * FCenPos;
+      }
+      else if(tStop > fNyq) {            // Likewise trying to get FStop above Nyquist
+        tStop  = fNyq;
+        tCen   = tStop - tSpan * ( 1.0D - FCenPos);
+        tStart = tStop - tSpan;
+      }
+      break;
+    case EA_F_SP:                        //==== This case changes gain/span, But watch for FFStart below 0
+      tStop  = FFStop;
+      tSpan  = tStop - tCen;
+      tSpan /= (1.0D - FCenPos);
+      tStart = tStop - tSpan;
+      if(tStart < 0.0D)
+        tStart = 0.0D;                   // Once again, uggles (is that spelled correctly?)
+      tSpan = tStop - tStart;
+      tCen  = tStart + FCenPos + tSpan; // Keep the absolute FFCen frequency at the relative center location.
+      break;
+  }
+  FFStart = tStart;
+  FFCen   = tCen;
+  FFStop  = tStop;
+  FFSpan  = tSpan;
   return;
 }
-void        MdlSa::SetFSpan     ( double  i_f ) {
-  return;
-  }
-
-
-
-
 void        MdlSa::SetFStop     ( double  i_f ) {
   double tSpan;
   double tStart;
@@ -422,6 +460,9 @@ void        MdlSa::SetFStop     ( double  i_f ) {
   FFSpan  = tSpan;
   return;
   }
+void        MdlSa::SetFSpan     ( double  i_f ) {
+  return;
+}
 void        MdlSa::SetFCenPos   ( double  i_r ) {
   double tStart;
   double tStop;
