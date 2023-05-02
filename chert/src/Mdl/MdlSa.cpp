@@ -69,6 +69,7 @@ const double MdlSa::C_RANGE_Y_NOM  = 1.0e+10;
 
   FFStart         =      0.0D;
   FFStop          = FS * 0.5D;
+  FFSpan          = FFStop - FFStart;
   FCenPos         =      0.5D;
   FFCen           = FFStop       * FCenPos;
   FPCen           = FScrPxlCount * FCenPos;
@@ -422,6 +423,41 @@ void        MdlSa::SetFStop     ( double  i_f ) {
   return;
   }
 void        MdlSa::SetFCenPos   ( double  i_r ) {
+  double tStart;
+  double tStop;
+  double tSpan;
+
+  if(i_r < 0.1D)
+    i_r = 0.1D;
+  else if(i_r > 0.9D)
+    i_r = 0.9D;
   FCenPos = i_r;
+  switch (Fanch) {
+    case EA_F_ST:                           //==== Just think differently.
+      FFCen = FFStart + FFSpan * FCenPos;
+      break;
+    case EA_F_CN:                           //==== Here we slew the image keeping the actual frequency on the screen location.
+      tStart = FFCen - FFSpan * FCenPos;
+      tStop  = tStart + FFSpan;
+      tSpan  = FFSpan;
+      if(tStart < 0.0D) {                   // Moved left went past zero, scale appropriately, can only shrink, old FFCen isnt changing, so it isn't in danger.
+        tStart = 0.0D;
+        tStop  = FFCen / FCenPos;           // Zoink, follow that math I dare you (not that hard)
+        tSpan  = tStop - tStart;
+      }
+      else if(tStop > fNyq) {
+        tStop  = fNyq;
+        tSpan  = fNyq - FFCen;
+        tSpan /= (1.0D - FCenPos);
+        tStart = tStop - tSpan;
+      }
+      FFStart = tStart;
+      FFSpan  = tSpan;
+      FFStop  = tStop;
+      break;
+    case EA_F_SP:                        //==== Just think differently.
+      FFCen = FFStart + FFSpan * FCenPos;
+      break;
+  }
   return;
 }
