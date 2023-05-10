@@ -123,14 +123,21 @@ void        MdlSa::SetAPvScr    ( double  i_p ) {
   return;
 }
 
+
+
+
+
+//=================================================================================================
+//=================================================================================================
 //====  Analyzer Stuff
 void        MdlSa::SetTvAna     ( llong   i_s ) {
   llong n = i_s;
        if(n < EK_AN_MIN)    n = EK_AN_MIN;
   else if(n > EK_AN_DFT)    n = NextPowTwo(n);
   else if(n > EK_AN_MAX)    n = EK_AN_MAX;
+  TSmpAna_prv = TSmpAna;
   TSmpAna = n;
-  fprintf(stderr, "    b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
+//fprintf(stderr, "MdlSa::SetTvAna     b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   JustifyN();
   return;
 }
@@ -143,13 +150,14 @@ void        MdlSa::SetFvAna     ( llong   i_s ) {
     n = NextPowTwo(n);
   else if(n > EK_AN_MAX)
     n = EK_AN_MAX;
+  FSmpAna_prv = FSmpAna;
   FSmpAna = n;
-  fprintf(stderr, "    b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
+//  fprintf(stderr, "MdlSa::SetFvAna     b: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", n, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   JustifyN();
   return;
 }
 void        MdlSa::JustifyN     ( void        ) {
-  llong ll = 0;
+//llong ll = 0;
   enum eLoHi {LO, HI};
   eLoHi wsT, isT, wsF, isF;
   if(TSmpAna     <= EK_AN_DFT)   isT = LO;  else isT = HI;
@@ -173,28 +181,28 @@ void        MdlSa::JustifyN     ( void        ) {
   // lo   hi   hi   lo    impossible - both change
   // hi   lo   lo   hi    impossible - both change
   // hi   lo   hi   lo    impossible - both change
-  fprintf(stderr, "   c1: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
+//  fprintf(stderr, "MdlSa::JustifyN    c1: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   if     ((isT == LO) && (wsT == LO) && (isF == LO) && (wsF == LO)) { // Everyone was and is staying low
-    fprintf(stderr, "ll ");
+//    fprintf(stderr, "MdlSa::JustifyN    ll\n");
   }
   else if     ((isT == HI) && (wsT == HI) && (isF == HI) && (wsF == HI)) { // Everyone was and is staying high ... but force unchanged to track changed
-    fprintf(stderr, "hh ");
+//    fprintf(stderr, "hh ");
     if(TSmpAna == TSmpAna_prv)    TSmpAna = FSmpAna;
     else                          FSmpAna = TSmpAna;
   }
   else if((isT != isF) && (wsT == wsF)) { // Moving one or the other across the boundary
-    fprintf(stderr, "du ");
+//    fprintf(stderr, "MdlSa::JustifyN    du\n");
     if     ((wsT == LO) && (isT == HI))      FSmpAna = TSmpAna;
     else if((wsF == LO) && (isF == HI))      TSmpAna = FSmpAna;
     else if((wsT == HI) && (isT == LO))      FSmpAna = EK_AN_DFT;
     else if((wsF == HI) && (isF == LO))      TSmpAna = EK_AN_DFT;
   }
   else {  //  Impossible cases, just honk to EK_AN_DFT
-    fprintf(stderr, "xx ");
+//    fprintf(stderr, "MdlSa::JustifyN    xx\n");
     FSmpAna = EK_AN_DFT;
     TSmpAna = EK_AN_DFT;
   }
-  fprintf(stderr, "c2: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
+//  fprintf(stderr, "MdlSa::JustifyN    c2: %6Ld    t: %6Ld   tLast: %6Ld    f: %6Ld    fLast: %6Ld\n", ll, TSmpAna, TSmpAna_prv, FSmpAna, FSmpAna_prv); fflush(stderr);
   TSmpAna_prv = TSmpAna;
   FSmpAna_prv = FSmpAna;
   return;
@@ -333,9 +341,9 @@ void        MdlSa::SetFStart    ( double  i_f ) {
       case EA_F_SP:                        //==== This case changes gain/span, but we have to decide whether to keep center as screen-relative or absolute freq.  Screen-rel wins the day
         if(tStart > FFStop - fEps)
           tStart = FFStop -fEps;           // Once again, uggles (is that spelled correctly?)
-        tSpan = FFStop - tStart;
-        tCen  = FFStart + FCenPos + tSpan; // Keep the absolute FFCen frequency at the relative center location.
         tStop = FFStop;                    // Just for pass-through
+        tSpan = tStop - tStart;
+        tCen  = tStart + FCenPos * tSpan; // Keep the absolute FFCen frequency at the relative center location.
         break;
     }
   }
@@ -416,13 +424,10 @@ void        MdlSa::SetFStop     ( double  i_f ) {
       tStop = fNyq;
     switch (Fanch) {
       case EA_F_ST:                        //==== This case changes gain
-        if(tStop < fEps)                   // MAGICK FIXME this is a tiny frequency near zero, hope it works. FIXME Assumes FFStart > 0.0;
-          tStop = fEps;                    // Not a pretty picture but hey I can cure ignorant ... I can't cure stupid.
-        tSpan = FFStop - FFStart;          // IMPORTANT calc this from old FFStart & FFStop first.
-        tStart = tStop - tSpan;            // Make a try at slewing.
-        if(tStart < 0.0D)                  // Just honk it to zero and not let the start go lower.
-          tStart  = 0.0D;
-        tSpan = tStop - tStart;
+        tStart = FFStart;                  // Keep start where it is, we will change gain.
+        if(tStop < tStart + fEps)          // MAGICK FIXME this is a tiny frequency near zero, hope it works. FIXME Assumes FFStart > 0.0;
+          tStop = tStart + fEps;           // Not a pretty picture but hey I can cure ignorant ... I can't cure stupid.
+        tSpan = tStop - tStart;            // IMPORTANT calc this from old FFStart & FFStop first.
         tCen  = tStart + FCenPos * tSpan;  // Keep the absolute FFCen frequency at the relative center location.
                                            // WARNING seems like a good idea at the time.
                                            // Alternative-To would be to change FFCen, but that fails when new FFStart is past old FFCen
@@ -430,16 +435,16 @@ void        MdlSa::SetFStop     ( double  i_f ) {
       case EA_F_CN:                        //==== This case spoinks the gain leaving the center where it was.  Maxing out for 0 and Nyqvist. Never changing the center.
         if(tStop < FFCen + fEps)           // Is the user trying to set it past Center.
           tStop = FFCen + fEps;            // This could get ugly.
-        tSpan  = tStop - FFCen;            // WARNING IMPORTANT This is NOT actually Span, you'll see in a minute.
+        tCen   = FFCen;                    // Yes, just so the fall-through works.
+        tSpan  = tStop - tCen;             // WARNING IMPORTANT This is NOT actually Span, you'll see in a minute.
         tSpan *= 1.0 / (1.0 - FCenPos);    //   Here it is, real span, look carefully at that math.  IMPORTANT, FCenPos must be greater than fEps too
         tStart = tStop - tSpan;            //   TADA  Real start
         if(tStart < 0.0D) {                // Oops, the new stop asks for the start to be below zero, so we'll have to constrain the requested stop .
           tStart = 0.0D;                   // bear with me, This is self documenting math. As opposed to deriving the equations magically with pen and paper then writing down the whole thing here.
-          tSpan  = FFCen - tStart;         // Once again, just a temp calc, not the actual span.
+          tSpan  = tCen - tStart;          // Once again, just a temp calc, not the actual span.
           tSpan *= 1.0 / FCenPos;          //   Here it is, real span, look carefully at that math.  IMPORTANT, FCenPos must be greater than fEps too
           tStop = tStart + tSpan;          // So we just didn't let the user make the span so big and corrected their request upward.
         }
-        tCen   = FFCen;                    // Yes, just so the fall-through works.
         break;
       case EA_F_SP:                        //==== This case slews left-right
         tStart = FFStart;                  // Just for pass-through
