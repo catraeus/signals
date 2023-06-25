@@ -15,7 +15,7 @@
 
 #ifndef __CFG_VERSION_HPP_
 #define __CFG_VERSION_HPP_
-#define GIT_MARK     757
+#define GIT_MARK     758
 #define VER_MAIN       0
 #define VER_POINT      1
 #define APP_NAME     "beryl"
